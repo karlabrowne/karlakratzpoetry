@@ -25,10 +25,10 @@ async function getPosts () {
       children[]{
         ...,
         // Join inline reference
-        _type == "authorReference" => {
-          // check /studio/documents/authors.js for more fields
-          "name": @.author->name,
-          "slug": @.author->slug
+        _type == "poemReference" => {
+          // check /studio/documents/poem.js for more fields
+          "name": @.poem->name,
+          "slug": @.poem->slug
         }
       }
     },

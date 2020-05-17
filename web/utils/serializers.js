@@ -4,6 +4,7 @@ const imageUrl = require('./imageUrl')
 module.exports = {
   types: {
     authorReference: ({node}) => `[${node.name}](/authors/${node.slug.current})`,
+    poemReference: ({node}) => `[${node.name}](/poems/${node.slug.current})`,
     code: ({node}) =>
       '```' + node.language + '\n' + node.code + '\n```',
     mainImage: ({node}) => `![${node.alt}](${imageUrl(node).width(600).url()})`
