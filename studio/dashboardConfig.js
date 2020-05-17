@@ -1,11 +1,11 @@
 export default {
   widgets: [
-    {
-      name: 'sanity-tutorials',
-      options: {
-        templateRepoId: 'sanity-io/sanity-template-eleventy-blog'
-      }
-    },
+    // {
+    //   name: 'sanity-tutorials',
+    //   options: {
+    //     templateRepoId: 'sanity-io/sanity-template-eleventy-blog'
+    //   }
+    // },
     {name: 'structure-menu'},
     {
       name: 'project-info',

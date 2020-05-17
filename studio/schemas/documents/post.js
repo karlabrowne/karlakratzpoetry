@@ -1,9 +1,11 @@
 import {format} from 'date-fns'
+import { FiFeather } from 'react-icons/fi'
 
 export default {
   name: 'post',
   type: 'document',
   title: 'Blog Post',
+  icon: FiFeather,
   fields: [
     {
       name: 'title',

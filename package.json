@@ -14,5 +14,8 @@
   },
   "devDependencies": {
     "lerna": "^3.16.4"
+  },
+  "dependencies": {
+    "react-icons": "^3.10.0"
   }
 }
