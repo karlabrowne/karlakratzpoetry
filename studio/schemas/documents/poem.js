@@ -22,6 +22,16 @@ export default {
         }
       },
       {
+        title: 'Date Written',
+        name: 'writtenDate',
+        description: 'Displays on the poem page',
+        type: 'date',
+        options: {
+          dateFormat: 'YYYY-MM-DD',
+          calendarTodayLabel: 'Today'
+        }
+      },
+      {
         name: 'content',
         type: 'bioPortableText',
         title: 'Poem content'
