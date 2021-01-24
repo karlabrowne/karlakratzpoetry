@@ -13,7 +13,7 @@
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "devDependencies": {
-    "lerna": "^3.16.4"
+    "lerna": "^3.22.1"
   },
   "dependencies": {
     "react-icons": "^3.10.0"
