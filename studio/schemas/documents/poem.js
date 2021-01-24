@@ -9,7 +9,7 @@ export default {
       {
         name: 'name',
         type: 'string',
-        title: 'Name'
+        title: 'Poem Title'
       },
       {
         name: 'slug',
@@ -68,6 +68,12 @@ export default {
         name: 'content',
         type: 'bodyPortableText',
         title: 'Poem content'
+      },
+      {
+        name: 'backgroundTitle',
+        type: 'string',
+        title: 'Background Title',
+        description: 'This heading can be different for every poem. It is only required if you also have a poem background written'
       },
       {
         name: 'background',
