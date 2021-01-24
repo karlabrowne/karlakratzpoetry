@@ -1,4 +1,4 @@
-# Our Best Being
+# Karla Kratz Poetry
 
 _Simple blog starter with [11ty](https://11ty.io)._
 
