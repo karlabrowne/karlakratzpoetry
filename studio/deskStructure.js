@@ -34,12 +34,12 @@ export default () =>
             .schemaType('siteSettings')
             .documentId('siteSettings')
         ),
-      S.listItem()
-        .title('Blog posts')
-        .schemaType('post')
-        .child(S.documentTypeList('post').title('Blog posts')),
+      //S.listItem()
+        //.title('Blog posts')
+        //.schemaType('post')
+        //.child(S.documentTypeList('post').title('Blog posts')),
       // This returns an array of all the document types
       // defined in schema.js. We filter out those that we have
       // defined the structure above
-      ...S.documentTypeListItems().filter(hiddenDocTypes)
+      //...S.documentTypeListItems().filter(hiddenDocTypes)
     ])

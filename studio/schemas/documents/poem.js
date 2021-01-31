@@ -34,7 +34,7 @@ export default {
       {
         name: 'dateEdited',
         type: 'date',
-        title: 'Date edited',
+        title: 'Date revised',
         description: 'This is a reminder to the author of the last time the poem itself was edited',
         options: {
           dateFormat: 'YYYY-MM-DD',
@@ -81,52 +81,18 @@ export default {
         title: 'Poem Background'
       }
     ],
-    orderings: [
-      {
-        name: 'publishingDateAsc',
-        title: 'Publishing date new–>old',
-        by: [
-          {
-            field: 'dateWritten',
-            direction: 'asc'
-          },
-          {
-            field: 'title',
-            direction: 'asc'
-          }
-        ]
-      },
-      {
-        name: 'publishingDateDesc',
-        title: 'Publishing date old->new',
-        by: [
-          {
-            field: 'dateWritten',
-            direction: 'desc'
-          },
-          {
-            field: 'title',
-            direction: 'asc'
-          }
-        ]
-      }
-    ],
     preview: {
       select: {
         title: 'name',
-        dateWritten: 'dateWritten',
-        slug: 'slug',
-        media: 'mainImage'
+        subtitle: 'dateEdited'
       },
-      // prepare ({title = 'No title', dateWritten, slug = {}, media}) {
-      //   const dateSegment = format(dateWritten, 'YYYY/MM')
-      //   const path = `/${dateSegment}/${slug.current}/`
-      //   return {
-      //     title,
-      //     media,
-      //     subtitle: dateWritten ? path : 'Missing written date'
-      //   }
-      // }
+      prepare(selection) {
+        const {title, subtitle} = selection
+        return {
+          title: title,
+          subtitle: `Last revised: ${subtitle ? subtitle : 'unknown'}`
+        }
+      }
     }
   }
   
