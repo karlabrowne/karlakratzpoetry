@@ -6,7 +6,7 @@ export default {
     //     templateRepoId: 'sanity-io/sanity-template-eleventy-blog'
     //   }
     // },
-    {name: 'structure-menu'},
+    // {name: 'structure-menu'},
     {
       name: 'project-info',
       options: {
@@ -20,13 +20,13 @@ export default {
                 {
                   buildHookId: '5e5adcab67d7daa3ef427498',
                   title: 'Sanity Studio',
-                  name: 'ourbestbeing-studio',
+                  name: 'karlakratz-studio',
                   apiId: '84384ca3-c170-471a-a91c-86a36cdabb82'
                 },
                 {
                   buildHookId: '5e5adcab47370f0aa5b04738',
                   title: 'Blog Website',
-                  name: 'ourbestbeing',
+                  name: 'karlakratz',
                   apiId: '790e4523-9d05-4b67-9ca6-deb24949cc7d'
                 }
               ]
@@ -36,17 +36,17 @@ export default {
         data: [
           {
             title: 'GitHub repo',
-            value: 'https://github.com/karlabrowne/ourbestbeing',
+            value: 'https://github.com/karlabrowne/karlakratzpoetry',
             category: 'Code'
           },
-          {title: 'Frontend', value: 'https://ourbestbeing.netlify.com', category: 'apps'}
+          {title: 'Frontend', value: 'https://karlakratz.netlify.app', category: 'apps'}
         ]
       }
     },
     {name: 'project-users', layout: {height: 'auto'}},
     {
       name: 'document-list',
-      options: {title: 'Recent blog posts', order: '_createdAt desc', types: ['post']},
+      options: {title: 'Recent poems', order: '_createdAt desc', types: ['poem']},
       layout: {width: 'medium'}
     }
   ]
