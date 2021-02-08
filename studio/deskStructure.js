@@ -1,10 +1,23 @@
 import S from '@sanity/desk-tool/structure-builder'
-import MdSettings from 'react-icons/lib/md/settings'
-import MdPerson from 'react-icons/lib/md/person'
-import FiFeather from 'react-icons/fi'
+import {
+  MdSettings,
+  MdPerson, 
+ } from 'react-icons/lib/md/'
+import {
+  FiFeather, 
+  FiFileText, 
+} from 'react-icons/fi'
 
 const hiddenDocTypes = listItem =>
-  !['category', 'author', 'post', 'siteSettings'].includes(listItem.getId())
+  ![
+    'aboutPage',
+    'bookPage',
+    'homePage',
+    'category', 
+    'author', 
+    'post', 
+    'siteSettings'
+  ].includes(listItem.getId())
 
 export default () =>
   S.list()
@@ -16,6 +29,34 @@ export default () =>
         .schemaType('poem')
         .child(S.documentTypeList('poem').title('Poem')),
       S.listItem()
+      .title('About page')
+      .icon(FiFileText)
+      .child(
+        S.editor()
+          .title('About page')
+          .schemaType('aboutPage')
+          .documentId('aboutPage')
+      ),
+      S.listItem()
+      .title('Book page')
+      .icon(FiFileText)
+      .child(
+        S.editor()
+          .title('Book page')
+          .schemaType('bookPage')
+          .documentId('bookPage')
+      ),
+      S.listItem()
+      .title('Home page')
+      .icon(FiFileText)
+      .child(
+        S.editor()
+          .title('Home page')
+          .schemaType('homePage')
+          .documentId('homePage')
+      ),
+      S.divider(),
+      S.listItem()
         .title('Authors')
         .icon(MdPerson)
         .schemaType('author')
@@ -24,7 +65,6 @@ export default () =>
         .title('Categories')
         .schemaType('category')
         .child(S.documentTypeList('category').title('Categories')),
-      S.divider(),
       S.listItem()
         .title('Settings')
         .icon(MdSettings)
