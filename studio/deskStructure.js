@@ -23,11 +23,25 @@ export default () =>
   S.list()
     .title('Content')
     .items([
+      S.documentTypeListItem('poem').title('All poems').icon(FiFeather),
       S.listItem()
-        .title('Poems')
-        .icon(FiFeather)
-        .schemaType('poem')
-        .child(S.documentTypeList('poem').title('Poem')),
+        .title('Poems by category')
+        .child(
+          // List out all categories
+          S.documentTypeList('category')
+          .title('Poems by cateogry')
+          .child(catId =>
+            // List out project docuemnts where the _id for the selected
+            // category appear as a _ref in the project's categories array
+            S.documentList()
+              .schemaType('poem')
+              .title('Poems')
+              .filter(
+                '_type == "poem" && $catId in categories[]._ref'
+              )
+              .params({ catId })
+            )
+        ),
       S.listItem()
       .title('About page')
       .icon(FiFileText)
