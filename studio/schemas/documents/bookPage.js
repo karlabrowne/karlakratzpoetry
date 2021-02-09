@@ -2,7 +2,8 @@ export default {
     name: 'bookPage',
     type: 'document',
     title: 'Book page',
-    __experimental_actions: [/*'create',*/ 'update', /*'delete',*/ 'publish'],
+    // __experimental_actions: [/*'create',*/ 'update', /*'delete',*/ 'publish'],
+    __experimental_actions: ['create', 'update', 'delete', 'publish'],    
     fields: [
       {
         name: 'mainImage',

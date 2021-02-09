@@ -21,23 +21,5 @@ export default {
         title: 'Artist\'s Statement',
         validation: Rule => Rule.required()
       },
-    //   {
-    //     title: 'Publisher links',
-    //     name: 'publishers',
-    //     type: 'array',
-    //     of: [
-    //       {
-    //         type: 'link',
-    //         title: 'Link'
-    //       }
-    //     ]
-    //   },
-    //   {
-    //     title: 'Agent',
-    //     name: 'agent',
-    //     type: 'reference',
-    //     to: { type: 'agent' },
-    //     readOnly: true
-    //   },
     ]
   }
