@@ -1,13 +1,23 @@
 <script context="module" lang="ts">
-	export function preload() {
-		return this.fetch(`blog.json`).then((r: { json: () => any; }) => r.json()).then((posts: { slug: string; title: string, html: any }[]) => {
-			return { posts };
-		});
+	import { client } from '../../components/SanityClient'
+	
+	export async function preload() {
+		const query = "*[_type == 'poem']{_id, slug, name}";
+		const poems = await client.fetch(query);
+		return { poems }
 	}
 </script>
 
 <script lang="ts">
-	export let posts: { slug: string; title: string, html: any }[];
+	type Slug = {
+		_type: string,
+		current: string,
+	}
+
+	export let poems: { slug: Slug, name: string, _id: string}[] = [];
+
+	// $: console.log($$props)
+	$: console.log(poems)
 </script>
 
 <style>
@@ -18,17 +28,17 @@
 </style>
 
 <svelte:head>
-	<title>Blog</title>
+	<title>Poems</title>
 </svelte:head>
 
-<h1>Recent posts</h1>
+<h1>Poems</h1>
 
-<ul>
-	{#each posts as post}
-		<!-- we're using the non-standard `rel=prefetch` attribute to
-				tell Sapper to load the data for the page as soon as
-				the user hovers over the link or taps it, instead of
-				waiting for the 'click' event -->
-		<li><a rel="prefetch" href="blog/{post.slug}">{post.title}</a></li>
-	{/each}
-</ul>
+{#if poems}
+	<ul>
+		{#each poems as poem}
+			{#if poem.slug}
+				<li><a rel="prefetch" href="poems/{poem.slug.current}">{poem.name}</a></li>
+			{/if}
+		{/each}
+	</ul>
+{/if}

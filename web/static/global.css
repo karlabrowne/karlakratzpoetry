@@ -1,6 +1,6 @@
 :root {
 	--blue: blue;
-	--gray: gray;
+	--gray: rgb(187, 187, 187);
 }
 body {
 	margin: 0;
