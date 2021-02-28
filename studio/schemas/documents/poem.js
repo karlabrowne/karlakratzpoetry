@@ -22,6 +22,14 @@ export default {
         }
       },
       {
+        name: 'poemImage',
+        type: 'mainImage',
+        title: 'Poem image',
+        options: {
+          hotspot: true,
+        },
+      },
+      {
         name: 'dateWritten',
         type: 'date',
         title: 'Date written',
@@ -84,13 +92,15 @@ export default {
     preview: {
       select: {
         title: 'name',
+        media: 'poemImage',
         subtitle: 'dateEdited'
       },
-      prepare(selection) {
-        const {title, subtitle} = selection
+      prepare({ title = 'No title', media, subtitle }) {
+        const lastRevised = `Last revised: ${subtitle ? subtitle : 'unknown'}`
         return {
-          title: title,
-          subtitle: `Last revised: ${subtitle ? subtitle : 'unknown'}`
+          title,
+          media,
+          subtitle: lastRevised
         }
       }
     }
