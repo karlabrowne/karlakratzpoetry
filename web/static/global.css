@@ -1,13 +1,26 @@
 :root {
 	--blue: blue;
 	--gray: rgb(187, 187, 187);
+	--black: #121923;
+	--garden-50:  #E7F9ED; 
+	--garden-100:  #D0F4DC; 
+	--garden-200:  #99EBB6; 
+	--garden-300:  #72E097; 
+	--garden-400:  #43D675; 
+	--garden-500:  #3AB667; 
+	--garden-600:  #329659; 
+	--garden-700:  #2A764C; 
+	--garden-800:  #22563E; 
+	--garden-900:  #1A3630; 
+	--garden-950:  #162629; 
 }
+
 body {
 	margin: 0;
-	font-family: Roboto, -apple-system, BlinkMacSystemFont, Segoe UI, Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
-	font-size: 14px;
+	font-family: 'Ibarra Real NovaVariable', serif;
+	font-size: 20px;
 	line-height: 1.5;
-	color: #333;
+	color: var(--black);
 }
 
 h1, h2, h3, h4, h5, h6 {
@@ -17,8 +30,20 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 h1 {
+	font-family: 'Ibarra Real Nova';
+	font-weight: 400;
+  }
+  
+  @supports (font-variation-settings: normal) {
+	h1 {
+	  font-family: 'Ibarra Real NovaVariable';
+	  font-variation-settings: "wght" 400;
+	}
+  }
+
+/* h1 {
 	font-size: 2em;
-}
+} */
 
 a {
 	color: inherit;
@@ -35,6 +60,6 @@ code {
 
 @media (min-width: 400px) {
 	body {
-		font-size: 16px;
+		font-size: 20px;
 	}
 }

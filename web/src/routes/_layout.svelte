@@ -1,6 +1,6 @@
 <script lang="ts">
 	import Nav from '../components/Nav.svelte';
-	import Footer from '../components/Footer.svelte'
+	import Footer from '../components/Footer.svelte';
 
 	export let segment: string;
 </script>
@@ -14,9 +14,11 @@
 		margin: 0 auto;
 		box-sizing: border-box;
 	}
+
 </style>
 
 <Nav {segment}/>
+
 
 <main>
 	<slot></slot>

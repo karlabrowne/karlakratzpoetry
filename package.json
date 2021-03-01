@@ -14,5 +14,8 @@
   },
   "devDependencies": {
     "lerna": "^3.22.1"
+  },
+  "dependencies": {
+    "@fontsource/ibarra-real-nova": "^4.2.1"
   }
 }

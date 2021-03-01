@@ -16,7 +16,8 @@
 	<title>{title}</title>
 </svelte:head>
 
-<nav>
+<header>
+	<a class="skip-link" href="#main">skip to main content</a>
 	<div>
 		{#if title}
 			<h1 transition:fade>{title}</h1>
@@ -24,6 +25,7 @@
 			<h1> </h1>
 		{/if}
 	</div>
+<nav>
 	<ul>
 		<li><a aria-current="{segment === undefined ? 'page' : undefined}" href=".">home</a></li>
 		<li><a rel=prefetch aria-current="{segment === 'poems' ? 'page' : undefined}" href="poems">poems</a></li>
@@ -31,22 +33,41 @@
 		<li><a aria-current="{segment === 'about' ? 'page' : undefined}" href="about">about</a></li>
 	</ul>
 </nav>
+</header>
 
 <style>
-	nav {
+	header {
 		display: flex;
 		align-items: center;
 		justify-content: space-between;
+		padding: 3em 1em;
+	}
+
+	a.skip-link {
+		position: fixed;
+		top: -30em;
+		left: 0;
+		right: 0;
+		z-index: 20;
+		background: var(--garden-800);
+		color: #fff;
+		padding: .5em 1em;
+		font-size: 1em;
+		text-align: center;
+		transition: top .1s linear;
+	}
+	
+	nav {
 		font-weight: 300;
-		padding: 0 1em;
+		padding: 0;
 	}
 
 	nav, nav > * {
-		min-height: 5rem;
+		/* min-height: 5rem; */
 	}
 
 	h1 {
-		margin: 1rem auto;
+		margin: 0 auto;
 	}
 
 	ul {
@@ -75,8 +96,8 @@
 		position: absolute;
 		content: '';
 		width: calc(100% - 1em);
-		height: 2px;
-		background-color: var(--gray);
+		height: 3px;
+		background-color: none;
 		display: block;
 		bottom: -1px;
 	}
@@ -87,12 +108,13 @@
 	}
 
 	[aria-current]::after {
-		background-color: var(--blue);
+		background-color: gray;
+		background-color: var(--garden-600);
 	}
 
 	a {
 		text-decoration: none;
-		padding: 1em 0.5em;
+		padding: .4em 0.5em;
 		display: block;
 	}
 </style>

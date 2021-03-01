@@ -10,6 +10,7 @@
     "validate": "svelte-check --ignore src/node_modules/@sapper"
   },
   "dependencies": {
+    "@fontsource/ibarra-real-nova": "^4.2.1",
     "@sanity/client": "^2.2.6",
     "@sanity/image-url": "^0.140.22",
     "compression": "^1.7.1",
