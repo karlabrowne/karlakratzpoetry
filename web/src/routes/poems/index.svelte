@@ -16,8 +16,7 @@
 
 	export let poems: { slug: Slug, name: string, _id: string}[] = [];
 
-	// $: console.log($$props)
-	$: console.log(poems)
+	// $: console.log(poems)
 </script>
 
 <style>

@@ -11,7 +11,8 @@
 </script>
 
 <script lang="ts">
-	export let poem: { slug: string; name: string, };
+	export let poem: { slug: string, name: string, content:Array<any>};
+	console.log(poem)
 </script>
 
 <style>
@@ -50,12 +51,16 @@
 	} */
 </style>
 
-<!-- <svelte:head>
-	<title>{post.title}</title>
-</svelte:head> -->
+<svelte:head>
+	<title>{poem.name}</title>
+</svelte:head>
 
 <h1>{poem.name}</h1>
-<!-- 
+
 <div class="content">
-	{@html post.html}
-</div> -->
+	{#each poem.content as { children }}
+		{#each children as { text }}
+			<p>{ text }</p>
+		{/each}
+	{/each}
+</div>
