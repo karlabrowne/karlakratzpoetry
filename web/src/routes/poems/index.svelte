@@ -1,4 +1,4 @@
-<script context="module" lang="ts">
+<!-- <script context="module" lang="ts">
 	import { client } from '../../components/SanityClient'
 	
 	export async function preload() {
@@ -16,7 +16,7 @@
 
 	export let poems: { slug: Slug, name: string, _id: string}[] = [];
 
-	// $: console.log(poems)
+	$: console.log(poems)
 </script>
 
 <style>
@@ -24,7 +24,7 @@
 		margin: 0 0 1em 0;
 		line-height: 1.5;
 	}
-</style>
+</style> -->
 
 <svelte:head>
 	<title>Poems</title>
@@ -32,7 +32,7 @@
 
 <h1>Poems</h1>
 
-{#if poems}
+<!-- {#if poems}
 	<ul>
 		{#each poems as poem}
 			{#if poem.slug}
@@ -40,4 +40,4 @@
 			{/if}
 		{/each}
 	</ul>
-{/if}
+{/if} -->
