@@ -17,17 +17,18 @@
 	}
 
 	const filterPoems = (arr: Array<any>, i:string) => {
-		return filteredPoems = arr.filter(({ categories: { child } }) => {
-			child == i
+		filteredPoems = arr.filter(poem => {
+			poem.categories.filter(cat => cat.title == i)
 		})
 	}
 
 	export let poems: { slug: Slug, name: string, _id: string, categories: Array<any>}[] = []
 	export let categories: { title: string, _id: string}[] = []
+	export let segment
 
 	let filteredPoems = poems
 
-	$: console.log(poems)
+	$: console.log(filteredPoems)
 </script>
 
 <svelte:head>
@@ -40,7 +41,7 @@
   <div class="side-bar">
 		<h1>Poems</h1>
 		<p>by category</p>
-		<div>
+		<div class="filter-cont">
 			{#each categories as cat}
 				<button class="filter-button" on:click|preventDefault={() => filterPoems(poems, cat.title)}>
 					{cat.title}
@@ -66,6 +67,25 @@
 <style>
 	.page-wrapper {
 		display: flex;
+	}
+
+	.filter-cont {
+		max-width: 300px;
+		display: flex;
+		flex-wrap: wrap;
+	}
+
+	.filter-cont > button {
+		border: 2px solid var(--garden-600);
+		border-radius: 15px;
+		background: transparent;
+		margin: .5rem;
+		font-size: 1rem;
+
+	}
+
+	.filter-cont > button:hover {
+		cursor: pointer;
 	}
 
 	ul {
