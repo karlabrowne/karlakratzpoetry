@@ -73,6 +73,13 @@ export default {
         ]
       },
       {
+        title: 'Feature this poem',
+        description: 'Toggling this field to true will make this poem more likely to show up at the top of lists and the most recent featured poem will be linked from the homepage',
+        name: 'featured',
+        type: 'boolean'
+
+      },
+      {
         name: 'content',
         type: 'bodyPortableText',
         title: 'Poem content'

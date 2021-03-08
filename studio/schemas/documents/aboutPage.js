@@ -18,8 +18,12 @@ export default {
       {
         name: 'artistStatement',
         type: 'bioPortableText',
-        title: 'Artist\'s Statement',
-        validation: Rule => Rule.required()
+        title: 'Artist\'s Statement'
+      },
+      {
+        name: 'acknowledgments',
+        type: 'bioPortableText',
+        title: 'Acknowledgments'
       },
     ]
   }
