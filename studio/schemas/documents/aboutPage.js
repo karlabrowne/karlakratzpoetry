@@ -10,10 +10,20 @@ export default {
         title: 'Author photo'
       },
       {
+        name: 'bioTitle',
+        type: 'string',
+        title: 'Biography Title'
+      },
+      {
         name: 'bio',
         type: 'bioPortableText',
         title: 'Biography',
         validation: Rule => Rule.required()
+      },
+      {
+        name: 'artistStatementTitle',
+        type: 'string',
+        title: 'Artist\'s Statement Title'
       },
       {
         name: 'artistStatement',
@@ -21,9 +31,15 @@ export default {
         title: 'Artist\'s Statement'
       },
       {
-        name: 'acknowledgments',
+        name: 'gratitudeTitle',
+        type: 'string',
+        title: 'Gratitude Title'
+      },
+      {
+        name: 'gratitude',
         type: 'bioPortableText',
-        title: 'Acknowledgments'
+        title: 'Gratitude',
+        description: 'Include thanks for friends and family who helped with the site and poetry itself'
       },
     ]
   }
