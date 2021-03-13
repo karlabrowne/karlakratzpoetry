@@ -12,7 +12,6 @@
 
 <script lang="ts">
 	export let poem: { slug: string, name: string, content:Array<any>};
-	// console.log(poem)
 </script>
 
 <style>
@@ -55,9 +54,10 @@
 	<title>{poem.name}</title>
 </svelte:head>
 
-<h1>{poem.name}</h1>
+
 
 <div class="content">
+	<h1>{poem.name}</h1>
 	{#each poem.content as { children }}
 		{#each children as { text }}
 			<p>{ text }</p>
