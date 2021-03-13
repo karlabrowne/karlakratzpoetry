@@ -12,7 +12,6 @@
 
 <script lang="ts">
 	export let poem: { slug: string, name: string, content:Array<any>};
-	// console.log(poem)
 </script>
 
 <style>

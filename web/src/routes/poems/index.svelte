@@ -1,10 +1,11 @@
-<!-- <script context="module" lang="ts">
+<script context="module" lang="ts">
 	import { client } from '../../components/SanityClient'
 	
 	export async function preload() {
-		const query = "*[_type == 'poem']{_id, slug, name}";
-		const poems = await client.fetch(query);
-		return { poems }
+		const query = "*[_type == 'poem' && featured]{_id, slug, name, content, background}";
+		const featuredPoemArr = await client.fetch(query);
+		const featuredPoem = featuredPoemArr[Math.floor(Math.random() * featuredPoemArr.length)]
+		return { featuredPoem }
 	}
 </script>
 
@@ -14,30 +15,26 @@
 		current: string,
 	}
 
-	export let poems: { slug: Slug, name: string, _id: string}[] = [];
+	export let featuredPoem: { slug: Slug, name: string, _id: string, content: Array<any>, background: Array<any> };
 
-	$: console.log(poems)
 </script>
 
 <style>
-	ul {
-		margin: 0 0 1em 0;
-		line-height: 1.5;
-	}
-</style> -->
+
+</style>
 
 <svelte:head>
 	<title>Poems</title>
 </svelte:head>
 
-<h1>Poems</h1>
-
-<!-- {#if poems}
-	<ul>
-		{#each poems as poem}
-			{#if poem.slug}
-				<li><a rel="prefetch" href="poems/{poem.slug.current}">{poem.name}</a></li>
-			{/if}
+<div id="content">
+	<h1>{featuredPoem.name}</h1>
+	{#each featuredPoem.content as { children }}
+		{#each children as { text }}
+			<p>{ text }</p>
 		{/each}
-	</ul>
-{/if} -->
+	{/each}
+</div>
+<!-- TODO: 
+		- Make poem render for desktop only
+-->

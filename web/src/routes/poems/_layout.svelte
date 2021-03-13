@@ -2,11 +2,11 @@
 	import { client } from '../../components/SanityClient'
 	
 	export async function preload() {
-		const poemQuery = "*[_type == 'poem']{_id, slug, name, categories}"
+		const poemQuery = "*[_type == 'poem']{_id, slug, name, categories[]->{title}}"
 		const catQuery = "*[_type == 'category']{_id, title}"
 		const poems = await client.fetch(poemQuery)
-		const categories = await client.fetch(catQuery)
-		return { poems, categories }
+		const categoriesArr = await client.fetch(catQuery)
+		return { poems, categoriesArr }
 	}
 </script>
 
@@ -17,32 +17,30 @@
 	}
 
 	const filterPoems = (arr: Array<any>, i:string) => {
-		filteredPoems = arr.filter(poem => {
-			poem.categories.filter(cat => cat.title == i)
+		filteredPoems = arr.filter(({ categories }) => {
+			for (const { title } of categories){
+				return title == i ? true : false
+			}
 		})
 	}
 
 	export let poems: { slug: Slug, name: string, _id: string, categories: Array<any>}[] = []
-	export let categories: { title: string, _id: string}[] = []
-	export let segment
+	export let categoriesArr: { title: string, _id: string}[] = []
 
 	let filteredPoems = poems
 
-	$: console.log(filteredPoems)
 </script>
 
 <svelte:head>
 	<title>Poems</title>
 </svelte:head>
 
-
-
 <div class="page-wrapper">
   <div class="side-bar">
 		<h1>Poems</h1>
 		<p>by category</p>
 		<div class="filter-cont">
-			{#each categories as cat}
+			{#each categoriesArr as cat}
 				<button class="filter-button" on:click|preventDefault={() => filterPoems(poems, cat.title)}>
 					{cat.title}
 				</button>
