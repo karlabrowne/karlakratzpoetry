@@ -40,7 +40,9 @@
 		display: flex;
 		align-items: center;
 		justify-content: space-between;
-		padding: 3em 1em;
+		/* padding: 3em 1em; */
+		max-width: 56em;
+		margin: 3em auto;
 	}
 
 	a.skip-link {
@@ -68,6 +70,7 @@
 
 	h1 {
 		margin: 0 auto;
+		font-size: 32px;
 	}
 
 	ul {

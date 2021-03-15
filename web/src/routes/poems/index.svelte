@@ -20,7 +20,9 @@
 </script>
 
 <style>
-
+	p {
+		max-width: 48ch;
+	}
 </style>
 
 <svelte:head>
@@ -28,7 +30,7 @@
 </svelte:head>
 
 <div id="content">
-	<h1>{featuredPoem.name}</h1>
+	<h1 class="poem-title">{featuredPoem.name}</h1>
 	{#each featuredPoem.content as { children }}
 		{#each children as { text }}
 			<p>{ text }</p>

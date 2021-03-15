@@ -13,12 +13,13 @@
 	--garden-800:  #22563E; 
 	--garden-900:  #1A3630; 
 	--garden-950:  #162629; 
+
 }
 
 /* Normal (non-variable) Ibarra Real fonts */
 
 
-/* Set up Roboto for modern browsers, all weights */
+/* Set up Ibarra for modern browsers, all weights */
 @supports (font-variation-settings: normal) {
 	/* ibarra-real-nova-latin-variable-wghtOnly-normal */
 	@font-face {
@@ -64,7 +65,7 @@ body {
 	font-weight: 450;
 	font-size: 20px;
 	line-height: 1.5;
-	color: var(--black);
+	color: var(--garden-950);
 }
 
 h1, h2, h3, h4, h5, h6 {

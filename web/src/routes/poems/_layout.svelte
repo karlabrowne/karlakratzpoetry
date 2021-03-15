@@ -37,8 +37,7 @@
 
 <div class="page-wrapper">
   <div class="side-bar">
-		<h1>Poems</h1>
-		<p>by category</p>
+		<h2>Poems by category</h2>
 		<div class="filter-cont">
 			{#each categoriesArr as cat}
 				<button class="filter-button" on:click|preventDefault={() => filterPoems(poems, cat.title)}>
@@ -64,30 +63,49 @@
 
 <style>
 	.page-wrapper {
-		display: flex;
+		display: grid;
+		grid-template-columns: 1fr 3fr;
+		grid-column-gap: 6em;
 	}
 
 	.filter-cont {
-		max-width: 300px;
+		/* max-width: 300px; */
 		display: flex;
 		flex-wrap: wrap;
+		margin-bottom: 1rem;
 	}
 
 	.filter-cont > button {
 		border: 2px solid var(--garden-600);
 		border-radius: 15px;
 		background: transparent;
-		margin: .5rem;
+		color: var(--garden-600);
+		margin: 0 .2rem .4rem 0;
 		font-size: 1rem;
-
+		padding: .2em .6em;
 	}
 
 	.filter-cont > button:hover {
 		cursor: pointer;
+		background: var(--garden-700);
+		color: var(--garden-50);
+		border-color: var(--garden-700);
+	}
+
+	.side-bar h2 {
+		font-family: sans-serif;
+		color: var(--garden-600);
+		text-transform: uppercase;
+		font-weight: 500;
+		font-size: 1.2rem;
+		line-height: 2;
 	}
 
 	ul {
 		margin: 0 0 1em 0;
-		line-height: 1.5;
+		line-height: 1.8;
+		list-style: none;
+		padding: 0;
+		font-size: 1.4rem;
 	}
 </style>
