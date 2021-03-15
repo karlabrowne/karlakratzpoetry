@@ -50,7 +50,7 @@
     display: grid;
     grid-template-columns: 1fr;
     grid-template-rows: auto;
-    gap: 3rem;
+    gap: 6rem;
   }
 
   #image > * {
@@ -64,12 +64,13 @@
 	}
 
 	p {
-		margin: 1em auto;
+		/* margin: 1em auto; */
+    max-width: 60ch;
 	}
 
   @media screen and (min-width: 768px){
     #about-row {
-      grid-template-columns: 1fr 2fr;
+      grid-template-columns: 1fr 3fr;
     }
   }
 </style>
