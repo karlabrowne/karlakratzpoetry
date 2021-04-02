@@ -8,7 +8,7 @@
 <style>
 	main {
 		position: relative;
-		max-width: 56em;
+		max-width: 80vw;
 		background-color: white;
 		padding: 0 0 2em;
 		margin: 0 auto;

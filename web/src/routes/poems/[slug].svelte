@@ -11,7 +11,10 @@
 </script>
 
 <script lang="ts">
+	import { fade } from 'svelte/transition'
 	export let poem: { slug: string, name: string, content:Array<any>};
+
+	// $: console.log(poem)
 </script>
 
 <style>
@@ -57,7 +60,7 @@
 
 
 <div class="content">
-	<h1>{poem.name}</h1>
+	<h1 transition:fade>{poem.name}</h1>
 	{#each poem.content as { children }}
 		{#each children as { text }}
 			<p>{ text }</p>
