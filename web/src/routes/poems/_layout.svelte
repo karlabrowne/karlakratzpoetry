@@ -44,6 +44,7 @@
 					{cat.title}
 				</button>
 			{/each}
+			<button class="filter-button" on:click|preventDefault={() => filteredPoems = poems}>All</button>
 		</div>
     {#if poems}
 			<ul>
@@ -64,8 +65,8 @@
 <style>
 	.page-wrapper {
 		display: grid;
-		grid-template-columns: 1fr 3fr;
-		grid-column-gap: 6em;
+		grid-template-columns: 1fr;
+		grid-column-gap: 1em;
 	}
 
 	.filter-cont {
@@ -107,5 +108,19 @@
 		list-style: none;
 		padding: 0;
 		font-size: 1.4rem;
+	}
+
+	@media screen and (min-width: 900px){
+		.page-wrapper {
+			grid-template-columns: 1fr 3fr;
+			grid-column-gap: 6em;
+		}
+	}
+
+	@media screen and (min-width: 650px) {
+		.page-wrapper {
+			grid-template-columns: 1fr 2fr;
+			grid-column-gap: 3em;
+		}
 	}
 </style>
