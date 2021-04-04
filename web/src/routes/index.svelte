@@ -38,6 +38,8 @@
 <style>
 	h1 {
 		text-align: center;
+		font-style: italic;
+		text-transform: capitalize;
 	}
 
 	p {
@@ -48,11 +50,14 @@
 	#image > * {
 		margin: 0 auto;
 		display: block;
+		margin-bottom: 2rem;
 	}
 
 	img {
 		width: 100%;
 		max-width: 400px;
+		border-radius: 50%;
+		
 	}
 
 	p {
