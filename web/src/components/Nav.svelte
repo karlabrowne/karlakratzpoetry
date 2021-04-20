@@ -30,19 +30,17 @@
 		{/if}
 	</div>
 
-	<button id="menu-toggle" class="menu" class:opened on:click={() => { 
-		sidebar_show = !sidebar_show 
-	}} aria-label="Main Menu" aria-expanded={sidebar_show}>
-		<svg class="scale" width="100" height="100" viewBox="0 0 100 100">
-			<path class="line line1" d="M 20,29.000046 H 80.000231 C 80.000231,29.000046 94.498839,28.817352 94.532987,66.711331 94.543142,77.980673 90.966081,81.670246 85.259173,81.668997 79.552261,81.667751 75.000211,74.999942 75.000211,74.999942 L 25.000021,25.000058" />
-			<path class="line line2" d="M 20,50 H 80" />
-			<path class="line line3" d="M 20,70.999954 H 80.000231 C 80.000231,70.999954 94.498839,71.182648 94.532987,33.288669 94.543142,22.019327 90.966081,18.329754 85.259173,18.331003 79.552261,18.332249 75.000211,25.000058 75.000211,25.000058 L 25.000021,74.999942" />
-		</svg>
-	</button>
-
-
+	<label for="check" id="menu-toggle" class:opened  aria-label="Main Menu" aria-expanded={sidebar_show}>
+		<input type="checkbox" id="check" on:click={() => { 
+			sidebar_show = !sidebar_show 
+		}}/> 
+		<span></span>
+		<span></span>
+		<span></span>
+	</label>
 
 	<SideBar {segment} bind:show={sidebar_show}/>
+
 <!-- Desktop Nav -->
 	<nav id="desktop-nav">
 		<ul>
@@ -56,51 +54,52 @@
 </header>
 
 <style>
-.scale {
-	transform: scale(.4);
-}
-.menu {
-  background-color: transparent;
-  border: none;
-  cursor: pointer;
-  display: flex;
-  padding: 0;
-}
-.line {
-  fill: none;
-  stroke: black;
-  stroke-width: 6;
-  transition: stroke-dasharray 600ms cubic-bezier(0.4, 0, 0.2, 1),
-    stroke-dashoffset 600ms cubic-bezier(0.4, 0, 0.2, 1);
-}
-.line1 {
-  stroke-dasharray: 60 207;
-  stroke-width: 6;
-}
-.line2 {
-  stroke-dasharray: 60 60;
-  stroke-width: 6;
-}
-.line3 {
-  stroke-dasharray: 60 207;
-  stroke-width: 6;
-}
-.opened .line1 {
-  stroke-dasharray: 90 207;
-  stroke-dashoffset: -134;
-  stroke-width: 6;
-}
-.opened .line2 {
-  stroke-dasharray: 1 60;
-  stroke-dashoffset: -30;
-  stroke-width: 6;
-}
-.opened .line3 {
-  stroke-dasharray: 90 207;
-  stroke-dashoffset: -134;
-  stroke-width: 6;
+label{
+ display:flex;
+  flex-direction:column;
+  width:30px;
+  cursor:pointer;
 }
 
+label span{
+  background: #000;
+  border-radius:10px;
+  height:4px;
+  margin: 3px 0;
+  transition: .4s  cubic-bezier(0.68, -0.6, 0.32, 1.6);
+}
+
+span:nth-of-type(1){
+  width:50%;
+}
+
+span:nth-of-type(2){
+  width:100%;
+}
+
+span:nth-of-type(3){
+  width:75%;
+}
+
+input[type="checkbox"]{
+  display:none;
+}
+
+input[type="checkbox"]:checked ~ span:nth-of-type(1){
+  transform-origin:bottom;
+  transform:rotatez(45deg) translate(4px,0px)
+}
+
+input[type="checkbox"]:checked ~ span:nth-of-type(2){ 
+  transform-origin:top;
+  transform:rotatez(-45deg)
+}
+
+input[type="checkbox"]:checked ~ span:nth-of-type(3){  
+  transform-origin:bottom;
+  width:50%;
+  transform: translate(14px,-6px) rotatez(45deg);
+}
 
 	#desktop-nav{
 		display: none;
@@ -118,9 +117,8 @@
 
 	header {
 		display: flex;
-		align-items: center;
+		align-items: flex-start;
 		justify-content: space-between;
-		/* padding: 0 2em 0; */
 		max-width: 80vw;
 		margin: 3em auto;
 	}
