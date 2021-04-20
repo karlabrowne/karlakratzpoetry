@@ -48,6 +48,3 @@
 		{/each}
 	{/each}
 </div>
-<!-- TODO: 
-		- Make poem render for desktop only
--->

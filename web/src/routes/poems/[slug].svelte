@@ -13,19 +13,9 @@
 <script lang="ts">
 	import { fade } from 'svelte/transition'
 	export let poem: { slug: string, name: string, content:Array<any>};
-
-	// $: console.log(poem)
 </script>
 
 <style>
-	/*
-		By default, CSS is locally scoped to the component,
-		and any unused styles are dead-code-eliminated.
-		In this page, Svelte can't know which elements are
-		going to appear inside the {{{post.html}}} block,
-		so we have to use the :global(...) modifier to target
-		all elements inside .content
-	*/
 	.content :global(h2) {
 		font-size: 1.4em;
 		font-weight: 500;
