@@ -2,6 +2,7 @@
 	import { client, urlFor } from '../components/SanityClient'
 	import { onMount } from 'svelte'
 	import { fade } from 'svelte/transition'
+	import blocksToHtml from '@sanity/block-content-to-html'
 
 	let mainImage
 	let heroTitle
@@ -13,6 +14,8 @@
 		let res = await client.fetch(query)
 		return { mainImage, heroTitle, heroDescription } = res
 	});
+
+	$: console.log(mainImage)
 </script>
 
 <div id="image">
@@ -28,21 +31,24 @@
 {/if}
 
 {#if heroDescription}
-	{#each heroDescription as { children }}
-		{#each children as { text }}
-			<p transition:fade>{ text }</p>
-		{/each}
-	{/each}
+	<div id="hero-text">
+		{@html blocksToHtml({blocks: heroDescription })}
+		<br>
+	</div>
 {/if}
 
 <style>
 	h1 {
+		margin-top: .8rem;
 		text-align: center;
 	}
 
-	p {
+	#hero-text {
 		text-align: center;
-		margin: 0 auto;
+	}
+
+	#hero-text > * {
+		margin: 1em auto;
 	}
 
 	#image > * {
@@ -53,10 +59,6 @@
 	img {
 		width: 100%;
 		max-width: 400px;
-	}
-
-	p {
-		margin: 1em auto;
 	}
 </style>
 

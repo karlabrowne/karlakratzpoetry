@@ -6,27 +6,36 @@
 		const featuredPoemArr = await client.fetch(query);
 		const featuredPoem = featuredPoemArr[Math.floor(Math.random() * featuredPoemArr.length)]
 		return { featuredPoem }
-	}
+	};
 </script>
 
 <script lang="ts">
 	import { fade } from 'svelte/transition'
+	import blocksToHtml from '@sanity/block-content-to-html'
 	type Slug = {
 		_type: string,
 		current: string,
-	}
+	};
 
 	export let featuredPoem: { slug: Slug, name: string, _id: string, content: Array<any>, background: Array<any> };
+	console.log(featuredPoem)
 
+	const { name, content } = featuredPoem
 </script>
 
+<svelte:head>
+	<title>Poems</title>
+</svelte:head>
+
+<div id="content">
+	<h1 class="poem-title" transition:fade>{ name }</h1>
+	{@html blocksToHtml({ blocks: content })}
+</div>
+
 <style>
-	p {
-		max-width: 48ch;
-	}
-	
 	#content {
 		display: none;
+		max-width: 48ch;
 	}
 
 	@media screen and (min-width: 650px){
@@ -36,15 +45,4 @@
 	}
 </style>
 
-<svelte:head>
-	<title>Poems</title>
-</svelte:head>
-
-<div id="content">
-	<h1 class="poem-title" transition:fade>{featuredPoem.name}</h1>
-	{#each featuredPoem.content as { children }}
-		{#each children as { text }}
-			<p transition:fade>{ text }</p>
-		{/each}
-	{/each}
-</div>
+<!-- TODO: impliment portable text component https://github.com/movingbrands/svelte-portable-text -->

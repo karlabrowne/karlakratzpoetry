@@ -5,7 +5,7 @@
 	import SideBar from './SideBar.svelte'
 	export let segment: string
 
-	let title
+	let title = "Karla Kratz Poetry"
 	const query = `*[_id == "siteSettings"]{title}[0]`
 
 	let sidebar_show = false;
@@ -31,9 +31,7 @@
 	</div>
 
 	<label for="check" id="menu-toggle" class:opened  aria-label="Main Menu" aria-expanded={sidebar_show}>
-		<input type="checkbox" id="check" on:click={() => { 
-			sidebar_show = !sidebar_show 
-		}}/> 
+		<input type="checkbox" id="check" bind:checked={sidebar_show}/> 
 		<span></span>
 		<span></span>
 		<span></span>
@@ -140,10 +138,6 @@ input[type="checkbox"]:checked ~ span:nth-of-type(3){
 	nav {
 		font-weight: 300;
 		padding: 0;
-	}
-
-	nav, nav > * {
-		/* min-height: 5rem; */
 	}
 
 	h1 {

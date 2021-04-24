@@ -2,6 +2,7 @@
   import { client, urlFor } from '../components/SanityClient'
 	import { onMount } from 'svelte'
 	import { fade } from 'svelte/transition'
+  import blocksToHtml from '@sanity/block-content-to-html'
 
   const query:string = '*[_id == "bookPage"][0]'
 
@@ -31,11 +32,7 @@
     {/if}
 
     {#if synopsis}
-      {#each synopsis as { children }}
-        {#each children as { text }}
-          <p transition:fade>{ text }</p>
-        {/each}
-      {/each}
+      {@html blocksToHtml({blocks: synopsis })}
     {/if}
   </div>
 </div>
@@ -58,7 +55,7 @@
 		max-width: 400px;
 	}
 
-	p {
+	#text * {
 		margin: 1em auto;
 	}
 

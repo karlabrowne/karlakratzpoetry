@@ -19,7 +19,7 @@ const options:Client = {
   useCdn: true
 }
 
-const client = sanityClient( options )
+const client = sanityClient(options)
 
 const builder = imageUrlBuilder(client)
 

@@ -25,7 +25,6 @@
 
 <style>
   footer {
-    /* border-top: 1px solid var(--gray); */
     text-align: center;
     min-height: 4rem;
     padding: 3em 1em;

@@ -28,37 +28,47 @@
 	export let categoriesArr: { title: string, _id: string}[] = []
 
 	let filteredPoems = poems
-
+	let vw
 </script>
 
 <svelte:head>
 	<title>Poems</title>
 </svelte:head>
 
+<svelte:window bind:innerWidth={vw}/>
+
 <div class="page-wrapper">
+
+	<!-- poems rendered here on mobile-->
+	{#if vw < 650}
+		<slot></slot>
+	{/if}
+
   <div class="side-bar">
 		<h2>Poems by category</h2>
 		<div class="filter-cont">
-			{#each categoriesArr as cat}
-				<button class="filter-button" on:click|preventDefault={() => filterPoems(poems, cat.title)}>
-					{cat.title}
+			{#each categoriesArr as { title }}
+				<button class="filter-button" on:click|preventDefault={() => filterPoems(poems, title)}>
+					{ title }
 				</button>
 			{/each}
 			<button class="filter-button" on:click|preventDefault={() => filteredPoems = poems}>All</button>
 		</div>
     {#if poems}
 			<ul>
-				{#each filteredPoems as poem}
-					{#if poem.slug}
-						<li><a rel="prefetch" href="poems/{poem.slug.current}">{poem.name}</a></li>
+				{#each filteredPoems as { name, slug }}
+					{#if slug}
+						<li><a rel="prefetch" href="poems/{slug.current}">{ name }</a></li>
 					{/if}
 				{/each}
 			</ul>
 		{/if}
 	</div>  
 
-	<!-- poems rendered here -->
-	<slot></slot>
+	<!-- poems rendered here on desktop-->
+	{#if vw >= 650}
+		<slot></slot>
+	{/if}
 
 </div>
 
@@ -70,7 +80,6 @@
 	}
 
 	.filter-cont {
-		/* max-width: 300px; */
 		display: flex;
 		flex-wrap: wrap;
 		margin-bottom: 1rem;
