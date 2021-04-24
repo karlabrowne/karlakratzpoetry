@@ -2,6 +2,7 @@
 	import { client, urlFor } from '../components/SanityClient'
 	import { onMount } from 'svelte'
 	import { fade } from 'svelte/transition'
+  import blocksToHtml from '@sanity/block-content-to-html'
 
   const query:string = '*[_id == "aboutPage"][0]'
 
@@ -11,6 +12,7 @@
 
   onMount(async () => {
 		let res = await client.fetch(query)
+    console.log(res)
 		return { mainImage, artistStatement, bio } = res
 	});
 </script>
@@ -27,20 +29,12 @@
   <div id="text">
     <h2>Artist Statement</h2>
     {#if artistStatement}
-      {#each artistStatement as { children }}
-        {#each children as { text }}
-          <p transition:fade>{ text }</p>
-        {/each}
-      {/each}
+      {@html blocksToHtml({blocks: artistStatement })}
     {/if}
 
 		<h2>Bio</h2>
     {#if bio}
-      {#each bio as { children }}
-        {#each children as { text }}
-          <p transition:fade>{ text }</p>
-        {/each}
-      {/each}
+      {@html blocksToHtml({blocks: bio })}
     {/if}
   </div>
 </div>
@@ -63,8 +57,7 @@
 		max-width: 400px;
 	}
 
-	p {
-		/* margin: 1em auto; */
+	#text {
     max-width: 60ch;
 	}
 
