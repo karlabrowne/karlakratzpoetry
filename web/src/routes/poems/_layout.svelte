@@ -58,7 +58,7 @@
 			<ul>
 				{#each filteredPoems as { name, slug }}
 					{#if slug}
-						<li><a rel="prefetch" href="poems/{slug.current}">{ name }</a></li>
+						<li><a rel=prefetch href="poems/{slug.current}">{ name }</a></li>
 					{/if}
 				{/each}
 			</ul>
