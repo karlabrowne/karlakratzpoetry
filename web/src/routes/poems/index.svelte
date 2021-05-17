@@ -28,9 +28,8 @@
 	}
 
 	export let featuredPoem: { slug: Slug, name: string, _id: string, content: Array<any>, background: Array<any>, backgroundTitle: string, poemImage: Image };
-	console.log(featuredPoem)
 
-	const { name, content, poemImage, background, backgroundTitle } = featuredPoem
+	$: ({ name, content, poemImage, background, backgroundTitle } = featuredPoem)
 </script>
 
 <svelte:head>
@@ -77,5 +76,3 @@
 		}
 	}
 </style>
-
-<!-- TODO: impliment portable text component https://github.com/movingbrands/svelte-portable-text -->

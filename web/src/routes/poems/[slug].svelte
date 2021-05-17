@@ -31,30 +31,34 @@
 
 	export let poem: { slug: Slug, name: string, content:Array<any>, background:Array<any>, backgroundTitle:string, poemImage:Image};	
 	
+
+
+	$: ({ name, content, background, backgroundTitle, poemImage } = poem)
+
 </script>
 
 <svelte:head>
-	<title>{ poem.name }</title>
+	<title>{ name }</title>
 </svelte:head>
 
 <div id="content">
 	{#if poem}
-		<h1 class="poem-title" transition:fade>{ poem.name }</h1>
-		{#if poem.poemImage}
+		<h1 class="poem-title" transition:fade>{ name }</h1>
+		{#if poemImage}
 			<div id="image">
-				{#if poem.poemImage.alt}
-					<img alt="{poem.poemImage.alt}" src="{ urlFor(poem.poemImage).url() }" transition:fade>
+				{#if poemImage.alt}
+					<img alt="{poemImage.alt}" src="{ urlFor(poemImage).url() }" transition:fade>
 				{/if}
 			</div>
 		{/if}
-		{@html blocksToHtml({ blocks: poem.content })}
+		{@html blocksToHtml({ blocks: content })}
 
 		<div>
-			{#if poem.backgroundTitle}
-				<h2 class="background-title">{ poem.backgroundTitle }</h2>
+			{#if backgroundTitle}
+				<h2 class="background-title">{ backgroundTitle }</h2>
 			{/if}
-			{#if poem.background}
-				{@html blocksToHtml({ blocks: poem.background })}
+			{#if background}
+				{@html blocksToHtml({ blocks: background })}
 			{/if}
 		</div>
 	{/if}
