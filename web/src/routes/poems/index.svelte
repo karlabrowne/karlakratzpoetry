@@ -1,32 +1,73 @@
 <script context="module" lang="ts">
-	import { client } from '../../components/SanityClient'
+	import { client, urlFor } from '../../components/SanityClient'
 	
 	export async function preload() {
-		const query = "*[_type == 'poem' && featured]{_id, slug, name, content, background}";
+		const query = "*[_type == 'poem' && featured]{_id, slug, name, poemImage, content, backgroundTitle, background}";
 		const featuredPoemArr = await client.fetch(query);
 		const featuredPoem = featuredPoemArr[Math.floor(Math.random() * featuredPoemArr.length)]
 		return { featuredPoem }
-	}
+	};
 </script>
 
 <script lang="ts">
 	import { fade } from 'svelte/transition'
+	import blocksToHtml from '@sanity/block-content-to-html'
+
 	type Slug = {
 		_type: string,
 		current: string,
+	};
+
+	type Image = {
+		_type: string,
+		alt: string,
+		asset: any,
+		caption: string,
+		crop: any,
+		hotspot: any
 	}
 
-	export let featuredPoem: { slug: Slug, name: string, _id: string, content: Array<any>, background: Array<any> };
+	export let featuredPoem: { slug: Slug, name: string, _id: string, content: Array<any>, background: Array<any>, backgroundTitle: string, poemImage: Image };
 
+	$: ({ name, content, poemImage, background, backgroundTitle } = featuredPoem)
 </script>
 
+<svelte:head>
+	<title>Poems</title>
+</svelte:head>
+
+<div id="content">
+	<h1 class="poem-title" transition:fade>{ name }</h1>
+	<div id="image">
+		{#if poemImage}
+			<img alt="{poemImage.alt}" src="{ urlFor(poemImage).url() }" transition:fade>
+		{:else}
+			<div style="width: 400px; height: 400px; background-color: var(--gray);" transition:fade></div>
+		{/if}
+	</div>
+	{@html blocksToHtml({ blocks: content })}
+
+	<div>
+		{#if backgroundTitle}
+			<h2 class="background-title">{ backgroundTitle }</h2>
+		{/if}
+		{#if background}
+			{@html blocksToHtml({ blocks: background })}
+		{/if}
+	</div>
+</div>
+
 <style>
-	p {
-		max-width: 48ch;
+	img {
+		border-radius: 100px;
+		width: 200px;
+		height: 200px;
+		background-size: cover;
 	}
-	
+
 	#content {
 		display: none;
+		max-width: 48ch;
 	}
 
 	@media screen and (min-width: 650px){
@@ -35,19 +76,3 @@
 		}
 	}
 </style>
-
-<svelte:head>
-	<title>Poems</title>
-</svelte:head>
-
-<div id="content">
-	<h1 class="poem-title" transition:fade>{featuredPoem.name}</h1>
-	{#each featuredPoem.content as { children }}
-		{#each children as { text }}
-			<p transition:fade>{ text }</p>
-		{/each}
-	{/each}
-</div>
-<!-- TODO: 
-		- Make poem render for desktop only
--->

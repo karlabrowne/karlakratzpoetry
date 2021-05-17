@@ -3,15 +3,16 @@
   
   export let show = false
   export let segment;
+
 </script>
 
 {#if show}
   <nav transition:fly={{x: 550, opacity: 1}}>
     <ul>
-			<li><a aria-current="{segment === undefined ? 'page' : undefined}" href=".">home</a></li>
-			<li><a rel=prefetch aria-current="{segment === 'poems' ? 'page' : undefined}" href="poems">poems</a></li>
-			<li><a aria-current="{segment === 'book' ? 'page' : undefined}" href="book">book</a></li>
-			<li><a aria-current="{segment === 'about' ? 'page' : undefined}" href="about">about</a></li>
+			<li><a aria-current="{segment === undefined ? 'page' : undefined}" href="." on:click={() => show = false}>home</a></li>
+			<li><a rel=prefetch aria-current="{segment === 'poems' ? 'page' : undefined}" href="poems" on:click={() => show = false}>poems</a></li>
+			<li><a aria-current="{segment === 'book' ? 'page' : undefined}" href="book" on:click={() => show = false}>book</a></li>
+			<li><a aria-current="{segment === 'about' ? 'page' : undefined}" href="about" on:click={() => show = false}>about</a></li>
 		</ul>
   </nav>
 {/if}
@@ -20,14 +21,13 @@
 		
 <style>
 nav {
+  width: calc(100vw - 2rem);
   position: fixed;
   top: 0;
   right: 0;
-  height: 100vh;
   padding: 2rem 1rem 0.6rem;
   background: #ffffff;
   overflow-y: auto;
-	width: 80vw;
   z-index: 2;
 }
 

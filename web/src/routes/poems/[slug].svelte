@@ -1,69 +1,78 @@
 <script context="module" lang="ts">
-	import { client } from '../../components/SanityClient'
+	import type { Preload } from "@sapper/common"
+	import { client, urlFor } from '../../components/SanityClient'
 
-	export async function preload({ params: { slug } }) {
+	export const preload:Preload = async ({ params: { slug } }) => {
 		const query = `*[slug.current == "${ slug }"]`
 	
 		const res = await client.fetch(query)
 		const poem = await res.shift()
 		return { poem }
-	}
+	};
 </script>
 
 <script lang="ts">
 	import { fade } from 'svelte/transition'
-	export let poem: { slug: string, name: string, content:Array<any>};
+	import blocksToHtml from '@sanity/block-content-to-html'
 
-	// $: console.log(poem)
+	type Slug = {
+		_type: string,
+		current: string,
+	};
+
+	type Image = {
+		_type: string,
+		alt: string,
+		asset: any,
+		caption: string,
+		crop: any,
+		hotspot: any
+	}
+
+	export let poem: { slug: Slug, name: string, content:Array<any>, background:Array<any>, backgroundTitle:string, poemImage:Image};	
+	
+
+
+	$: ({ name, content, background, backgroundTitle, poemImage } = poem)
+
 </script>
 
-<style>
-	/*
-		By default, CSS is locally scoped to the component,
-		and any unused styles are dead-code-eliminated.
-		In this page, Svelte can't know which elements are
-		going to appear inside the {{{post.html}}} block,
-		so we have to use the :global(...) modifier to target
-		all elements inside .content
-	*/
-	.content :global(h2) {
-		font-size: 1.4em;
-		font-weight: 500;
-	}
-
-	.content :global(pre) {
-		background-color: #f9f9f9;
-		box-shadow: inset 1px 1px 5px rgba(0, 0, 0, 0.05);
-		padding: 0.5em;
-		border-radius: 2px;
-		overflow-x: auto;
-	}
-
-	.content :global(pre) :global(code) {
-		background-color: transparent;
-		padding: 0;
-	}
-
-	.content :global(ul) {
-		line-height: 1.5;
-	}
-
-	.content :global(li) {
-		margin: 0 0 0.5em 0;
-	}
-</style>
-
 <svelte:head>
-	<title>{poem.name}</title>
+	<title>{ name }</title>
 </svelte:head>
 
+<div id="content">
+	{#if poem}
+		<h1 class="poem-title" transition:fade>{ name }</h1>
+		{#if poemImage}
+			<div id="image">
+				{#if poemImage.alt}
+					<img alt="{poemImage.alt}" src="{ urlFor(poemImage).url() }" transition:fade>
+				{/if}
+			</div>
+		{/if}
+		{@html blocksToHtml({ blocks: content })}
 
-
-<div class="content">
-	<h1 transition:fade>{poem.name}</h1>
-	{#each poem.content as { children }}
-		{#each children as { text }}
-			<p>{ text }</p>
-		{/each}
-	{/each}
+		<div>
+			{#if backgroundTitle}
+				<h2 class="background-title">{ backgroundTitle }</h2>
+			{/if}
+			{#if background}
+				{@html blocksToHtml({ blocks: background })}
+			{/if}
+		</div>
+	{/if}
 </div>
+
+<style>
+	img {
+		border-radius: 100px;
+		width: 200px;
+		height: 200px;
+		background-size: cover;
+	}
+	
+	#content {
+		max-width: 48ch;
+	}
+</style>

@@ -59,6 +59,8 @@
 	}  
 }
 
+/* rebuild the site in test environment */
+
 body {
 	margin: 0;
 	font-family: 'Ibarra Real NovaVariable', Serif;
