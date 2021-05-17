@@ -1,13 +1,14 @@
 <script context="module" lang="ts">
+	import type { Preload } from "@sapper/common"
 	import { client, urlFor } from '../../components/SanityClient'
 
-	export async function preload({ params: { slug } }) {
+	export const preload:Preload = async ({ params: { slug } }) => {
 		const query = `*[slug.current == "${ slug }"]`
 	
 		const res = await client.fetch(query)
 		const poem = await res.shift()
 		return { poem }
-	}
+	};
 </script>
 
 <script lang="ts">
@@ -28,30 +29,35 @@
 		hotspot: any
 	}
 
-	export let poem: { slug: string, name: string, content:Array<any>, background:Array<any>, backgroundTitle:string, poemImage:Image};
-
-	const { name, content, background, backgroundTitle, poemImage } = poem
+	export let poem: { slug: Slug, name: string, content:Array<any>, background:Array<any>, backgroundTitle:string, poemImage:Image};	
+	
 </script>
 
 <svelte:head>
-	<title>{ name }</title>
+	<title>{ poem.name }</title>
 </svelte:head>
 
 <div id="content">
-	<h1 class="poem-title" transition:fade>{ name }</h1>
-	<div id="image">
-		<img alt="{poemImage.alt}" src="{ urlFor(poemImage).url() }" transition:fade>
-	</div>
-	{@html blocksToHtml({ blocks: content })}
+	{#if poem}
+		<h1 class="poem-title" transition:fade>{ poem.name }</h1>
+		{#if poem.poemImage}
+			<div id="image">
+				{#if poem.poemImage.alt}
+					<img alt="{poem.poemImage.alt}" src="{ urlFor(poem.poemImage).url() }" transition:fade>
+				{/if}
+			</div>
+		{/if}
+		{@html blocksToHtml({ blocks: poem.content })}
 
-	<div>
-		{#if backgroundTitle}
-			<h2 class="background-title">{ backgroundTitle }</h2>
-		{/if}
-		{#if background}
-			{@html blocksToHtml({ blocks: background })}
-		{/if}
-	</div>
+		<div>
+			{#if poem.backgroundTitle}
+				<h2 class="background-title">{ poem.backgroundTitle }</h2>
+			{/if}
+			{#if poem.background}
+				{@html blocksToHtml({ blocks: poem.background })}
+			{/if}
+		</div>
+	{/if}
 </div>
 
 <style>
