@@ -18,7 +18,7 @@
 	import blocksToHtml from '@sanity/block-content-to-html'
 	import SvelteSeo from 'svelte-seo'
 
-	const { page } = stores();
+	const { page } = stores()
 
 	type Slug = {
 		_type: string,

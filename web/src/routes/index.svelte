@@ -1,32 +1,45 @@
 <script context=module lang=ts>
+	import type { Preload } from '@sapper/common'
 	import { client, urlFor } from '../components/SanityClient'
 
-	export async function preload(){
+	export const preload:Preload = async () => {
 		const query:string = `*[_id == "homePage"][0]`
+		const catQuery:string = `*[_type == 'category']{_id, title}`
 		const homepage:Promise<any> = await client.fetch(query)
-		return { homepage }
-	}
+		const cats:Promise<any> = await client.fetch(catQuery)
+		return { homepage, cats }
+	};
 </script>
 <script lang=ts>
 	import type { Image, Block } from '@sanity/types'
-	import { stores } from '@sapper/app';
+	import { stores, goto } from '@sapper/app'
 	import { fade } from 'svelte/transition'
 	import blocksToHtml from '@sanity/block-content-to-html'
 	import SvelteSeo from 'svelte-seo'
 
-	const { page } = stores();
+	const { page, session } = stores()
+
+	const updateSession = async (c) => {
+		await session.update(cat => cat = c)
+		console.log($session)
+		goto('/poems')
+	}
 
 	interface MainImage extends Image {
 		alt: string,
 	}
-
 	type Homepage = {
 		mainImage: MainImage,
 		heroTitle: string,
 		heroDescription: Block,
 	}
+	type Category = {
+		_id: string,
+		title: string
+	}
 
 	export let homepage:Homepage
+	export let cats:Array<Category>
 
 	$:({ mainImage, heroTitle, heroDescription } = homepage)
 	$:({ host, path } = $page)
@@ -68,7 +81,35 @@
 	</div>
 {/if}
 
+<a href="/poems" class="read-redirect"> Read A Poem </a>
+
+{#if cats}
+<div class="filter-cont">
+	{#each cats as { title }}
+		<button role="link" class="filter-button" on:click|preventDefault={() => updateSession(title)}>
+			{ title }
+		</button>
+	{/each}
+	<a role="link" href="/poems" class="filter-button">All</a>
+</div>
+{/if}
+
 <style>
+	.read-redirect {
+		display: block;
+		width: 135px;
+		background-color: var(--garden-700);
+		color: var(--garden-50);
+		padding: .75rem 1rem;
+		text-align: center;
+		font-size: 1.25rem;
+		font-weight: 700;
+		font-style: italic;
+		text-decoration: none;
+		border-radius: 15px;
+		margin: .5rem auto;
+	}
+
 	h1 {
 		margin-top: .8rem;
 		text-align: center;
@@ -94,7 +135,30 @@
 		width: 100%;
 		max-width: 400px;
 		border-radius: 50%;
-		
+	}
+
+	.filter-cont {
+		display: flex;
+		flex-wrap: wrap;
+		width: max-content;
+		margin: 1rem auto;
+	}
+
+	.filter-button {
+		border: 2px solid var(--garden-600);
+		border-radius: 15px;
+		background: transparent;
+		color: var(--garden-600);
+		margin: 0 .2rem .4rem 0;
+		font-size: 1rem;
+		padding: .2em .6em;
+	}
+
+	.filter-button:hover {
+		cursor: pointer;
+		background: var(--garden-700);
+		color: var(--garden-50);
+		border-color: var(--garden-700);
 	}
 </style>
 
