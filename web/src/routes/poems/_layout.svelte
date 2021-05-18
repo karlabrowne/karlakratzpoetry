@@ -11,6 +11,7 @@
 </script>
 
 <script lang="ts">
+	import { Moon } from 'svelte-loading-spinners'
 	type Slug = {
 		_type: string,
 		current: string,
@@ -41,7 +42,11 @@
 
 	<!-- poems rendered here on mobile-->
 	{#if vw < 650}
-		<slot></slot>
+		<slot>
+			{#if poems === []}
+				<Moon size="60" color="#329659" unit="px" duration="1s"/>
+			{/if}
+		</slot>
 	{/if}
 
   <div class="side-bar">
@@ -67,7 +72,11 @@
 
 	<!-- poems rendered here on desktop-->
 	{#if vw >= 650}
-		<slot></slot>
+		<slot>
+			{#if poems === []}
+				<Moon size="60" color="#329659" unit="px" duration="1s"/>
+			{/if}
+		</slot>
 	{/if}
 
 </div>

@@ -4350,6 +4350,11 @@
   "resolved" "https://registry.npmjs.org/safer-buffer/-/safer-buffer-2.1.2.tgz"
   "version" "2.1.2"
 
+"schema-dts@^0.8.2":
+  "integrity" "sha512-whRg7QF9wmPfrwAi4NRT/bjMBIdHvzpr4excNN00hn+U2aFXx9NB3JKfooUMJLDqpGEqnZpA61f5muw9lQ50ZA=="
+  "resolved" "https://registry.npmjs.org/schema-dts/-/schema-dts-0.8.2.tgz"
+  "version" "0.8.2"
+
 "semver@^5.4.1":
   "integrity" "sha512-sauaDf/PZdVgrLTNYHRtpXa1iRiKcaebiKQ1BJdpQlWH2lCvexQdX55snPFyK7QzpudqbCI0qXFfOasHdyNDGQ=="
   "resolved" "https://registry.npmjs.org/semver/-/semver-5.7.1.tgz"
@@ -4771,6 +4776,18 @@
   dependencies:
     "has-flag" "^3.0.0"
 
+"svelte-loading-spinners@^0.1.5":
+  "integrity" "sha512-HpNwNd0jfZAQ2DDMwe5yF8hSUeSSTI5LpkNFhmBDmS/G5r/GdWEP4o6V79sXFC6B1ts+e799aM5FqIC3TyosKw=="
+  "resolved" "https://registry.npmjs.org/svelte-loading-spinners/-/svelte-loading-spinners-0.1.5.tgz"
+  "version" "0.1.5"
+
+"svelte-seo@^1.2.0":
+  "integrity" "sha512-GutQEwr3l7VAFu0ckI23F7f6tGUy7vKxwd1E1g3Iv0RHPvR0RzCAUy96M45yxEoaxhqGH+pk4h1c7wz0b8MrJA=="
+  "resolved" "https://registry.npmjs.org/svelte-seo/-/svelte-seo-1.2.0.tgz"
+  "version" "1.2.0"
+  dependencies:
+    "schema-dts" "^0.8.2"
+
 "tar@^4.4.10", "tar@^4.4.12", "tar@^4.4.8":
   "integrity" "sha512-w2VwSrBoHa5BsSyH+KxEqeQBAllHhccyMFVHtGtdMpF4W7IRWfZjFiQceJPChOeTsSDVUpER2T8FA93pr0L+QA=="
   "resolved" "https://registry.npmjs.org/tar/-/tar-4.4.13.tgz"
@@ -4956,6 +4973,11 @@
   "integrity" "sha1-hnrHTjhkGHsdPUfZlqeOxciDB3c="
   "resolved" "https://registry.npmjs.org/typedarray/-/typedarray-0.0.6.tgz"
   "version" "0.0.6"
+
+"typescript@>=3.4.0":
+  "integrity" "sha512-V+evlYHZnQkaz8TRBuxTA92yZBPotr5H+WhQ7bD3hZUndx5tGOa1fuCgeSjxAzM1RiN5IzvadIXTVefuuwZCRg=="
+  "resolved" "https://registry.npmjs.org/typescript/-/typescript-4.2.4.tgz"
+  "version" "4.2.4"
 
 "uglify-js@^3.1.4":
   "integrity" "sha512-SgpgScL4T7Hj/w/GexjnBHi3Ien9WS1Rpfg5y91WXMj9SY997ZCQU76mH4TpLwwfmMvoOU8wiaRkIf6NaH3mtg=="

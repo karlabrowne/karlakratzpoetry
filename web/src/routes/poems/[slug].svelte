@@ -12,36 +12,57 @@
 </script>
 
 <script lang="ts">
+	import type { Image, Block } from '@sanity/types'
+	import { stores } from '@sapper/app';
+	import { Moon } from 'svelte-loading-spinners'
+	import SvelteSeo from 'svelte-seo'
 	import { fade } from 'svelte/transition'
 	import blocksToHtml from '@sanity/block-content-to-html'
+
+	const { page } = stores();
 
 	type Slug = {
 		_type: string,
 		current: string,
 	};
 
-	type Image = {
-		_type: string,
-		alt: string,
-		asset: any,
-		caption: string,
-		crop: any,
-		hotspot: any
-	}
+	interface MainImage extends Image {
+    alt: string,
+  }
 
-	export let poem: { slug: Slug, name: string, content:Array<any>, background:Array<any>, backgroundTitle:string, poemImage:Image};	
+	export let poem: { slug: Slug, name: string, content:Array<Block>, background:Array<Block>, backgroundTitle:string, poemImage:MainImage, _createdAt:string, _updatedAt:string};	
 	
-
-
-	$: ({ name, content, background, backgroundTitle, poemImage } = poem)
-
+	$: ({ name, content, background, backgroundTitle, poemImage, _createdAt, _updatedAt } = poem)
+	$:({ host, path } = $page)
 </script>
 
-<svelte:head>
-	<title>{ name }</title>
-</svelte:head>
+<SvelteSeo
+	title={`Karla Kratz Poetry | ${name}`}
+	description={`${content[0].children[0].text.substring(0,100)}...`}
+	openGraph={{
+    title: `Karla Kratz Poetry | ${name}`,
+    description: `${content[0].children[0].text.substring(0,100)}...`,
+    type: "article",
+    url: `https://${host}${path}`,
+    article: {
+      publishedTime: _createdAt,
+      modifiedTime: _updatedAt,
+      authors: [
+        host,
+      ],
+    },
+    images: [
+      {
+        url: poemImage ? urlFor(poemImage).url() : '',
+        width: 650,
+        height: 650,
+        alt: poemImage ? poemImage.alt : '',
+      },
+    ],
+  }}
+/> 
 
-<div id="content">
+<article id="content">
 	{#if poem}
 		<h1 class="poem-title" transition:fade>{ name }</h1>
 		{#if poemImage}
@@ -61,8 +82,10 @@
 				{@html blocksToHtml({ blocks: background })}
 			{/if}
 		</div>
+	{:else}
+		<Moon size="60" color="#329659" unit="px" duration="1s"/>
 	{/if}
-</div>
+</article>
 
 <style>
 	img {
