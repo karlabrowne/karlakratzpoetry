@@ -1,11 +1,12 @@
 <script context=module lang=ts>
+  import type { Preload } from '@sapper/common'
   import { client, urlFor } from '../components/SanityClient'
   
-  export async function preload(){
+  export const preload:Preload = async () => {
     const query:string = '*[_id == "aboutPage"][0]'
     const aboutPage = await client.fetch(query)
     return { aboutPage }
-  }
+  };
 </script>
 <script lang="ts">
 	import { fade } from 'svelte/transition'

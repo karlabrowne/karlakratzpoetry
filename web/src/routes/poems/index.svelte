@@ -1,7 +1,8 @@
 <script context="module" lang="ts">
+	import type { Preload } from '@sapper/common'
 	import { client, urlFor } from '../../components/SanityClient'
 	
-	export async function preload() {
+	export const preload:Preload = async () => {
 		const query = "*[_type == 'poem' && featured]{_id, slug, name, poemImage, content, backgroundTitle, background}";
 		const featuredPoemArr = await client.fetch(query);
 		const featuredPoem = featuredPoemArr[Math.floor(Math.random() * featuredPoemArr.length)]

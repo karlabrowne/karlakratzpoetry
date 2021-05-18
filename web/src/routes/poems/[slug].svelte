@@ -48,7 +48,7 @@
       publishedTime: _createdAt,
       modifiedTime: _updatedAt,
       authors: [
-        host,
+        `https://${host}/`,
       ],
     },
     images: [

@@ -1,11 +1,12 @@
 <script context=module lang=ts>
+  import type { Preload } from '@sapper/common'
   import { client, urlFor } from '../components/SanityClient'
 
-  export async function preload(){
+  export const preload:Preload = async () => {
     const query:string = '*[_id == "bookPage"][0]'
     const bookPage:Promise<any> = await client.fetch(query)
     return { bookPage }
-  }
+  };
 </script>
 <script lang=ts>
   import type { Image, Block } from '@sanity/types'
