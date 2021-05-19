@@ -1,4 +1,4 @@
-<script lang="ts">
+<script lang=ts>
   import { client } from './SanityClient'
   import { onMount } from 'svelte'
   import { fade } from 'svelte/transition'

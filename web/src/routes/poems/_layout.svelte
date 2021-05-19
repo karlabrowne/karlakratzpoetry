@@ -1,27 +1,24 @@
 <script context="module" lang="ts">
+	import type { Preload } from "@sapper/common"
 	import { client } from '../../components/SanityClient'
 	
-	export async function preload() {
+	export const preload:Preload = async () => {
 		const poemQuery = "*[_type == 'poem']{_id, slug, name, categories[]->{title}}"
 		const catQuery = "*[_type == 'category']{_id, title}"
 		const poems = await client.fetch(poemQuery)
 		const categoriesArr = await client.fetch(catQuery)
 		return { poems, categoriesArr }
-	}
+	};
 </script>
 
 <script lang="ts">
+	import { Moon } from 'svelte-loading-spinners'
+	import { stores } from '@sapper/app'
+	import { filterPoems } from '../../components/utils'
+
 	type Slug = {
 		_type: string,
 		current: string,
-	}
-
-	const filterPoems = (arr: Array<any>, i:string) => {
-		filteredPoems = arr.filter(({ categories }) => {
-			for (const { title } of categories){
-				return title == i ? true : false
-			}
-		})
 	}
 
 	export let poems: { slug: Slug, name: string, _id: string, categories: Array<any>}[] = []
@@ -29,11 +26,15 @@
 
 	let filteredPoems = poems
 	let vw
-</script>
 
-<svelte:head>
-	<title>Poems</title>
-</svelte:head>
+	let cat
+	const { session } = stores()
+
+	const unsubscribe = session.subscribe(c => {
+		cat = c;
+		cat ? filteredPoems = filterPoems(poems, cat) : ''
+	});
+</script>
 
 <svelte:window bind:innerWidth={vw}/>
 
@@ -41,18 +42,33 @@
 
 	<!-- poems rendered here on mobile-->
 	{#if vw < 650}
-		<slot></slot>
+		<slot>
+			{#if poems === []}
+				<Moon size="60" color="#329659" unit="px" duration="1s"/>
+			{/if}
+		</slot>
 	{/if}
 
   <div class="side-bar">
 		<h2>Poems by category</h2>
 		<div class="filter-cont">
 			{#each categoriesArr as { title }}
-				<button class="filter-button" on:click|preventDefault={() => filterPoems(poems, title)}>
+				<button class="filter-button" on:click|preventDefault={
+					() => {
+						filteredPoems = filterPoems(poems, title)
+						cat = title
+					}}
+					style={title == cat ? 'background: var(--garden-700); color: var(--garden-50); border-color: var(--garden-700);' : ''}
+				>
 					{ title }
 				</button>
 			{/each}
-			<button class="filter-button" on:click|preventDefault={() => filteredPoems = poems}>All</button>
+			<button class="filter-button" on:click|preventDefault={() => {
+				filteredPoems = poems
+				cat = undefined
+			}}
+				style={ !cat ? 'background: var(--garden-700); color: var(--garden-50); border-color: var(--garden-700);' : ''}	
+			>All</button>
 		</div>
     {#if poems}
 			<ul>
@@ -67,7 +83,11 @@
 
 	<!-- poems rendered here on desktop-->
 	{#if vw >= 650}
-		<slot></slot>
+		<slot>
+			{#if poems === []}
+				<Moon size="60" color="#329659" unit="px" duration="1s"/>
+			{/if}
+		</slot>
 	{/if}
 
 </div>

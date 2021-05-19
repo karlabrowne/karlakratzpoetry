@@ -9,12 +9,8 @@ type Client = {
   useCdn: boolean
 }
 
-// create instance of sanityClient
-// this is how you connect your frontend to your sanity studio
 const options:Client = {
-  //your project ID
   projectId: 'k7wdeuj3',
-  //your dataset; defaults to production
   dataset: 'production',
   apiVersion: '2021-04-24',
   token: '',

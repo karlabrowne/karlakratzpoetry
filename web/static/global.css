@@ -1,5 +1,4 @@
 :root {
-	--blue: blue;
 	--gray: rgb(187, 187, 187);
 	--black: #121923;
 	--garden-50:  #E7F9ED; 
@@ -13,7 +12,6 @@
 	--garden-800:  #22563E; 
 	--garden-900:  #1A3630; 
 	--garden-950:  #162629; 
-
 }
 
 /* Normal (non-variable) Ibarra Real fonts */
