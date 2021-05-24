@@ -1,24 +1,33 @@
 <script context="module" lang="ts">
-	import type { Preload } from '@sapper/common'
 	import { client, urlFor } from '../../components/SanityClient'
 	
-	export const preload:Preload = async () => {
+	export const load = async () => {
 		const query = "*[_type == 'poem' && featured]{_id, slug, name, poemImage, content, backgroundTitle, background}";
 		const featuredPoemArr = await client.fetch(query);
-		const featuredPoem = featuredPoemArr[Math.floor(Math.random() * featuredPoemArr.length)]
-		return { featuredPoem }
+		const featuredPoem = await featuredPoemArr[Math.floor(Math.random() * featuredPoemArr.length)]
+		if (featuredPoem) {
+			return {
+				props: {
+					featuredPoem: await featuredPoem
+				}
+			};
+		}
+
+		return {
+			status: 'error',
+			error: new Error(`Could not load data`)
+		};
 	};
 </script>
 
 <script lang="ts">
 	import type { Image, Block } from '@sanity/types'
-	import { stores } from '@sapper/app';
+	import { page } from '$app/stores';
 	import { fade } from 'svelte/transition'
 	import { Moon } from 'svelte-loading-spinners'
 	import blocksToHtml from '@sanity/block-content-to-html'
 	import SvelteSeo from 'svelte-seo'
 
-	const { page } = stores()
 
 	type Slug = {
 		_type: string,

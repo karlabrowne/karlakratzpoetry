@@ -1,21 +1,29 @@
 <script context=module lang=ts>
-  import type { Preload } from '@sapper/common'
   import { client, urlFor } from '../components/SanityClient'
 
-  export const preload:Preload = async () => {
+  export const load = async () => {
     const query:string = '*[_id == "bookPage"][0]'
     const bookPage:Promise<any> = await client.fetch(query)
-    return { bookPage }
+    if(bookPage) {
+      return { 
+        props: {
+          bookPage: bookPage 
+        }
+      }
+    }
+    return {
+      status: 'Error',
+      error: new Error('Could not load data')
+    }
   };
 </script>
 <script lang=ts>
   import type { Image, Block } from '@sanity/types'
-	import { stores } from '@sapper/app';
+	import { page } from '$app/stores';
 	import { fade } from 'svelte/transition'
   import blocksToHtml from '@sanity/block-content-to-html'
   import SvelteSeo from 'svelte-seo'
 
-  const { page } = stores();
 
 	interface MainImage extends Image {
 		alt: string,
