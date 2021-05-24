@@ -29,6 +29,7 @@
 	import blocksToHtml from '@sanity/block-content-to-html'
 	import SvelteSeo from 'svelte-seo'
 
+
 	const updateSession = async (c) => {
 		$session = c;
 		console.log($session)
@@ -53,6 +54,8 @@
 
 	$:({ mainImage, heroTitle, heroDescription } = homepage)
 	$:({ host, path } = $page)
+
+	
 </script>
 
 <SvelteSeo 

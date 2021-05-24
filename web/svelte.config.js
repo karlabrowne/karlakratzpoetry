@@ -15,7 +15,7 @@ const config = {
 		files: {
 			assets: 'static',
 			hooks: 'src/hooks',
-			lib: 'src/lib',
+			lib: 'src/components',
 			routes: 'src/routes',
 			serviceWorker: 'src/service-worker',
 			template: 'src/app.html'
@@ -33,8 +33,7 @@ const config = {
 		},
 		router: true,
 		ssr: true,
-		trailingSlash: 'never',
-		vite: () => ({})
+		trailingSlash: 'never'
 	},
 
 	// options passed to svelte.preprocess (https://svelte.dev/docs#svelte_preprocess)
