@@ -1,8 +1,18 @@
-<script lang="ts">
-	export let status: number;
-	export let error: Error;
+<script context="module">
+	export function load({ error, status }) {
+		return {
+			props: { error, status }
+		};
+	}
+</script>
 
-	const dev = process.env.NODE_ENV === 'development';
+<script>
+	import { dev } from '$app/env';
+	export let status;
+	export let error;
+	const offline = typeof navigator !== 'undefined' && navigator.onLine === false;
+	const title = offline ? 'Offline' : status;
+	const message = offline ? 'Find the internet and try again' : error.message;
 </script>
 
 <style>
@@ -28,12 +38,12 @@
 </style>
 
 <svelte:head>
-	<title>{status}</title>
+	<title>{title}</title>
 </svelte:head>
 
-<h1>{status}</h1>
+<h1>{title}</h1>
 
-<p>{error.message}</p>
+<p>{message}</p>
 
 {#if dev && error.stack}
 	<pre>{error.stack}</pre>

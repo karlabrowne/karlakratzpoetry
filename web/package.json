@@ -7,7 +7,8 @@
     "dev": "svelte-kit dev",
     "build": "svelte-kit build",
     "export": "svelte-kit build",
-    "start": "node build"
+    "start": "node build",
+    "preview": "svelte-kit preview"
   },
   "dependencies": {
     "@fontsource/ibarra-real-nova": "^4.2.1",
