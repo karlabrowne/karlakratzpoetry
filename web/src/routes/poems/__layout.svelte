@@ -1,19 +1,30 @@
 <script context="module" lang="ts">
-	import type { Preload } from "@sapper/common"
 	import { client } from '../../components/SanityClient'
 	
-	export const preload:Preload = async () => {
+	export const load = async () => {
 		const poemQuery = "*[_type == 'poem']{_id, slug, name, categories[]->{title}}"
 		const catQuery = "*[_type == 'category']{_id, title}"
 		const poems = await client.fetch(poemQuery)
 		const categoriesArr = await client.fetch(catQuery)
-		return { poems, categoriesArr }
+		if (poems && categoriesArr) {
+			return {
+				props: {
+					poems: await poems,
+					categoriesArr: await categoriesArr
+				}
+			};
+		}
+
+		return {
+			status: 'error',
+			error: new Error(`Could not load data`)
+		}
 	};
 </script>
 
 <script lang="ts">
 	import { Moon } from 'svelte-loading-spinners'
-	import { stores } from '@sapper/app'
+	import { page, session } from '$app/stores'
 	import { filterPoems } from '../../components/utils'
 
 	type Slug = {
@@ -24,16 +35,14 @@
 	export let poems: { slug: Slug, name: string, _id: string, categories: Array<any>}[] = []
 	export let categoriesArr: { title: string, _id: string}[] = []
 
-	let filteredPoems = poems
+	let filteredPoems
+	$: (filteredPoems = poems)
+	
 	let vw
 
-	let cat
-	const { session } = stores()
+	$:( $session ? filteredPoems = filterPoems(poems, $session) : filteredPoems = poems )
+	
 
-	const unsubscribe = session.subscribe(c => {
-		cat = c;
-		cat ? filteredPoems = filterPoems(poems, cat) : ''
-	});
 </script>
 
 <svelte:window bind:innerWidth={vw}/>
@@ -43,9 +52,6 @@
 	<!-- poems rendered here on mobile-->
 	{#if vw < 650}
 		<slot>
-			{#if poems === []}
-				<Moon size="60" color="#329659" unit="px" duration="1s"/>
-			{/if}
 		</slot>
 	{/if}
 
@@ -56,25 +62,25 @@
 				<button class="filter-button" on:click|preventDefault={
 					() => {
 						filteredPoems = filterPoems(poems, title)
-						cat = title
+						$session = title
 					}}
-					style={title == cat ? 'background: var(--garden-700); color: var(--garden-50); border-color: var(--garden-700);' : ''}
+					style={title == $session ? 'background: var(--garden-700); color: var(--garden-50); border-color: var(--garden-700);' : ''}
 				>
 					{ title }
 				</button>
 			{/each}
 			<button class="filter-button" on:click|preventDefault={() => {
 				filteredPoems = poems
-				cat = undefined
+				$session = undefined
 			}}
-				style={ !cat ? 'background: var(--garden-700); color: var(--garden-50); border-color: var(--garden-700);' : ''}	
+				style={ !$session ? 'background: var(--garden-700); color: var(--garden-50); border-color: var(--garden-700);' : ''}	
 			>All</button>
 		</div>
     {#if poems}
 			<ul>
 				{#each filteredPoems as { name, slug }}
 					{#if slug}
-						<li><a rel=prefetch href="poems/{slug.current}">{ name }</a></li>
+						<li><a rel=prefetch href={$page.path === `/poems` ? `poems/${slug.current}` : `${slug.current}`}>{ name }</a></li>
 					{/if}
 				{/each}
 			</ul>

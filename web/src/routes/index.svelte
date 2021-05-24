@@ -1,26 +1,36 @@
 <script context=module lang=ts>
-	import type { Preload } from '@sapper/common'
 	import { client, urlFor } from '../components/SanityClient'
 
-	export const preload:Preload = async () => {
+	export const load = async () => {
 		const query:string = `*[_id == "homePage"][0]`
 		const catQuery:string = `*[_type == 'category']{_id, title}`
 		const homepage:Promise<any> = await client.fetch(query)
 		const cats:Promise<any> = await client.fetch(catQuery)
-		return { homepage, cats }
+		if (homepage && cats) {
+			return {
+				props: {
+					homepage: await homepage,
+					cats: await cats
+				}
+			};
+		}
+
+		return {
+			status: 'error',
+			error: new Error(`Could not load data`)
+		};
 	};
 </script>
 <script lang=ts>
 	import type { Image, Block } from '@sanity/types'
-	import { stores, goto } from '@sapper/app'
+	import { goto } from '$app/navigation'
+	import { session, page } from '$app/stores'
 	import { fade } from 'svelte/transition'
 	import blocksToHtml from '@sanity/block-content-to-html'
 	import SvelteSeo from 'svelte-seo'
 
-	const { page, session } = stores()
-
 	const updateSession = async (c) => {
-		await session.update(cat => cat = c)
+		$session = c;
 		console.log($session)
 		goto('/poems')
 	}
@@ -140,7 +150,7 @@
 	.filter-cont {
 		display: flex;
 		flex-wrap: wrap;
-		width: max-content;
+		max-width: max-content;
 		margin: 1rem auto;
 	}
 

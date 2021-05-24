@@ -1,8 +1,9 @@
 <script lang="ts">
 	import Nav from '../components/Nav.svelte';
 	import Footer from '../components/Footer.svelte';
+	import { page } from '$app/stores'
 
-	export let segment: string;
+	$: segment = $page.path.split('/')[1];
 </script>
 
 <style>
