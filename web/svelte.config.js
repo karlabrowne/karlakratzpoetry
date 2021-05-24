@@ -33,8 +33,7 @@ const config = {
 		},
 		router: true,
 		ssr: true,
-		trailingSlash: 'never',
-		vite: () => ({})
+		trailingSlash: 'never'
 	},
 
 	// options passed to svelte.preprocess (https://svelte.dev/docs#svelte_preprocess)

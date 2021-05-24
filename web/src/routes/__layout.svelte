@@ -1,7 +1,9 @@
-<script>
-	import { page } from '$app/stores'
+<script lang=ts>
+	import { page, session } from '$app/stores'
 	import Nav from '../components/Nav.svelte';
 	import Footer from '../components/Footer.svelte';
+	import { onMount } from 'svelte';
+	onMount(() => $session = undefined);
 	import "../../static/global.css"; 
 
 	$: segment = $page.path.split('/')[1];
