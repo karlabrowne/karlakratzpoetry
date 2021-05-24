@@ -1,7 +1,8 @@
-<script lang="ts">
+<script>
+	import { page } from '$app/stores'
 	import Nav from '../components/Nav.svelte';
 	import Footer from '../components/Footer.svelte';
-	import { page } from '$app/stores'
+	import "../../static/global.css"; 
 
 	$: segment = $page.path.split('/')[1];
 </script>

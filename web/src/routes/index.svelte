@@ -28,6 +28,7 @@
 	import { fade } from 'svelte/transition'
 	import blocksToHtml from '@sanity/block-content-to-html'
 	import SvelteSeo from 'svelte-seo'
+import { onMount } from 'svelte';
 
 	const updateSession = async (c) => {
 		$session = c;
@@ -53,6 +54,8 @@
 
 	$:({ mainImage, heroTitle, heroDescription } = homepage)
 	$:({ host, path } = $page)
+
+	onMount(() => $session = undefined);
 </script>
 
 <SvelteSeo 
