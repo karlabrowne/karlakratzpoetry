@@ -35,12 +35,11 @@
 	export let poems: { slug: Slug, name: string, _id: string, categories: Array<any>}[] = []
 	export let categoriesArr: { title: string, _id: string}[] = []
 
-	let filteredPoems
-	$: (filteredPoems = poems)
+	let filteredPoems = poems
 	
 	let vw
 
-	$:( $session ? filteredPoems = filterPoems(poems, $session) : filteredPoems = poems )
+  $:( $session ? filteredPoems = filterPoems(poems, $session) : filteredPoems = poems )
 	
 
 </script>
