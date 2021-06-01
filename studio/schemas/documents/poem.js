@@ -9,12 +9,14 @@ export default {
       {
         name: 'name',
         type: 'string',
-        title: 'Poem Title'
+        title: 'Poem Title',
+        validation: Rule => Rule.required()
       },
       {
         name: 'slug',
         type: 'slug',
         title: 'Slug',
+        validation: Rule => Rule.required(),
         description: 'Some frontends will require a slug to be set to be able to show the person',
         options: {
           source: 'name',
@@ -63,6 +65,7 @@ export default {
         name: 'categories',
         type: 'array',
         title: 'Categories',
+        validation: Rule => Rule.required(),
         of: [
           {
             type: 'reference',
