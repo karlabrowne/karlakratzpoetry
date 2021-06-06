@@ -172,12 +172,6 @@
 	}
 
 	.filter-cont {
-		display: flex;
-		flex-wrap: wrap;
-		max-width: max-content;
-		font-family: 'Roboto Condensed', sans-serif;
-		font-weight: 400;
-		margin: 1rem auto;
 		grid-column: 1 / 13;
 	}
 

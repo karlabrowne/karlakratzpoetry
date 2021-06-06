@@ -101,12 +101,10 @@
 	.page-wrapper {
 		display: grid;
 		grid-template-columns: 1fr;
-		grid-column-gap: 1em;
+		grid-column-gap: 1rem;
 	}
 
 	.filter-cont {
-		display: flex;
-		flex-wrap: wrap;
 		margin-bottom: 1rem;
 	}
 
@@ -128,7 +126,7 @@
 	}
 
 	.side-bar h2 {
-		font-family: sans-serif;
+		font-family: 'Roboto Condensed', sans-serif;
 		color: var(--garden-600);
 		text-transform: uppercase;
 		font-weight: 500;
@@ -137,11 +135,15 @@
 	}
 
 	ul {
-		margin: 0 0 1em 0;
-		line-height: 1.8;
+		line-height: 1.3;
 		list-style: none;
 		padding: 0;
-		font-size: 1.4rem;
+		font-size: 110%;
+		color: var(--garden-700);
+	}
+
+	ul li {
+		margin: 0 0 1.2rem 0;
 	}
 
 	@media screen and (min-width: 900px){

@@ -26,13 +26,13 @@ nav {
   top: 0;
   right: 0;
   padding: 2rem 1rem 0.6rem;
-  background: #ffffff;
+  /* background: #ffffff; */
   overflow-y: auto;
   z-index: 2;
 }
 
 ul {
-  background:white;
+  /* background:white; */
   height: 100vh;
 }
 

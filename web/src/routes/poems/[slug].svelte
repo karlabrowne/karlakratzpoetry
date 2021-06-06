@@ -102,6 +102,10 @@
 		height: 200px;
 		background-size: cover;
 	}
+
+	h1 {
+		color: var(--garden-800);
+	}
 	
 	#content {
 		max-width: 48ch;

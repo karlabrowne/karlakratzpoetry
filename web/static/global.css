@@ -155,3 +155,18 @@ code {
 		/* font-size: 1rem; */
 	}
 }
+
+
+
+
+/*----------------------------*/
+/* Filters */
+/*----------------------------*/
+.filter-cont {
+	font-family: 'Roboto Condensed', sans-serif;
+	font-weight: 400;
+	display: flex;
+	flex-wrap: wrap;
+	max-width: max-content;
+	margin: 1rem auto;
+}
