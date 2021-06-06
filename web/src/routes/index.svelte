@@ -150,15 +150,14 @@
 		display: block;
 		width: 135px;
 		background-color: var(--garden-700);
-		color: white;
+		color: var(--garden-50);
 		padding: .75rem 1rem;
 		text-align: center;
 		font-family: 'Roboto Condensed', sans-serif;
-		text-transform: uppercase;
-		font-weight: 700;
+		/* text-transform: uppercase; */
+		font-weight: 400;
 		letter-spacing: .082rem;
 		font-size: 1.25rem;
-		font-weight: 700;
 		text-decoration: none;
 		border-radius: 500px;
 		margin: .5rem auto;

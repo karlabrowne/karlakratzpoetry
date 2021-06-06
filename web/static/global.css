@@ -102,7 +102,7 @@ body {
 	font-family: 'Ibarra Real NovaVariable', Serif;
 	font-weight: 450;
 	font-size: 20px;
-	font-size: calc(100% + (22 - 18) * ((100vw - 300px)/ (1400 - 300)));
+	font-size: clamp(1rem, -0.875rem + 8.333vw, 1.2rem);
 	line-height: 1.5;
 	line-height: calc((1.3 * 1em) + (1.5 - 1.3) * ((100vw - 300px)/ (1400 - 300)));
 	color: var(--garden-900);
@@ -118,6 +118,7 @@ h1, h2, h3, h4, h5, h6 {
 h1 {
 	font-family: 'Ibarra Real Nova';
 	font-weight: 600;
+	font-size: clamp(1.8rem, -0.875rem + 8.333vw, 3.5rem);
   }
   
   @supports (font-variation-settings: normal) {
@@ -148,6 +149,13 @@ code {
 	background-color: #f0f0f0;
 	padding: 0.2em 0.4em;
 	border-radius: 2px;
+}
+
+.end-mark {
+	height: 16px;
+}
+.end-mark svg {
+	fill:#1A3630;
 }
 
 @media (min-width: 400px) {

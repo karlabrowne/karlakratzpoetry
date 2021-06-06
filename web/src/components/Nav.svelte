@@ -115,7 +115,7 @@ input[type="checkbox"]:checked ~ span:nth-of-type(3){
 
 	header {
 		display: flex;
-		align-items: flex-start;
+		align-items: center;
 		justify-content: space-between;
 		max-width: 80vw;
 		margin: 3em auto;
@@ -190,6 +190,7 @@ input[type="checkbox"]:checked ~ span:nth-of-type(3){
 	a {
 		text-decoration: none;
 		padding: .4em 0.5em;
+		margin-left: 1.2rem;
 		display: block;
 	}
 
@@ -199,6 +200,14 @@ input[type="checkbox"]:checked ~ span:nth-of-type(3){
 		}
 		#menu-toggle {
 			display: none;
+		}
+	}
+
+	@media screen and (max-width: 650px){
+		header {
+			max-width: 100vw;
+			margin-left: 1rem;
+			margin-right: 1rem;
 		}
 	}
 </style>
