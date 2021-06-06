@@ -24,9 +24,9 @@
 	<a class="skip-link" href="#main">skip to main content</a>
 	<div>
 		{#if title}
-			<h1 transition:fade>{title}</h1>
+			<div class="logo" transition:fade>{title}</div>
 		{:else}
-			<h1> </h1>
+			<div> </div>
 		{/if}
 	</div>
 

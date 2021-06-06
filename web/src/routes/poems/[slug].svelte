@@ -23,7 +23,7 @@
 
 <script lang="ts">
 	import type { Image, Block } from '@sanity/types'
-	import { page } from '$app/stores';
+	import { page } from '$app/stores'
 	import { Moon } from 'svelte-loading-spinners'
 	import SvelteSeo from 'svelte-seo'
 	import { fade } from 'svelte/transition'

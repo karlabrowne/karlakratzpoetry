@@ -75,7 +75,11 @@
   }}
 />
 
-<div id="image">
+<h1 class="sr-only">Karla Kratz Poetry Home</h1>
+
+<div class="home-grid">
+
+<div class="hero-image">
 	{#if mainImage}
 		<img alt={mainImage.alt} src="{ urlFor(mainImage).url() }" transition:fade>
 	{:else}
@@ -83,18 +87,17 @@
 	{/if}
 </div>
 
-{#if heroTitle}
-	<h1 transition:fade>{ heroTitle }</h1>
-{/if}
-
 {#if heroDescription}
-	<div id="hero-text">
+	<div class="hero-text">
 		{@html blocksToHtml({blocks: heroDescription })}
-		<br>
 	</div>
 {/if}
 
-<a href="/poems" class="read-redirect"> Read A Poem </a>
+{#if heroTitle}
+	<dfn class="hero-title" transition:fade>{ heroTitle }</dfn>
+{/if}
+
+<a href="/poems" class="read-redirect">Read a Poem</a>
 
 {#if cats}
 <div class="filter-cont">
@@ -107,41 +110,59 @@
 </div>
 {/if}
 
+</div>
+
 <style>
+	.home-grid {
+		display: grid;
+		grid-template-columns: repeat(12, 1fr);
+		gap: 1rem;
+	}
+
+	.hero-image {
+		text-align: center;
+	}
+
+	.hero-title {
+		margin-top: 1.4rem;
+		font-style: italic;
+		font-size: smaller;
+		max-width: 40ch;
+		color: var(--garden-600);
+		grid-column: 3 / 5;
+		grid-row: 2;
+	}
+
+	.hero-text,
+	.hero-image {
+		margin: 0 0 2rem;
+		padding: 0;
+		grid-column: 5 / 13;
+		max-width: 52ch;
+		justify-content: right;
+	}
+
+	.hero-text::first-line {
+		font-variant: small-caps !important;
+	}
+
 	.read-redirect {
 		display: block;
 		width: 135px;
 		background-color: var(--garden-700);
-		color: var(--garden-50);
+		color: white;
 		padding: .75rem 1rem;
 		text-align: center;
+		font-family: 'Roboto Condensed', sans-serif;
+		text-transform: uppercase;
+		font-weight: 700;
+		letter-spacing: .082rem;
 		font-size: 1.25rem;
 		font-weight: 700;
-		font-style: italic;
 		text-decoration: none;
-		border-radius: 15px;
+		border-radius: 500px;
 		margin: .5rem auto;
-	}
-
-	h1 {
-		margin-top: .8rem;
-		text-align: center;
-		font-style: italic;
-		text-transform: capitalize;
-	}
-
-	#hero-text {
-		text-align: center;
-	}
-
-	#hero-text > * {
-		margin: 1em auto;
-	}
-
-	#image > * {
-		margin: 0 auto;
-		display: block;
-		margin-bottom: 2rem;
+		grid-column: 1 / 13;
 	}
 
 	img {
@@ -154,12 +175,15 @@
 		display: flex;
 		flex-wrap: wrap;
 		max-width: max-content;
+		font-family: 'Roboto Condensed', sans-serif;
+		font-weight: 400;
 		margin: 1rem auto;
+		grid-column: 1 / 13;
 	}
 
 	.filter-button {
 		border: 2px solid var(--garden-600);
-		border-radius: 15px;
+		border-radius: 500px;
 		background: transparent;
 		color: var(--garden-600);
 		margin: 0 .2rem .4rem 0;
@@ -172,6 +196,24 @@
 		background: var(--garden-700);
 		color: var(--garden-50);
 		border-color: var(--garden-700);
+	}
+
+	@media screen and (max-width: 1200px) {
+		.hero-text,
+		.hero-image {
+			grid-column: 4 / 13;
+		}
+		.hero-title {
+			grid-column: 1 / 4;
+		}
+	}
+	@media screen and (max-width: 400px) {
+		.hero-title,
+		.hero-text,
+		.hero-image {
+			grid-column: 1 / 13;
+			margin: 0;
+		}
 	}
 </style>
 

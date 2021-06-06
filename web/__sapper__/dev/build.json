@@ -1,0 +1,49 @@
+{
+  "bundler": "rollup",
+  "shimport": "2.0.5",
+  "assets": {
+    "main": "client.9abe5052.js"
+  },
+  "css": {
+    "main": [
+      "client-7c0f41d2.css"
+    ]
+  },
+  "dependencies": {
+    "index.svelte": [
+      "index.d6375b73.js",
+      "blocksToHtml.06c69f9c.js",
+      "inject_styles.5607aec6.js",
+      "index-c5abd307.css"
+    ],
+    "about.svelte": [
+      "about.878ab36b.js",
+      "blocksToHtml.06c69f9c.js",
+      "inject_styles.5607aec6.js",
+      "about-6e480bcf.css"
+    ],
+    "poems/_layout.svelte": [
+      "_layout.302ce3b0.js",
+      "inject_styles.5607aec6.js",
+      "_layout-854f28e3.css"
+    ],
+    "poems/index.svelte": [
+      "index.c0a74d2a.js",
+      "blocksToHtml.06c69f9c.js",
+      "inject_styles.5607aec6.js",
+      "index-453e6794.css"
+    ],
+    "poems/[slug].svelte": [
+      "[slug].67105f9a.js",
+      "blocksToHtml.06c69f9c.js",
+      "inject_styles.5607aec6.js",
+      "[slug]-11fe0625.css"
+    ],
+    "book.svelte": [
+      "book.921d7c61.js",
+      "blocksToHtml.06c69f9c.js",
+      "inject_styles.5607aec6.js",
+      "book-1b9f7586.css"
+    ]
+  }
+}
