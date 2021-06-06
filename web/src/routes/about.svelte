@@ -1,22 +1,66 @@
+<script context=module lang=ts>
+  import { client, urlFor } from '../components/SanityClient'
+  
+  export const load = async () => {
+    const query:string = '*[_id == "aboutPage"][0]'
+    const aboutPage = await client.fetch(query)
+    if(aboutPage) {
+      return { 
+        props: {
+          aboutPage: aboutPage 
+        }
+      }
+    }
+    return {
+      status: 'Error',
+      error: new Error('Could not load data')
+    }
+  };
+</script>
 <script lang="ts">
-	import { client, urlFor } from '../components/SanityClient'
-	import { onMount } from 'svelte'
 	import { fade } from 'svelte/transition'
   import blocksToHtml from '@sanity/block-content-to-html'
+  import type { Image, Block } from '@sanity/types'
+  import { page } from '$app/stores';
+  import SvelteSeo from 'svelte-seo'
+  
 
-  const query:string = '*[_id == "aboutPage"][0]'
+  interface MainImage extends Image {
+    alt: string,
+  }
 
-  let mainImage:any
-  let artistStatement:Array<any>
-  let bio: Array<any>
+  type Aboutpage = {
+    mainImage: MainImage,
+    artistStatementTitle: string,
+    artistStatement: Array<Block>,
+    bioTitle: string, 
+    bio: Array<Block>, 
+    gratitudeTitle: string, 
+    gratitude: Array<Block>,
+  }
 
-  onMount(async () => {
-		let res = await client.fetch(query)
-    console.log(res)
-		return { mainImage, artistStatement, bio } = res
-	});
+  export let aboutPage:Aboutpage
+
+  $:({ mainImage, artistStatementTitle, artistStatement, bioTitle, bio, gratitudeTitle, gratitude } = aboutPage)
+  $:({ host, path } = $page)
 </script>
 
+<SvelteSeo 
+  title="Karla Kratz Poetry | About"
+  description={ bio[0].children[0].text }
+  openGraph={{
+    title: 'Karla Kratz Poetry | About',
+    description: bio[0].children[0].text,
+    url: `https://${host}${path}`,
+    type: 'website',
+    images: [{
+        url: urlFor(mainImage).url(),
+        alt: mainImage.alt,
+        width: 650,
+        height: 650,
+      }]
+  }}
+/>
 
 <div id="about-row">
   <div id="image">
@@ -55,6 +99,7 @@
 	img {
 		width: 100%;
 		max-width: 400px;
+    border-radius: 100%;
 	}
 
 	#text {

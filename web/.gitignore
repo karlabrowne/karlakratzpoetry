@@ -2,4 +2,8 @@
 /node_modules/
 /src/node_modules/@sapper/
 yarn-error.log
-/__sapper__/
+/functions/
+/build/
+/.svelte-kit/
+# Local Netlify folder
+.netlify

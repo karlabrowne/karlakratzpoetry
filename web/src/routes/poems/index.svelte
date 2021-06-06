@@ -1,60 +1,89 @@
 <script context="module" lang="ts">
 	import { client, urlFor } from '../../components/SanityClient'
 	
-	export async function preload() {
+	export const load = async () => {
 		const query = "*[_type == 'poem' && featured]{_id, slug, name, poemImage, content, backgroundTitle, background}";
 		const featuredPoemArr = await client.fetch(query);
-		const featuredPoem = featuredPoemArr[Math.floor(Math.random() * featuredPoemArr.length)]
-		return { featuredPoem }
+		const featuredPoem = await featuredPoemArr[Math.floor(Math.random() * featuredPoemArr.length)]
+		if (featuredPoem) {
+			return {
+				props: {
+					featuredPoem: await featuredPoem
+				}
+			};
+		}
+
+		return {
+			status: 'error',
+			error: new Error(`Could not load data`)
+		};
 	};
 </script>
 
 <script lang="ts">
+	import type { Image, Block } from '@sanity/types'
+	import { page } from '$app/stores';
 	import { fade } from 'svelte/transition'
+	import { Moon } from 'svelte-loading-spinners'
 	import blocksToHtml from '@sanity/block-content-to-html'
+	import SvelteSeo from 'svelte-seo'
+
 
 	type Slug = {
 		_type: string,
 		current: string,
 	};
 
-	type Image = {
-		_type: string,
-		alt: string,
-		asset: any,
-		caption: string,
-		crop: any,
-		hotspot: any
-	}
+	interface MainImage extends Image {
+    alt: string,
+  }
 
-	export let featuredPoem: { slug: Slug, name: string, _id: string, content: Array<any>, background: Array<any>, backgroundTitle: string, poemImage: Image };
+	export let featuredPoem: { slug: Slug, name: string, _id: string, content: Array<Block>, background: Array<Block>, backgroundTitle: string, poemImage: MainImage };
 
 	$: ({ name, content, poemImage, background, backgroundTitle } = featuredPoem)
+	$:({ host, path } = $page)
 </script>
 
-<svelte:head>
-	<title>Poems</title>
-</svelte:head>
+<SvelteSeo
+	title="Karla Kratz Poetry | Browse Poems"
+	description="Browse poems or read a featured poem by Karla Kratz."
+	openGraph={{
+    title: 'Karla Kratz Poetry | Browse Poems',
+    description: 'Browse poems or read a featured poem by Karla Kratz.',
+    url: `https://${host}${path}`,
+    type: 'website',
+    images: [{
+        url: urlFor(poemImage).url(),
+        alt: poemImage.alt,
+        width: 650,
+        height: 650,
+      }]
+  }}
+/>
 
 <div id="content">
-	<h1 class="poem-title" transition:fade>{ name }</h1>
-	<div id="image">
-		{#if poemImage}
-			<img alt="{poemImage.alt}" src="{ urlFor(poemImage).url() }" transition:fade>
-		{:else}
-			<div style="width: 400px; height: 400px; background-color: var(--gray);" transition:fade></div>
-		{/if}
-	</div>
-	{@html blocksToHtml({ blocks: content })}
+	{#if featuredPoem}
+		<h1 class="poem-title" transition:fade>{ name }</h1>
+		<div id="image">
+			{#if poemImage}
+				<img alt="{poemImage.alt}" src="{ urlFor(poemImage).url() }" transition:fade>
+			{:else}
+				<div style="width: 400px; height: 400px; background-color: var(--gray);" transition:fade></div>
+			{/if}
+		</div>
+		{@html blocksToHtml({ blocks: content })}
 
-	<div>
-		{#if backgroundTitle}
-			<h2 class="background-title">{ backgroundTitle }</h2>
-		{/if}
-		{#if background}
-			{@html blocksToHtml({ blocks: background })}
-		{/if}
-	</div>
+		<div>
+			{#if backgroundTitle}
+				<h2 class="background-title">{ backgroundTitle }</h2>
+			{/if}
+			{#if background}
+				{@html blocksToHtml({ blocks: background })}
+			{/if}
+		</div>
+	{:else}
+		<Moon size="60" color="#329659" unit="px" duration="1s"/>
+	{/if}
 </div>
 
 <style>

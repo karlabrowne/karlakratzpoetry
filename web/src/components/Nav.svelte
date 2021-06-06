@@ -1,4 +1,4 @@
-<script lang="ts">
+<script lang=ts>
 	import { client } from './SanityClient'
 	import { onMount } from 'svelte'
 	import { fade } from 'svelte/transition'
@@ -24,9 +24,9 @@
 	<a class="skip-link" href="#main">skip to main content</a>
 	<div>
 		{#if title}
-			<h1 transition:fade>{title}</h1>
+			<div class="logo" transition:fade>{title}</div>
 		{:else}
-			<h1> </h1>
+			<div> </div>
 		{/if}
 	</div>
 
@@ -42,10 +42,10 @@
 <!-- Desktop Nav -->
 	<nav id="desktop-nav">
 		<ul>
-			<li><a aria-current="{segment === undefined ? 'page' : undefined}" href=".">home</a></li>
-			<li><a rel=prefetch aria-current="{segment === 'poems' ? 'page' : undefined}" href="poems">poems</a></li>
-			<li><a aria-current="{segment === 'book' ? 'page' : undefined}" href="book">book</a></li>
-			<li><a aria-current="{segment === 'about' ? 'page' : undefined}" href="about">about</a></li>
+			<li><a sveltekit:prefetch aria-current="{segment === '' ? 'page' : undefined}" href="/">home</a></li>
+			<li><a sveltekit:prefetch aria-current="{segment === 'poems' ? 'page' : undefined}" href="/poems">poems</a></li>
+			<li><a sveltekit:prefetch aria-current="{segment === 'book' ? 'page' : undefined}" href="/book">book</a></li>
+			<li><a sveltekit:prefetch aria-current="{segment === 'about' ? 'page' : undefined}" href="/about">about</a></li>
 		</ul>
 	</nav>
 <!-- Desktop Nav End -->
@@ -115,7 +115,7 @@ input[type="checkbox"]:checked ~ span:nth-of-type(3){
 
 	header {
 		display: flex;
-		align-items: flex-start;
+		align-items: center;
 		justify-content: space-between;
 		max-width: 80vw;
 		margin: 3em auto;
@@ -190,6 +190,7 @@ input[type="checkbox"]:checked ~ span:nth-of-type(3){
 	a {
 		text-decoration: none;
 		padding: .4em 0.5em;
+		margin-left: 1.2rem;
 		display: block;
 	}
 
@@ -199,6 +200,14 @@ input[type="checkbox"]:checked ~ span:nth-of-type(3){
 		}
 		#menu-toggle {
 			display: none;
+		}
+	}
+
+	@media screen and (max-width: 650px){
+		header {
+			max-width: 100vw;
+			margin-left: 1rem;
+			margin-right: 1rem;
 		}
 	}
 </style>

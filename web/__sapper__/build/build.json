@@ -1,0 +1,47 @@
+{
+  "bundler": "rollup",
+  "shimport": "2.0.4",
+  "assets": {
+    "main": "client.814cb2a9.js"
+  },
+  "css": {
+    "main": [
+      "client-4dbb09c5.css"
+    ]
+  },
+  "dependencies": {
+    "index.svelte": [
+      "index.2c1edbc1.js",
+      "inject_styles.5607aec6.js",
+      "index-f1f2c6d3.css"
+    ],
+    "about.svelte": [
+      "about.85b5f4bb.js",
+      "inject_styles.5607aec6.js",
+      "about-d248b9d3.css"
+    ],
+    "poems/_layout.svelte": [
+      "_layout.ee1bfa2e.js",
+      "inject_styles.5607aec6.js",
+      "_layout-2f4fb0e2.css"
+    ],
+    "poems/index.svelte": [
+      "index.0cef46ed.js",
+      "inject_styles.5607aec6.js",
+      "index-7cd25769.css"
+    ],
+    "poems/[slug].svelte": [
+      "[slug].d25f9be0.js",
+      "inject_styles.5607aec6.js",
+      "[slug]-359f3469.css"
+    ],
+    "book.svelte": [
+      "book.df0b8a8b.js",
+      "inject_styles.5607aec6.js",
+      "book-d53c47cb.css"
+    ]
+  },
+  "legacy_assets": {
+    "main": "client.925cdad3.js"
+  }
+}
