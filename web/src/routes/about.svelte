@@ -121,10 +121,6 @@
     max-width: 60ch;
 	}
 
-  article:not(:first-child) {
-    margin-top: 4rem;
-  }
-
   @media screen and (min-width: 768px){
     .wrapper {
       grid-template-columns: 1fr 3fr;
