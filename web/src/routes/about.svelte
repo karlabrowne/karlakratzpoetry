@@ -80,6 +80,11 @@
     {#if bio}
       {@html blocksToHtml({blocks: bio })}
     {/if}
+
+    <h2>Gratitude</h2>
+    {#if bio}
+      {@html blocksToHtml({blocks: gratitude })}
+    {/if}
   </div>
 </div>
 
