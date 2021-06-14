@@ -113,13 +113,13 @@
 		width: 135px;
 		background-color: var(--garden-700);
 		color: var(--garden-50);
-		padding: .75rem 1rem;
+		font-family: var(--ui-font);
+		padding: .75rem 1.4rem;
 		text-align: center;
 		font-size: 1.25rem;
 		font-weight: 700;
-		font-style: italic;
 		text-decoration: none;
-		border-radius: 15px;
+		border-radius: 500px;
 		margin: .5rem auto;
 	}
 
@@ -163,6 +163,7 @@
 		background: transparent;
 		color: var(--garden-600);
 		margin: 0 .2rem .4rem 0;
+		font-family: var(--ui-font);
 		font-size: 1rem;
 		padding: .2em .6em;
 	}

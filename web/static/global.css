@@ -12,10 +12,71 @@
 	--garden-800:  #22563E; 
 	--garden-900:  #1A3630; 
 	--garden-950:  #162629; 
+	--ui-font: monospace;
 }
 
 /* Normal (non-variable) Ibarra Real fonts */
 
+/* roboto-condensed-latin-ext-300-italic*/
+@font-face {
+	font-family: 'Roboto Condensed';
+	font-style: italic;
+	font-display: swap;
+	font-weight: 300;
+	src: url('fonts/roboto-condensed-latin-ext-300-italic.woff2') format('woff2'), url('fonts/roboto-condensed-latin-ext-300-italic.woff') format('woff');
+
+}
+
+/* roboto-condensed-latin-ext-300-normal*/
+@font-face {
+	font-family: 'Roboto Condensed';
+	font-style: normal;
+	font-display: swap;
+	font-weight: 300;
+	src: url('fonts/roboto-condensed-latin-ext-300-normal.woff2') format('woff2'), url('fonts/roboto-condensed-latin-ext-300-normal.woff') format('woff');
+
+}
+
+/* roboto-condensed-latin-ext-400-italic*/
+@font-face {
+	font-family: 'Roboto Condensed';
+	font-style: italic;
+	font-display: swap;
+	font-weight: 400;
+	src: url('fonts/roboto-condensed-latin-ext-400-italic.woff2') format('woff2'), url('fonts/roboto-condensed-latin-ext-400-italic.woff') format('woff');
+
+}
+
+/* roboto-condensed-latin-ext-400-normal*/
+@font-face {
+	font-family: 'Roboto Condensed';
+	font-style: normal;
+	font-display: swap;
+	font-weight: 400;
+	src: url('fonts/roboto-condensed-latin-ext-400-normal.woff2') format('woff2'), url('fonts/roboto-condensed-latin-ext-400-normal.woff') format('woff');
+	
+  }
+
+  /* roboto-condensed-latin-ext-700-italic*/
+@font-face {
+	font-family: 'Roboto Condensed';
+	font-style: italic;
+	font-display: swap;
+	font-weight: 700;
+	src: url('fonts/roboto-condensed-latin-ext-700-italic.woff2') format('woff2'), url('fonts/roboto-condensed-latin-ext-700-italic.woff') format('woff');
+	
+  }
+
+/* roboto-condensed-latin-ext-700-normal*/
+@font-face {
+	font-family: 'Roboto Condensed';
+	font-style: normal;
+	font-display: swap;
+	font-weight: 700;
+	src: url('fonts/roboto-condensed-latin-ext-700-normal.woff2') format('woff2'), url('fonts/roboto-condensed-latin-ext-700-normal.woff') format('woff');
+	
+  }
+  
 
 /* Set up Ibarra for modern browsers, all weights */
 @supports (font-variation-settings: normal) {
