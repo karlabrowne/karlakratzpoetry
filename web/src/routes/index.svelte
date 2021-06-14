@@ -75,6 +75,8 @@
   }}
 />
 
+<h1 class="sr-only">Home</h1>
+
 <div id="image">
 	{#if mainImage}
 		<img alt={mainImage.alt} src="{ urlFor(mainImage).url() }" transition:fade>
@@ -84,13 +86,12 @@
 </div>
 
 {#if heroTitle}
-	<h1 transition:fade>{ heroTitle }</h1>
+	<h2 transition:fade>{ heroTitle }</h2>
 {/if}
 
 {#if heroDescription}
 	<div id="hero-text">
 		{@html blocksToHtml({blocks: heroDescription })}
-		<br>
 	</div>
 {/if}
 
@@ -123,19 +124,26 @@
 		margin: .5rem auto;
 	}
 
-	h1 {
+	h2 {
 		margin-top: .8rem;
-		text-align: center;
+		text-align: left;
 		font-style: italic;
-		text-transform: capitalize;
+		/* text-transform: capitalize; */
+		max-width: 60ch;
 	}
 
 	#hero-text {
-		text-align: center;
+		text-align: left;
+		max-width: 60ch;
+		margin-bottom: 4rem;
 	}
 
 	#hero-text > * {
 		margin: 1em auto;
+	}
+
+	#hero-text::first-line {
+		font-variant-caps: all-petite-caps;
 	}
 
 	#image > * {
@@ -159,7 +167,7 @@
 
 	.filter-button {
 		border: 2px solid var(--garden-600);
-		border-radius: 15px;
+		border-radius: 500px;
 		background: transparent;
 		color: var(--garden-600);
 		margin: 0 .2rem .4rem 0;

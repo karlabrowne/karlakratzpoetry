@@ -24,9 +24,9 @@
 	<a class="skip-link" href="#main">skip to main content</a>
 	<div>
 		{#if title}
-			<h1 transition:fade>{title}</h1>
+			<div class="logo" transition:fade>{title}</div>
 		{:else}
-			<h1> </h1>
+			<div> </div>
 		{/if}
 	</div>
 
@@ -117,8 +117,7 @@ input[type="checkbox"]:checked ~ span:nth-of-type(3){
 		display: flex;
 		align-items: flex-start;
 		justify-content: space-between;
-		max-width: 80vw;
-		margin: 3em auto;
+		margin: 3rem 1rem;
 	}
 
 	a.skip-link {
@@ -140,9 +139,10 @@ input[type="checkbox"]:checked ~ span:nth-of-type(3){
 		padding: 0;
 	}
 
-	h1 {
+	.logo {
 		margin: 0 auto;
-		font-size: 32px;
+		font-size: 20px;
+		font-size: clamp(2rem, -0.875rem + 8.333vw, 2.8rem);
 	}
 
 	ul {
@@ -199,6 +199,13 @@ input[type="checkbox"]:checked ~ span:nth-of-type(3){
 		}
 		#menu-toggle {
 			display: none;
+		}
+		header {
+			display: flex;
+			align-items: flex-start;
+			justify-content: space-between;
+			max-width: 80vw;
+			margin: 3rem auto;
 		}
 	}
 </style>

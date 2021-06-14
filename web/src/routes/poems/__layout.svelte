@@ -144,11 +144,15 @@
 	}
 
 	ul {
-		margin: 0 0 1em 0;
-		line-height: 1.8;
+		margin: 0;
+		line-height: 1.13;
 		list-style: none;
 		padding: 0;
 		font-size: 1.4rem;
+	}
+
+	ul li {
+		margin-bottom: 1.4rem;
 	}
 
 	@media screen and (min-width: 900px){
