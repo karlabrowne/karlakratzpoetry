@@ -60,15 +60,15 @@ label{
 }
 
 label span{
-  background: #000;
-  border-radius:10px;
-  height:4px;
+  background: var(--garden-800);
+  border-radius:6px;
+  height:3px;
   margin: 3px 0;
   transition: .4s  cubic-bezier(0.68, -0.6, 0.32, 1.6);
 }
 
 span:nth-of-type(1){
-  width:50%;
+  width:60%;
 }
 
 span:nth-of-type(2){
@@ -76,7 +76,7 @@ span:nth-of-type(2){
 }
 
 span:nth-of-type(3){
-  width:75%;
+  width:80%;
 }
 
 input[type="checkbox"]{
@@ -115,7 +115,7 @@ input[type="checkbox"]:checked ~ span:nth-of-type(3){
 
 	header {
 		display: flex;
-		align-items: flex-start;
+		align-items: flex-end;
 		justify-content: space-between;
 		margin: 3rem 1rem;
 	}
@@ -137,26 +137,29 @@ input[type="checkbox"]:checked ~ span:nth-of-type(3){
 	nav {
 		font-weight: 300;
 		padding: 0;
+		font-size: 200%;
 	}
 
 	.logo {
 		margin: 0 auto;
 		font-size: 20px;
-		font-size: clamp(2rem, -0.875rem + 8.333vw, 2.8rem);
+		font-size: clamp(1.6rem, -0.875rem + 8.333vw, 2.2rem);
 	}
 
 	ul {
 		margin: 0;
 		padding: 0;
 		display: flex;
+		gap: 1.2rem;
+		list-style-type: none;
 	}
 
-	/* clearfix */
+	/* clearfix 
 	ul::after {
 		content: '';
 		display: block;
 		clear: both;
-	}
+	}*/
 
 	li {
 		display: block;
@@ -202,7 +205,7 @@ input[type="checkbox"]:checked ~ span:nth-of-type(3){
 		}
 		header {
 			display: flex;
-			align-items: flex-start;
+			align-items: center;
 			justify-content: space-between;
 			max-width: 80vw;
 			margin: 3rem auto;
