@@ -73,39 +73,32 @@
     {/if}
   </div>
   <section>
-  <article>
-    <h2>Artist Statement</h2>
-    {#if artistStatement}
-      {@html blocksToHtml({blocks: artistStatement })}
-    {/if}
+    <article>
+      <h2>Artist Statement</h2>
+      {#if artistStatement}
+        {@html blocksToHtml({blocks: artistStatement })}
+      {/if}
 
-  </article>
-  <article>
+    </article>
+    <article>
 
-		<h2>Bio</h2>
-    {#if bio}
-      {@html blocksToHtml({blocks: bio })}
-    {/if}
+      <h2>Bio</h2>
+      {#if bio}
+        {@html blocksToHtml({blocks: bio })}
+      {/if}
 
-  </article>
-  <article>
+    </article>
+    <article>
 
-    <h2>Gratitude</h2>
-    {#if bio}
-      {@html blocksToHtml({blocks: gratitude })}
-    {/if}
-  </article>
-</section>
+      <h2>Gratitude</h2>
+      {#if bio}
+        {@html blocksToHtml({blocks: gratitude })}
+      {/if}
+    </article>
+  </section>
 </div>
 
 <style>
-  .wrapper {
-    display: grid;
-    grid-template-columns: 1fr;
-    grid-template-rows: auto;
-    gap: 6rem;
-  }
-
   #image > * {
 		margin: 0 auto;
 		display: block;
@@ -117,13 +110,7 @@
 		max-width: 400px;
 	}
 
-	article {
-    max-width: 60ch;
-	}
-
   @media screen and (min-width: 768px){
-    .wrapper {
-      grid-template-columns: 1fr 3fr;
-    }
+    
   }
 </style>

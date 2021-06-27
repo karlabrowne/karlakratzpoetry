@@ -167,6 +167,22 @@ a {
 	color: inherit;
 }
 
+.wrapper {
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: auto;
+    gap: 6rem;
+}
+
+article {
+    max-width: 60ch;
+}
+
+article h1:first-child {
+	padding-top: 0;
+	margin-top: 0;
+}
+
 article:not(:first-child) {
     margin-top: 4rem;
   }
@@ -179,6 +195,12 @@ code {
 	padding: 0.2em 0.4em;
 	border-radius: 2px;
 }
+
+@media screen and (min-width: 768px){
+    .wrapper {
+      grid-template-columns: 1fr 2fr;
+    }
+  }
 
 @media (prefers-color-scheme: dark) {
 	body {

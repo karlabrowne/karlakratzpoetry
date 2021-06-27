@@ -40,7 +40,7 @@ ul {
 
 li {
   margin-bottom: 3.25rem;
-  font-size: 2.2rem;
+  font-size: 1.8rem;
 }
 
 @media screen and (min-width: 650px) {
