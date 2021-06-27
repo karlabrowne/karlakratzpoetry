@@ -186,4 +186,12 @@ code {
 		color: var(--garden-50);
 		font-weight: 480;
 	}
+
+	img {
+		opacity: .8;
+	}
+
+	img:hover {
+		opacity: 1;
+	}
 }
