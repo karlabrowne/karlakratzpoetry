@@ -180,8 +180,10 @@ code {
 	border-radius: 2px;
 }
 
-@media (min-width: 400px) {
+@media (prefers-color-scheme: dark) {
 	body {
-		/* font-size: 1rem; */
+		background: var(--garden-950);
+		color: var(--garden-50);
+		font-weight: 480;
 	}
 }

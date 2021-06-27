@@ -26,24 +26,36 @@ nav {
   top: 0;
   right: 0;
   padding: 2rem 1rem 0.6rem;
-  background: #ffffff;
+  background: var(--garden-50);
   overflow-y: auto;
   z-index: 2;
 }
 
 ul {
-  background:white;
   height: 100vh;
+  margin-left: 0;
+  padding-left: 0;
+  list-style-type: none;
 }
 
 li {
-  margin-bottom: .75rem;
-  font-size: 1.25rem;
+  margin-bottom: 3.25rem;
+  font-size: 2.2rem;
 }
 
 @media screen and (min-width: 650px) {
   nav {
     display: none;
+  }
+
+  li {
+    font-size: 1.25rem;
+  }
+}
+
+@media (prefers-color-scheme: dark) {
+  nav {
+    background: var(--garden-900);
   }
 }
 </style>

@@ -140,6 +140,7 @@ class Router {
 			if (!this.owns(url)) return;
 
 			const noscroll = a.hasAttribute('sveltekit:noscroll');
+
 			history.pushState({}, '', url.href);
 			this._navigate(url, noscroll ? scroll_state() : null, [], url.hash);
 			event.preventDefault();
@@ -182,15 +183,17 @@ class Router {
 	}
 
 	/**
-	 * @param {string} href
-	 * @param {{ noscroll?: boolean, replaceState?: boolean }} opts
+	 * @typedef {Parameters<typeof import('$app/navigation').goto>} GotoParams
+	 *
+	 * @param {GotoParams[0]} href
+	 * @param {GotoParams[1]} opts
 	 * @param {string[]} chain
 	 */
-	async goto(href, { noscroll = false, replaceState = false } = {}, chain) {
+	async goto(href, { noscroll = false, replaceState = false, state = {} } = {}, chain) {
 		const url = new URL(href, get_base_uri(document));
 
 		if (this.enabled && this.owns(url)) {
-			history[replaceState ? 'replaceState' : 'pushState']({}, '', href);
+			history[replaceState ? 'replaceState' : 'pushState'](state, '', href);
 			return this._navigate(url, noscroll ? scroll_state() : null, chain, url.hash);
 		}
 
@@ -247,7 +250,7 @@ class Router {
 
 			if (incorrect) {
 				info.path = has_trailing_slash ? info.path.slice(0, -1) : info.path + '/';
-				history.replaceState({}, '', `${info.path}${location.search}`);
+				history.replaceState({}, '', `${this.base}${info.path}${location.search}`);
 			}
 		}
 
@@ -442,7 +445,7 @@ class Renderer {
 		this.stores.session.subscribe(async (value) => {
 			this.$session = value;
 
-			if (!ready) return;
+			if (!ready || !this.router) return;
 			this.session_id += 1;
 
 			const info = this.router.parse(new URL(location.href));

@@ -137,7 +137,6 @@ input[type="checkbox"]:checked ~ span:nth-of-type(3){
 	nav {
 		font-weight: 300;
 		padding: 0;
-		font-size: 200%;
 	}
 
 	.logo {
@@ -209,6 +208,12 @@ input[type="checkbox"]:checked ~ span:nth-of-type(3){
 			justify-content: space-between;
 			max-width: 80vw;
 			margin: 3rem auto;
+		}
+	}
+
+	@media (prefers-color-scheme: dark) {
+		label span {
+  			background: var(--garden-50);
 		}
 	}
 </style>
