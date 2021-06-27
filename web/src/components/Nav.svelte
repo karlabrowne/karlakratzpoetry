@@ -24,9 +24,9 @@
 	<a class="skip-link" href="#main">skip to main content</a>
 	<div>
 		{#if title}
-			<h1 transition:fade>{title}</h1>
+			<div class="logo" transition:fade>{title}</div>
 		{:else}
-			<h1> </h1>
+			<div> </div>
 		{/if}
 	</div>
 
@@ -60,15 +60,15 @@ label{
 }
 
 label span{
-  background: #000;
-  border-radius:10px;
-  height:4px;
+  background: var(--garden-800);
+  border-radius:6px;
+  height:3px;
   margin: 3px 0;
   transition: .4s  cubic-bezier(0.68, -0.6, 0.32, 1.6);
 }
 
 span:nth-of-type(1){
-  width:50%;
+  width:60%;
 }
 
 span:nth-of-type(2){
@@ -76,7 +76,7 @@ span:nth-of-type(2){
 }
 
 span:nth-of-type(3){
-  width:75%;
+  width:80%;
 }
 
 input[type="checkbox"]{
@@ -115,10 +115,9 @@ input[type="checkbox"]:checked ~ span:nth-of-type(3){
 
 	header {
 		display: flex;
-		align-items: flex-start;
+		align-items: flex-end;
 		justify-content: space-between;
-		max-width: 80vw;
-		margin: 3em auto;
+		margin: 3rem 1rem;
 	}
 
 	a.skip-link {
@@ -140,23 +139,26 @@ input[type="checkbox"]:checked ~ span:nth-of-type(3){
 		padding: 0;
 	}
 
-	h1 {
+	.logo {
 		margin: 0 auto;
-		font-size: 32px;
+		font-size: 20px;
+		font-size: clamp(1.6rem, -0.875rem + 8.333vw, 2.2rem);
 	}
 
 	ul {
 		margin: 0;
 		padding: 0;
 		display: flex;
+		gap: 1.2rem;
+		list-style-type: none;
 	}
 
-	/* clearfix */
+	/* clearfix 
 	ul::after {
 		content: '';
 		display: block;
 		clear: both;
-	}
+	}*/
 
 	li {
 		display: block;
@@ -199,6 +201,19 @@ input[type="checkbox"]:checked ~ span:nth-of-type(3){
 		}
 		#menu-toggle {
 			display: none;
+		}
+		header {
+			display: flex;
+			align-items: center;
+			justify-content: space-between;
+			max-width: 80vw;
+			margin: 3rem auto;
+		}
+	}
+
+	@media (prefers-color-scheme: dark) {
+		label span {
+  			background: var(--garden-50);
 		}
 	}
 </style>

@@ -108,6 +108,9 @@
 		display: flex;
 		flex-wrap: wrap;
 		margin-bottom: 1rem;
+		font-family: var(--ui-font);
+		/* font-family: "Roboto Condensed", monospace; */
+		font-weight: 400;
 	}
 
 	.filter-cont > button {
@@ -117,6 +120,9 @@
 		color: var(--garden-600);
 		margin: 0 .2rem .4rem 0;
 		font-size: 1rem;
+		font-family: var(--ui-font);
+		/* font-family: "Roboto Condensed", monospace; */
+		font-weight: 400;
 		padding: .2em .6em;
 	}
 
@@ -128,7 +134,8 @@
 	}
 
 	.side-bar h2 {
-		font-family: sans-serif;
+		font-family: var(--ui-font);
+		/* font-family: "Roboto Condensed", monospace, sans-serif; */
 		color: var(--garden-600);
 		text-transform: uppercase;
 		font-weight: 500;
@@ -137,11 +144,15 @@
 	}
 
 	ul {
-		margin: 0 0 1em 0;
-		line-height: 1.8;
+		margin: 0;
+		line-height: 1.13;
 		list-style: none;
 		padding: 0;
 		font-size: 1.4rem;
+	}
+
+	ul li {
+		margin-bottom: 1.4rem;
 	}
 
 	@media screen and (min-width: 900px){

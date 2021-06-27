@@ -62,7 +62,9 @@
   }}
 />
 
-<div id="about-row">
+<h1 class="sr-only">About</h1>
+
+<div class="wrapper">
   <div id="image">
     {#if mainImage}
       <img alt="{mainImage.alt}" src="{ urlFor(mainImage).url() }" transition:fade>
@@ -70,30 +72,37 @@
       <div style="width: 400px; height: 400px; background-color: var(--gray);" transition:fade></div>
     {/if}
   </div>
-  <div id="text">
-    <h2>Artist Statement</h2>
-    {#if artistStatement}
-      {@html blocksToHtml({blocks: artistStatement })}
-    {/if}
+  <section>
+    <article>
+      <h2>Artist Statement</h2>
+      {#if artistStatement}
+        {@html blocksToHtml({blocks: artistStatement })}
+      {/if}
 
-		<h2>Bio</h2>
-    {#if bio}
-      {@html blocksToHtml({blocks: bio })}
-    {/if}
-  </div>
+    </article>
+    <article>
+
+      <h2>Bio</h2>
+      {#if bio}
+        {@html blocksToHtml({blocks: bio })}
+      {/if}
+
+    </article>
+    <article>
+
+      <h2>Gratitude</h2>
+      {#if bio}
+        {@html blocksToHtml({blocks: gratitude })}
+      {/if}
+    </article>
+  </section>
 </div>
 
 <style>
-  #about-row {
-    display: grid;
-    grid-template-columns: 1fr;
-    grid-template-rows: auto;
-    gap: 6rem;
-  }
-
   #image > * {
 		margin: 0 auto;
 		display: block;
+    border-radius: 500px;
 	}
 
 	img {
@@ -101,13 +110,7 @@
 		max-width: 400px;
 	}
 
-	#text {
-    max-width: 60ch;
-	}
-
   @media screen and (min-width: 768px){
-    #about-row {
-      grid-template-columns: 1fr 3fr;
-    }
+    
   }
 </style>

@@ -58,7 +58,7 @@
   }}
 />
 
-<article id="book-row">
+<div class="wrapper">
   <div id="image">
     {#if mainImage}
       <img alt="{mainImage.alt}" src="{ urlFor(mainImage).url() }" transition:fade>
@@ -66,7 +66,7 @@
       <div style="width: 275px; height: 450px; background-color: var(--gray);" transition:fade></div>
     {/if}
   </div>
-  <div id="text">
+  <article id="text">
     {#if heading}
       <h1 transition:fade>{ heading }</h1>
     {:else}
@@ -76,15 +76,15 @@
     {#if synopsis}
       {@html blocksToHtml({blocks: synopsis })}
     {/if}
-  </div>
-</article>
+  </article>
+</div>
 
 <style>
-  #book-row {
-    display: grid;
-    grid-template-columns: 1fr;
-    grid-template-rows: auto;
-    gap: 3rem;
+
+article,
+h1 {
+    margin-top: 0;
+    padding-top: 0;
   }
 
   #image > * {
@@ -102,8 +102,8 @@
 	}
 
   @media screen and (min-width: 768px){
-    #book-row {
-      grid-template-columns: 1fr 2fr;
+    #text * {
+      margin: 0 auto;
     }
   }
 </style>
