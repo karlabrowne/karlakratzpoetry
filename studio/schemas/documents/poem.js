@@ -32,6 +32,12 @@ export default {
         },
       },
       {
+        name: 'imageCitation',
+        type: 'bodyPortableText',
+        title: 'Image Citation',
+        description: 'Add a source for the image used as needed'
+      },
+      {
         name: 'dateWritten',
         type: 'date',
         title: 'Date written',
