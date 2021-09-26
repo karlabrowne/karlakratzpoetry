@@ -2,7 +2,7 @@
 	import { client, urlFor } from '../../components/SanityClient'
 	
 	export const load = async () => {
-		const query = "*[_type == 'poem' && featured]{_id, slug, name, poemImage, content, backgroundTitle, background}";
+		const query = "*[_type == 'poem' && featured]{_id, slug, name, poemImage, imageCitation, content, backgroundTitle, background}";
 		const featuredPoemArr = await client.fetch(query);
 		const featuredPoem = await featuredPoemArr[Math.floor(Math.random() * featuredPoemArr.length)]
 		if (featuredPoem) {
@@ -38,9 +38,9 @@
     alt: string,
   }
 
-	export let featuredPoem: { slug: Slug, name: string, _id: string, content: Array<Block>, background: Array<Block>, backgroundTitle: string, poemImage: MainImage };
+	export let featuredPoem: { slug: Slug, name: string, _id: string, content: Array<Block>, background: Array<Block>, backgroundTitle: string, poemImage: MainImage, imageCitation: Array<Block> };
 
-	$: ({ name, content, poemImage, background, backgroundTitle } = featuredPoem)
+	$: ({ name, content, poemImage, imageCitation, background, backgroundTitle } = featuredPoem)
 	$:({ host, path } = $page)
 </script>
 
@@ -80,6 +80,12 @@
 			{#if background}
 				{@html blocksToHtml({ blocks: background })}
 			{/if}
+			{#if imageCitation}
+			<!-- this new field is not working yet -->
+				<div class="image-citation" style="color: red;">
+					{@html blocksToHtml({ blocks: imageCitation })}
+				</div>
+			{/if}
 		</div>
 	{:else}
 		<Moon size="60" color="#329659" unit="px" duration="1s"/>
@@ -97,6 +103,10 @@
 	#content {
 		display: none;
 		max-width: 48ch;
+	}
+
+	.image-citation {
+		font-size: 80%;
 	}
 
 	@media screen and (min-width: 650px){
