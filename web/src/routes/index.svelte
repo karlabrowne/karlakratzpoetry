@@ -126,8 +126,8 @@
 		font-size: 1.25rem;
 		font-weight: 700;
 		text-decoration: none;
-		border-radius: 500px;
-		margin: .5rem auto;
+		border-radius: 8px;
+		margin: .5rem auto 1.8rem;
 	}
 
 	h2 {
