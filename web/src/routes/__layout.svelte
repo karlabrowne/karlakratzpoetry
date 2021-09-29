@@ -18,7 +18,7 @@
 		border-bottom: 1px solid var(--garden-700);
 	}
 
-	@media screen and (min-width: 768px) {
+	@media screen and (min-width: 650px) {
 		main {
 			max-width: 80vw;
 			margin: 0 auto;
