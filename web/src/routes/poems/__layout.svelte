@@ -79,7 +79,11 @@
 			<ul>
 				{#each filteredPoems as { name, slug }}
 					{#if slug}
-						<li><a rel=prefetch href={$page.path === `/poems` ? `poems/${slug.current}` : `${slug.current}`}>{ name }</a></li>
+						<li>
+							<a class="item-poem" aria-current={$page.path === `/poems/${slug.current}` && 'location'} rel=prefetch href={$page.path === `/poems` ? `poems/${slug.current}` : `${slug.current}`}>
+								{ name }
+							</a>
+						</li>
 					{/if}
 				{/each}
 			</ul>
@@ -153,6 +157,10 @@
 
 	ul li {
 		margin-bottom: 1.4rem;
+	}
+
+	.item-poem[aria-current="location"] {
+		text-decoration: none;
 	}
 
 	@media screen and (min-width: 900px){
