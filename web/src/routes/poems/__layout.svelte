@@ -2,7 +2,7 @@
 	import { client } from '../../components/SanityClient'
 	
 	export const load = async () => {
-		const poemQuery = "*[_type == 'poem']{_id, slug, name, categories[]->{title}}"
+		const poemQuery = "*[_type == 'poem'] | order(name asc) {_id, slug, name, categories[]->{title}}"
 		const catQuery = "*[_type == 'category']{_id, title}"
 		const poems = await client.fetch(poemQuery)
 		const categoriesArr = await client.fetch(catQuery)
