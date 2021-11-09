@@ -21,6 +21,7 @@
     "@sveltejs/adapter-netlify": "^1.0.0-next.35",
     "@sveltejs/kit": "^1.0.0-next.195",
     "@tsconfig/svelte": "^1.0.10",
+    "supports-color": "^9.0.2",
     "svelte": "^3.17.3",
     "svelte-loading-spinners": "^0.1.5",
     "svelte-preprocess": "^4.3.0",
