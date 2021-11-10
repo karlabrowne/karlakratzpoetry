@@ -76,7 +76,7 @@
 />
 
 <h1 class="sr-only">Home</h1>
-
+<div class="container">
 <div id="image">
 	{#if mainImage}
 		<img alt={mainImage.alt} src="{ urlFor(mainImage).url() }" transition:fade>
@@ -84,7 +84,7 @@
 		<div style="width: 400px; height: 400px; background-color: var(--gray);" transition:fade></div>
 	{/if}
 </div>
-
+<div>
 {#if heroTitle}
 	<h2 transition:fade>{ heroTitle }</h2>
 {/if}
@@ -107,8 +107,14 @@
 	<a role="link" href="/poems" class="filter-button">All</a>
 </div>
 {/if}
+</div>
+</div>
 
 <style>
+	.container {
+		display: block;
+	}
+
 	.read-redirect {
 		display: block;
 		width: 135px;
@@ -120,8 +126,8 @@
 		font-size: 1.25rem;
 		font-weight: 700;
 		text-decoration: none;
-		border-radius: 500px;
-		margin: .5rem auto;
+		border-radius: 8px;
+		margin: .5rem auto 1.8rem;
 	}
 
 	h2 {
@@ -181,6 +187,12 @@
 		background: var(--garden-700);
 		color: var(--garden-50);
 		border-color: var(--garden-700);
+	}
+	@media screen and (min-width: 650px){
+		.container {
+			display: flex;
+			gap: 4rem;
+		}
 	}
 </style>
 

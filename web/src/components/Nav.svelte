@@ -117,6 +117,7 @@ input[type="checkbox"]:checked ~ span:nth-of-type(3){
 		display: flex;
 		align-items: flex-end;
 		justify-content: space-between;
+		/* max-width: 80vw; */
 		margin: 3rem 1rem;
 	}
 
