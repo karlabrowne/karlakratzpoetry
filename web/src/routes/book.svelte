@@ -1,28 +1,34 @@
-<script context=module lang=ts>
-  import { client, urlFor } from '../components/SanityClient'
+<script context="module" lang="ts">
+  import type { Load } from '@sveltejs/kit'
 
-  export const load = async () => {
-    const query:string = '*[_id == "bookPage"][0]'
-    const bookPage:Promise<any> = await client.fetch(query)
-    if(bookPage) {
-      return { 
+  export const load: Load = async ({ fetch }) => {
+    const res = await fetch('/bookPage.json')
+    if (res.ok) {
+      const data = await res.json()
+      return {
         props: {
-          bookPage: bookPage 
+          bookPage: data
         }
       }
     }
+
     return {
-      status: 'Error',
-      error: new Error('Could not load data')
-    }
+      status: res.status,
+      error: res.body
+    };
   };
+
+  export const hydrate = false
 </script>
+
 <script lang=ts>
   import type { Image, Block } from '@sanity/types'
-	import { page } from '$app/stores';
+	import { page } from '$app/stores'
 	import { fade } from 'svelte/transition'
   import blocksToHtml from '@sanity/block-content-to-html'
   import SvelteSeo from 'svelte-seo'
+  import { urlFor } from '../components/SanityClient'
+
 
 
 	interface MainImage extends Image {

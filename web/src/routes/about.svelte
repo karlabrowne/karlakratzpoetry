@@ -1,29 +1,32 @@
-<script context=module lang=ts>
-  import { client, urlFor } from '../components/SanityClient'
-  
-  export const load = async () => {
-    const query:string = '*[_id == "aboutPage"][0]'
-    const aboutPage = await client.fetch(query)
-    if(aboutPage) {
-      return { 
+<script context="module" lang="ts">
+  import type { Load } from '@sveltejs/kit'
+
+  export const load: Load = async ({ fetch }) => {
+    const res = await fetch('/aboutPage.json')
+    if (res.ok) {
+      const data = await res.json()
+      return {
         props: {
-          aboutPage: aboutPage 
+          aboutPage: data
         }
       }
     }
+
     return {
-      status: 'Error',
-      error: new Error('Could not load data')
-    }
+      status: res.status,
+      error: res.body
+    };
   };
+
+  export const hydrate = false
 </script>
 <script lang="ts">
 	import { fade } from 'svelte/transition'
   import blocksToHtml from '@sanity/block-content-to-html'
   import type { Image, Block } from '@sanity/types'
-  import { page } from '$app/stores';
+  import { page } from '$app/stores'
   import SvelteSeo from 'svelte-seo'
-  
+  import { urlFor } from '../components/SanityClient'
 
   interface MainImage extends Image {
     alt: string,

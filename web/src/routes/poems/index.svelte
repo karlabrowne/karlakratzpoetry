@@ -1,26 +1,24 @@
 <script context="module" lang="ts">
-	import { client, urlFor } from '../../components/SanityClient'
+  import type { Load } from '@sveltejs/kit'
 	import { featuredPoem as featuredStore } from './_store'
 	
-	export const load = async () => {
-		const query = "*[_type == 'poem' && featured]{_id, slug, name, poemImage, content, backgroundTitle, background}";
-		const featuredPoemArr = await client.fetch(query);
-		const featuredPoem = featuredPoemArr[Math.floor(Math.random() * featuredPoemArr.length)]
-		if (featuredPoem) {
+  export const load: Load = async ({ fetch }) => {
+    const res = await fetch(`/poems/poems.json`)
+    if (res.ok) {
+      const featuredPoem = await res.json()
 			featuredStore.set(featuredPoem.slug.current)
+      return {
+        props: {
+          featuredPoem
+        }
+      }
+    }
 
-			return {
-				props: {
-					featuredPoem,
-				}
-			};
-		}
-
-		return {
-			status: 'error',
-			error: new Error(`Could not load data`)
-		};
-	};
+    return {
+      status: res.status,
+      error: res.body
+    };
+  };
 </script>
 
 <script lang="ts">
@@ -30,7 +28,7 @@
 	import { Moon } from 'svelte-loading-spinners'
 	import blocksToHtml from '@sanity/block-content-to-html'
 	import SvelteSeo from 'svelte-seo'
-
+	import { urlFor } from '../../components/SanityClient'
 
 	type Slug = {
 		_type: string,

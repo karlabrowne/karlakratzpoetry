@@ -1,17 +1,9 @@
 <script lang=ts>
-  import { client } from './SanityClient'
-  import { onMount } from 'svelte'
   import { fade } from 'svelte/transition'
 
-  let title
-  let email
+  export let data = { title: '', email: '' }
+  let { title, email } = data
 
-  const query = `*[_id == "siteSettings"]{title, email}[0]`
-
-  onMount(async () => {
-    const res = await client.fetch(query)
-    return { title, email } = res
-  });
 </script>
 
 <footer>

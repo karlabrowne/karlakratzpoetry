@@ -1,19 +1,14 @@
-<script lang=ts>
-	import { client } from './SanityClient'
-	import { onMount } from 'svelte'
+<script lang="ts">
 	import { fade } from 'svelte/transition'
 	import SideBar from './SideBar.svelte'
 	export let segment: string
 
-	let title = "Karla Kratz Poetry"
-	const query = `*[_id == "siteSettings"]{title}[0]`
+	export let data
+	let { title = '' } = data
 
 	let sidebar_show = false;
 	$: opened = sidebar_show;
 
-	onMount(async () => {
-		return { title } = await client.fetch(query)
-	})
 </script>
 
 <svelte:head>
