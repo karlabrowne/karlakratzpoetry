@@ -27,7 +27,6 @@
 	import blocksToHtml from '@sanity/block-content-to-html'
 	import SvelteSeo from 'svelte-seo'
 	import { urlFor } from '../../components/SanityClient'
-import Error from '../__error.svelte';
 
 	type Slug = {
 		_type: string,

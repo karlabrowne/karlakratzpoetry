@@ -18,7 +18,6 @@ export const load: Load = async ({ fetch }) => {
 </script>
 
 <script lang="ts">
-	import { Moon } from 'svelte-loading-spinners'
 	import { page, session } from '$app/stores'
 	import { filterPoems } from '../../components/utils'
 
@@ -30,24 +29,16 @@ export const load: Load = async ({ fetch }) => {
 	export let poems: { slug: Slug, name: string, _id: string, categories: Array<any>}[] = []
 	export let categoriesArr: { title: string, _id: string}[] = []
 
-	let filteredPoems = poems
-	
-	let vw
-
-  $:( $session ? filteredPoems = filterPoems(poems, $session) : filteredPoems = poems )
-	
+  $: filteredPoems = $session ? filterPoems(poems, $session) : poems
 
 </script>
 
-<svelte:window bind:innerWidth={vw}/>
-
 <div class="page-wrapper">
 
-	<!-- poems rendered here on mobile-->
-	{#if vw < 650}
+	<div class="poem-container">
 		<slot>
 		</slot>
-	{/if}
+	</div>
 
   <div class="side-bar">
 		<h2>Poems by category</h2>
@@ -80,15 +71,6 @@ export const load: Load = async ({ fetch }) => {
 			</ul>
 		{/if}
 	</div>  
-
-	<!-- poems rendered here on desktop-->
-	{#if vw >= 650}
-		<slot>
-			{#if poems === []}
-				<Moon size="60" color="#329659" unit="px" duration="1s"/>
-			{/if}
-		</slot>
-	{/if}
 
 </div>
 
@@ -161,6 +143,16 @@ export const load: Load = async ({ fetch }) => {
 		.page-wrapper {
 			grid-template-columns: 1fr 2fr;
 			grid-column-gap: 3em;
+		}
+
+		.side-bar {
+			grid-row-start: 1;
+			grid-column-start: 1;
+		}
+
+		.poem-container {
+			grid-row-start: 1;
+			grid-column-start: 2;
 		}
 	}
 </style>

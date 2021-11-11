@@ -6,6 +6,7 @@
   "scripts": {
     "dev": "svelte-kit dev",
     "build": "svelte-kit build",
+    "preexport": "node scripts/getPoemSlugs.js",
     "export": "svelte-kit build",
     "start": "node build",
     "preview": "svelte-kit preview"
