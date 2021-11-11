@@ -4,7 +4,7 @@ import { client } from '../../components/SanityClient'
 export const get: RequestHandler = async () => {
   try {
 		const query = /* groq */`{
-      "poems": *[_type == 'poem']{_id, slug, name, categories[]->{title}},
+      "poems": *[_type == 'poem'] | order(name asc) {_id, slug, name, categories[]->{title}},
       "categoriesArr": *[_type == 'category']{_id, title}
     }`
 		const data = await client.fetch(query)
