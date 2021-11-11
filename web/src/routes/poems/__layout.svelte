@@ -26,10 +26,15 @@
 	import { Moon } from 'svelte-loading-spinners'
 	import { page, session } from '$app/stores'
 	import { filterPoems } from '../../components/utils'
+	import { featuredPoem } from './_store'
 
 	type Slug = {
 		_type: string,
 		current: string,
+	}
+
+	const isDisplayed = (path: string, slug: Slug, featuredPoem: string) => {
+		return path === `/poems/${slug.current}` || slug.current === featuredPoem
 	}
 
 	export let poems: { slug: Slug, name: string, _id: string, categories: Array<any>}[] = []
@@ -79,7 +84,11 @@
 			<ul>
 				{#each filteredPoems as { name, slug }}
 					{#if slug}
-						<li><a rel=prefetch href={$page.path === `/poems` ? `poems/${slug.current}` : `${slug.current}`}>{ name }</a></li>
+						<li>
+							<a class="item-poem" aria-current={isDisplayed($page.path, slug, $featuredPoem) && 'location'} rel=prefetch href={$page.path === `/poems` ? `/poems/${slug.current}` : `${slug.current}`}>
+								{ name }
+							</a>
+						</li>
 					{/if}
 				{/each}
 			</ul>
@@ -153,6 +162,10 @@
 
 	ul li {
 		margin-bottom: 1.4rem;
+	}
+
+	.item-poem[aria-current="location"] {
+		text-decoration: none;
 	}
 
 	@media screen and (min-width: 900px){

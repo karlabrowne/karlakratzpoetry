@@ -1,14 +1,17 @@
 <script context="module" lang="ts">
 	import { client, urlFor } from '../../components/SanityClient'
+	import { featuredPoem as featuredStore } from './_store'
 	
 	export const load = async () => {
 		const query = "*[_type == 'poem' && featured]{_id, slug, name, poemImage, content, backgroundTitle, background}";
 		const featuredPoemArr = await client.fetch(query);
-		const featuredPoem = await featuredPoemArr[Math.floor(Math.random() * featuredPoemArr.length)]
+		const featuredPoem = featuredPoemArr[Math.floor(Math.random() * featuredPoemArr.length)]
 		if (featuredPoem) {
+			featuredStore.set(featuredPoem.slug.current)
+
 			return {
 				props: {
-					featuredPoem: await featuredPoem
+					featuredPoem,
 				}
 			};
 		}
