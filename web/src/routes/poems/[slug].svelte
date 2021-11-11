@@ -1,24 +1,24 @@
 <script context="module" lang="ts">
-	import { client, urlFor } from '../../components/SanityClient'
 
-	export const load = async ({ page }) => {
-		const slug = page.params.slug
-		const query = `*[slug.current == "${ slug }"]`
-		const res = await client.fetch(query)
-		const poem = await res.shift()
-		if (poem) {
-			return {
-				props: {
-					poem: await poem
-				}
-			};
-		}
+  import type { Load } from '@sveltejs/kit'
 
-		return {
-			status: 'error',
-			error: new Error(`Could not load data`)
-		};
-	};
+  export const load: Load = async ({ fetch, page }) => {
+		const { slug } = page.params
+    const res = await fetch(`./${slug}.json`)
+    if (res.ok) {
+      const poem = await res.json()
+      return {
+        props: {
+          poem
+        }
+      }
+    }
+
+    return {
+      status: res.status,
+      error: res.body
+    };
+  };
 </script>
 
 <script lang="ts">
@@ -28,6 +28,7 @@
 	import SvelteSeo from 'svelte-seo'
 	import { fade } from 'svelte/transition'
 	import blocksToHtml from '@sanity/block-content-to-html'
+	import { urlFor } from '../../components/SanityClient'
 
 	type Slug = {
 		_type: string,

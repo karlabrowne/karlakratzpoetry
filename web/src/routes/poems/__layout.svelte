@@ -1,25 +1,20 @@
 <script context="module" lang="ts">
-	import { client } from '../../components/SanityClient'
-	
-	export const load = async () => {
-		const poemQuery = "*[_type == 'poem']{_id, slug, name, categories[]->{title}}"
-		const catQuery = "*[_type == 'category']{_id, title}"
-		const poems = await client.fetch(poemQuery)
-		const categoriesArr = await client.fetch(catQuery)
-		if (poems && categoriesArr) {
-			return {
-				props: {
-					poems: await poems,
-					categoriesArr: await categoriesArr
-				}
-			};
-		}
+  import type { Load } from '@sveltejs/kit'
 
+export const load: Load = async ({ fetch }) => {
+	const res = await fetch(`/poems/layout.json`)
+	if (res.ok) {
+		const props = await res.json()
 		return {
-			status: 'error',
-			error: new Error(`Could not load data`)
+			props
 		}
+	}
+
+	return {
+		status: res.status,
+		error: res.body
 	};
+};
 </script>
 
 <script lang="ts">

@@ -1,27 +1,23 @@
 <script context=module lang=ts>
-	import { client, urlFor } from '../components/SanityClient'
+	import type { Load } from '@sveltejs/kit'
 
-	export const load = async () => {
-		const query:string = `*[_id == "homePage"][0]`
-		const catQuery:string = `*[_type == 'category']{_id, title}`
-		const homepage:Promise<any> = await client.fetch(query)
-		const cats:Promise<any> = await client.fetch(catQuery)
-		if (homepage && cats) {
+	export const load: Load = async ({ fetch }) => {
+		const res = await fetch('/index.json')
+		if (res.ok) {
+			const props = await res.json()
 			return {
-				props: {
-					homepage: await homepage,
-					cats: await cats
-				}
-			};
+				props
+			}
 		}
 
 		return {
-			status: 'error',
-			error: new Error(`Could not load data`)
+			status: res.status,
+			error: res.body
 		};
 	};
 </script>
 <script lang=ts>
+	import { urlFor } from '../components/SanityClient'
 	import type { Image, Block } from '@sanity/types'
 	import { goto } from '$app/navigation'
 	import { session, page } from '$app/stores'
