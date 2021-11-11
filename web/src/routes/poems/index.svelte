@@ -1,10 +1,12 @@
 <script context="module" lang="ts">
   import type { Load } from '@sveltejs/kit'
-
+	import { featuredPoem as featuredStore } from './_store'
+	
   export const load: Load = async ({ fetch }) => {
     const res = await fetch(`/poems/poems.json`)
     if (res.ok) {
       const featuredPoem = await res.json()
+			featuredStore.set(featuredPoem.slug.current)
       return {
         props: {
           featuredPoem

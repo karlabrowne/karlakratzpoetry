@@ -28,6 +28,7 @@
 	import { fade } from 'svelte/transition'
 	import blocksToHtml from '@sanity/block-content-to-html'
 	import { urlFor } from '../../components/SanityClient'
+	import FadeImage from '../../components/Image.svelte'
 
 	type Slug = {
 		_type: string,
@@ -61,7 +62,7 @@
     },
     images: [
       {
-        url: poemImage ? urlFor(poemImage).url() : '',
+        url: poemImage ? urlFor(poemImage).size(650, 650).url() : '',
         width: 650,
         height: 650,
         alt: poemImage ? poemImage.alt : '',
@@ -75,9 +76,15 @@
 	<article>
 		<h1 class="poem-title" transition:fade>{ name }</h1>
 		{#if poemImage}
-			<div id="image">
+			<div id="image" class="image-container">
 				{#if poemImage.alt}
-					<img alt="{poemImage.alt}" src="{ urlFor(poemImage).url() }" transition:fade>
+					{#key poem.slug.current}
+						<FadeImage 
+							alt="{poemImage.alt}"
+							srcset="{urlFor(poemImage).size(200, 200).url()}, {urlFor(poemImage).size(400, 400).url()} 2x"
+							src="{ urlFor(poemImage).size(400, 400).url() }"
+						/>
+					{/key}
 				{/if}
 			</div>
 		{/if}
@@ -101,11 +108,18 @@
 </section>
 
 <style>
-	img {
-		border-radius: 100px;
+	.image-container {
+		position: relative;
 		width: 200px;
 		height: 200px;
-		background-size: cover;
+	}
+
+	.image-container :global(img) {
+		position: absolute;
+		border-radius: 100px;
+		width: 100%;
+		height: 100%;
+		object-fit: cover;
 	}
 
 	.end-mark {
