@@ -8,18 +8,18 @@ export const get: RequestHandler = async ({ params }) => {
     const data = await client.fetch(query, { pageId })
     if (data) {
       return {
-        body: data
+        body: data,
       }
     } else {
       return {
         status: 404,
-        body: new Error('No data found.')
+        body: new Error('No data found.'),
       }
     }
-  } catch(err) {
+  } catch (err) {
     return {
       status: 500,
-      body: err
+      body: err,
     }
   }
 }
