@@ -175,8 +175,13 @@
     }
 
     .side-bar {
+      align-self: start;
       grid-row-start: 1;
       grid-column-start: 1;
+      position: sticky;
+      top: 0;
+      height: calc(100vh - 4rem);
+      overflow-y: scroll;
     }
 
     .poem-container {
