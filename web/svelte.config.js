@@ -3,8 +3,12 @@ import path from 'path'
 import adapter from '@sveltejs/adapter-static'
 import preprocess from 'svelte-preprocess'
 
-const slugListBuffer = fs.readFileSync(path.join(process.cwd(), 'slug-list.json'), 'utf-8')
-const slugList = JSON.parse(slugListBuffer).map(slug => `/poems/${slug}`)
+const getSlugList = () => {
+	const slugListBuffer = fs.readFileSync(path.join(process.cwd(), 'slug-list.json'), 'utf-8')
+	return JSON.parse(slugListBuffer).map(slug => `/poems/${slug}`)
+}
+
+const slugList = process.env.NODE_ENV === 'production' ? getSlugList() : []
 
 /** @type {import('@sveltejs/kit').Config} */
 const config = {

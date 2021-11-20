@@ -1,14 +1,14 @@
 <script lang="ts">
-  import { fade } from "svelte/transition";
+  import { fade } from 'svelte/transition'
 
-  export let src: string;
-  export let alt: string;
-  export let srcset: string;
-  let loaded = false;
+  export let src: string
+  export let alt: string
+  export let srcset: string
+  let loaded = false
 
   const onload = () => {
     loaded = true
-  };
+  }
 </script>
 
 {#if loaded}

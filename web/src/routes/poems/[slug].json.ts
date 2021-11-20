@@ -4,25 +4,24 @@ import { client } from '../../components/SanityClient'
 export const get: RequestHandler = async ({ params }) => {
   const { slug } = params
   try {
-    const poem = await client.fetch(
-      /* groq */`*[slug.current == $slug][0]`,
-      { slug }
-    )
+    const poem = await client.fetch(/* groq */ `*[slug.current == $slug][0]`, {
+      slug,
+    })
 
     if (poem) {
       return {
-        body: poem
-      };
+        body: poem,
+      }
     } else {
       return {
         status: 404,
-        body: new Error('No data found.')
+        body: new Error('No data found.'),
       }
     }
-  } catch(err) {
+  } catch (err) {
     return {
       status: 500,
-      body: err
-    };
+      body: err,
+    }
   }
 }

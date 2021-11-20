@@ -1,9 +1,8 @@
-<script lang=ts>
+<script lang="ts">
   import { fade } from 'svelte/transition'
 
   export let data = { title: '', email: '' }
   let { title, email } = data
-
 </script>
 
 <footer>
