@@ -18,6 +18,8 @@
 </script>
 
 <script lang="ts">
+  import { afterUpdate } from 'svelte'
+  import { fly } from 'svelte/transition'
   import { page, session } from '$app/stores'
   import { filterPoems } from '../../components/utils'
   import { featuredPoem } from './_store'
@@ -40,62 +42,104 @@
   export let categoriesArr: { title: string; _id: string }[] = []
 
   $: filteredPoems = $session ? filterPoems(poems, $session) : poems
+
+  const NAV_OFFSET = `8rem`
+
+  let scrollY = 0
+  let lastScrollY: number
+
+  let innerWidth = 500
+  let showSideBar = true
+  $: {
+    // if scrollY === lastScrollY, change nothing
+    showSideBar =
+      scrollY === lastScrollY
+        ? showSideBar
+        : scrollY < 350 || scrollY < lastScrollY
+
+    // if mobile view, always display side bar
+    showSideBar = innerWidth >= 650 ? showSideBar : true
+  }
+
+  // store previous scrollY value
+  afterUpdate(() => {
+    lastScrollY = scrollY
+  })
+
+  // TODO: fix a weird issue where SvelteKit
+  // does not automatically scroll up on a link click
+  const manualResetScroll = () => {
+    window.scrollTo(0, 0)
+  }
 </script>
 
-<div class="page-wrapper">
+<svelte:window bind:scrollY bind:innerWidth />
+
+<div class="page-wrapper" style="--nav-offset={NAV_OFFSET}">
   <div class="poem-container">
     <slot />
   </div>
 
   <div class="side-bar">
-    <h2>Poems by category</h2>
-    <div class="filter-cont">
-      {#each categoriesArr as { title }}
-        <button
-          class="filter-button"
-          on:click|preventDefault={() => {
-            filteredPoems = filterPoems(poems, title)
-            $session = title
-          }}
-          style={title == $session
-            ? 'background: var(--garden-700); color: var(--garden-50); border-color: var(--garden-700);'
-            : ''}
-        >
-          {title}
-        </button>
-      {/each}
-      <button
-        class="filter-button"
-        on:click|preventDefault={() => {
-          filteredPoems = poems
-          $session = undefined
-        }}
-        style={!$session
-          ? 'background: var(--garden-700); color: var(--garden-50); border-color: var(--garden-700);'
-          : ''}>All</button
-      >
-    </div>
-    {#if poems}
-      <ul>
-        {#each filteredPoems as { name, slug }}
-          {#if slug}
-            <li>
-              <a
-                class="item-poem"
-                aria-current={isDisplayed($page.path, slug, $featuredPoem) &&
-                  'location'}
-                rel="prefetch"
-                href={$page.path === `/poems`
-                  ? `/poems/${slug.current}`
-                  : `${slug.current}`}
+    {#key 'hey'}
+      {#if showSideBar}
+        <div transition:fly|local={{ y: -20 }}>
+          <h2>Poems by category</h2>
+          <div class="filter-cont">
+            {#each categoriesArr as { title }}
+              <button
+                class="filter-button"
+                on:click|preventDefault={() => {
+                  filteredPoems = filterPoems(poems, title)
+                  $session = title
+                }}
+                style={title == $session
+                  ? 'background: var(--garden-700); color: var(--garden-50); border-color: var(--garden-700);'
+                  : ''}
               >
-                {name}
-              </a>
-            </li>
+                {title}
+              </button>
+            {/each}
+            <button
+              class="filter-button"
+              on:click|preventDefault={() => {
+                filteredPoems = poems
+                $session = undefined
+              }}
+              style={!$session
+                ? 'background: var(--garden-700); color: var(--garden-50); border-color: var(--garden-700);'
+                : ''}>All</button
+            >
+          </div>
+          {#if poems}
+            <ul>
+              {#each filteredPoems as { name, slug }}
+                {#if slug}
+                  <li>
+                    <a
+                      on:click={manualResetScroll}
+                      class="item-poem"
+                      aria-current={isDisplayed(
+                        $page.path,
+                        slug,
+                        $featuredPoem
+                      ) && 'location'}
+                      sveltekit:noscroll
+                      rel="prefetch"
+                      href={$page.path === `/poems`
+                        ? `/poems/${slug.current}`
+                        : `${slug.current}`}
+                    >
+                      {name}
+                    </a>
+                  </li>
+                {/if}
+              {/each}
+            </ul>
           {/if}
-        {/each}
-      </ul>
-    {/if}
+        </div>
+      {/if}
+    {/key}
   </div>
 </div>
 
@@ -175,8 +219,13 @@
     }
 
     .side-bar {
+      align-self: start;
       grid-row-start: 1;
       grid-column-start: 1;
+      position: sticky;
+      top: 0;
+      height: calc(100vh - var(--nav-offset, 8rem));
+      overflow-y: scroll;
     }
 
     .poem-container {
