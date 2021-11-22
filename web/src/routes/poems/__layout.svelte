@@ -48,19 +48,32 @@
   let scrollY = 0
   let lastScrollY: number
 
-  // if scrollY === lastScrollY, change nothing
-  $: showSideBar =
-    scrollY === lastScrollY
-      ? showSideBar
-      : scrollY < 500 || scrollY < lastScrollY
+  let innerWidth = 500
+  let showSideBar = true
+  $: {
+    // if scrollY === lastScrollY, change nothing
+    showSideBar =
+      scrollY === lastScrollY
+        ? showSideBar
+        : scrollY < 500 || scrollY < lastScrollY
+
+    // if mobile view, always display side bar
+    showSideBar = innerWidth >= 650 ? showSideBar : true
+  }
 
   // store previous scrollY value
   afterUpdate(() => {
     lastScrollY = scrollY
   })
+
+  // TODO: fix a weird issue where SvelteKit
+  // does not automatically scroll up on a link click
+  const manualResetScroll = () => {
+    window.scrollTo(0, 0)
+  }
 </script>
 
-<svelte:window bind:scrollY />
+<svelte:window bind:scrollY bind:innerWidth />
 
 <div class="page-wrapper" style="--nav-offset={NAV_OFFSET}">
   <div class="poem-container">
@@ -104,12 +117,14 @@
                 {#if slug}
                   <li>
                     <a
+                      on:click={manualResetScroll}
                       class="item-poem"
                       aria-current={isDisplayed(
                         $page.path,
                         slug,
                         $featuredPoem
                       ) && 'location'}
+                      sveltekit:noscroll
                       rel="prefetch"
                       href={$page.path === `/poems`
                         ? `/poems/${slug.current}`
