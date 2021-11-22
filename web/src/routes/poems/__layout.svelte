@@ -55,7 +55,7 @@
     showSideBar =
       scrollY === lastScrollY
         ? showSideBar
-        : scrollY < 500 || scrollY < lastScrollY
+        : scrollY < 350 || scrollY < lastScrollY
 
     // if mobile view, always display side bar
     showSideBar = innerWidth >= 650 ? showSideBar : true
