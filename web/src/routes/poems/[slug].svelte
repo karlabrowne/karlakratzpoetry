@@ -135,6 +135,9 @@
       {#if background}
         {@html blocksToHtml({ blocks: background })}
       {/if}
+      {#if poemImage.attribution}
+        <div class="image-attribution">{poemImage.attribution}</div>
+      {/if}
     </article>
   {:else}
     <Moon size="60" color="#329659" unit="px" duration="1s" />
@@ -154,6 +157,12 @@
     width: 100%;
     height: 100%;
     object-fit: cover;
+  }
+
+  .image-attribution {
+    font-size: 80%;
+    text-indent: -2.4em;
+    margin-left: 2.4em;
   }
 
   .end-mark {
