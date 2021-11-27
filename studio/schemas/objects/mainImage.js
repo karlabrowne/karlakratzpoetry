@@ -12,7 +12,14 @@ export default {
       title: 'Caption',
       options: {
         isHighlighted: true
-      }
+      },
+    },
+    {
+      // Editing this field will be hidden behind an "Edit"-button
+      name: 'attribution',
+      type: 'string',
+      title: 'Attribution',
+      description: 'Optionally add ths source of the image. It will display at the below the poem background.'
     },
     {
       name: 'alt',
