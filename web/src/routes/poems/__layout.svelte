@@ -45,6 +45,9 @@
 
   const NAV_OFFSET = `8rem`
 
+  let scrollYPoem = 0
+  let scrollYMax = 0
+
   let scrollY = 0
   let lastScrollY: number
 
@@ -112,30 +115,46 @@
             >
           </div>
           {#if poems}
-            <ul>
-              {#each filteredPoems as { name, slug }}
-                {#if slug}
-                  <li>
-                    <a
-                      on:click={manualResetScroll}
-                      class="item-poem"
-                      aria-current={isDisplayed(
-                        $page.path,
-                        slug,
-                        $featuredPoem
-                      ) && 'location'}
-                      sveltekit:noscroll
-                      rel="prefetch"
-                      href={$page.path === `/poems`
-                        ? `/poems/${slug.current}`
-                        : `${slug.current}`}
-                    >
-                      {name}
-                    </a>
-                  </li>
-                {/if}
-              {/each}
-            </ul>
+            <div
+              class="relative"
+              bind:scrollY={scrollYPoem}
+              bind:clientHeight={scrollYMax}
+            >
+              <div
+                class:hidden={scrollYPoem < 10}
+                aria-hidden
+                class="shadow gradient top"
+              />
+              <div
+                class:hidden={scrollYPoem > 0 && scrollYPoem === scrollYMax}
+                aria-hidden
+                class="shadow gradient bottom"
+              />
+              <ul>
+                {#each filteredPoems as { name, slug }}
+                  {#if slug}
+                    <li>
+                      <a
+                        on:click={manualResetScroll}
+                        class="item-poem"
+                        aria-current={isDisplayed(
+                          $page.path,
+                          slug,
+                          $featuredPoem
+                        ) && 'location'}
+                        sveltekit:noscroll
+                        rel="prefetch"
+                        href={$page.path === `/poems`
+                          ? `/poems/${slug.current}`
+                          : `${slug.current}`}
+                      >
+                        {name}
+                      </a>
+                    </li>
+                  {/if}
+                {/each}
+              </ul>
+            </div>
           {/if}
         </div>
       {/if}
