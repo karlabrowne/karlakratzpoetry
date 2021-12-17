@@ -73,6 +73,8 @@
   const manualResetScroll = () => {
     window.scrollTo(0, 0)
   }
+
+  $: console.log($page.path)
 </script>
 
 <svelte:window bind:scrollY bind:innerWidth />
@@ -125,12 +127,12 @@
                         $page.path,
                         slug,
                         $displayedPoem
-                      ) && 'location'}
+                      )
+                        ? 'location'
+                        : 'false'}
                       sveltekit:noscroll
                       rel="prefetch"
-                      href={$page.path === `/poems`
-                        ? `/poems/${slug.current}`
-                        : `${slug.current}`}
+                      href={`/poems/${slug.current}`}
                     >
                       {name}
                     </a>
