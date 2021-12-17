@@ -20,9 +20,9 @@
 <script lang="ts">
   import { afterUpdate } from 'svelte'
   import { fly } from 'svelte/transition'
-  import { page, session } from '$app/stores'
+  import { page } from '$app/stores'
   import { filterPoems } from '../../components/utils'
-  import { featuredPoem } from './_store'
+  import { featuredPoem, selectedCategory } from './_store'
 
   type Slug = {
     _type: string
@@ -41,7 +41,9 @@
   }[] = []
   export let categoriesArr: { title: string; _id: string }[] = []
 
-  $: filteredPoems = $session ? filterPoems(poems, $session) : poems
+  $: filteredPoems = $selectedCategory
+    ? filterPoems(poems, $selectedCategory)
+    : poems
 
   const NAV_OFFSET = `8rem`
 
@@ -91,9 +93,9 @@
                 class="filter-button"
                 on:click|preventDefault={() => {
                   filteredPoems = filterPoems(poems, title)
-                  $session = title
+                  $selectedCategory = title
                 }}
-                style={title == $session
+                style={title == $selectedCategory
                   ? 'background: var(--garden-700); color: var(--garden-50); border-color: var(--garden-700);'
                   : ''}
               >
@@ -104,9 +106,9 @@
               class="filter-button"
               on:click|preventDefault={() => {
                 filteredPoems = poems
-                $session = undefined
+                $selectedCategory = undefined
               }}
-              style={!$session
+              style={!$selectedCategory
                 ? 'background: var(--garden-700); color: var(--garden-50); border-color: var(--garden-700);'
                 : ''}>All</button
             >
