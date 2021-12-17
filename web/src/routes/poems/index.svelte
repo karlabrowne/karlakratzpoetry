@@ -77,7 +77,7 @@
         featuredPoem = featured[Math.floor(Math.random() * featured.length)]
       }
     }
-    $displayedPoem = featuredPoem.slug.current
+    $displayedPoem = featuredPoem.slug?.current
   }
 </script>
 
