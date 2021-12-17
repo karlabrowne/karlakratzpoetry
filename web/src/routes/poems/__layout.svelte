@@ -22,15 +22,15 @@
   import { fly } from 'svelte/transition'
   import { page } from '$app/stores'
   import { filterPoems } from '../../components/utils'
-  import { featuredPoem, selectedCategory } from './_store'
+  import { displayedPoem, selectedCategory } from './_store'
 
   type Slug = {
     _type: string
     current: string
   }
 
-  const isDisplayed = (path: string, slug: Slug, featuredPoem: string) => {
-    return path === `/poems/${slug.current}` || slug.current === featuredPoem
+  const isDisplayed = (path: string, slug: Slug, displayedPoem: string) => {
+    return path === `/poems/${slug.current}` || slug.current === displayedPoem
   }
 
   export let poems: {
@@ -124,7 +124,7 @@
                       aria-current={isDisplayed(
                         $page.path,
                         slug,
-                        $featuredPoem
+                        $displayedPoem
                       ) && 'location'}
                       sveltekit:noscroll
                       rel="prefetch"
