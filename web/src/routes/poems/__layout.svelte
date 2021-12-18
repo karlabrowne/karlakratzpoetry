@@ -20,17 +20,17 @@
 <script lang="ts">
   import { afterUpdate } from 'svelte'
   import { fly } from 'svelte/transition'
-  import { page, session } from '$app/stores'
+  import { page } from '$app/stores'
   import { filterPoems } from '../../components/utils'
-  import { featuredPoem } from './_store'
+  import { displayedPoem, selectedCategory } from './_store'
 
   type Slug = {
     _type: string
     current: string
   }
 
-  const isDisplayed = (path: string, slug: Slug, featuredPoem: string) => {
-    return path === `/poems/${slug.current}` || slug.current === featuredPoem
+  const isDisplayed = (path: string, slug: Slug, displayedPoem: string) => {
+    return path === `/poems/${slug.current}` || slug.current === displayedPoem
   }
 
   export let poems: {
@@ -41,7 +41,9 @@
   }[] = []
   export let categoriesArr: { title: string; _id: string }[] = []
 
-  $: filteredPoems = $session ? filterPoems(poems, $session) : poems
+  $: filteredPoems = $selectedCategory
+    ? filterPoems(poems, $selectedCategory)
+    : poems
 
   const NAV_OFFSET = `8rem`
 
@@ -71,6 +73,8 @@
   const manualResetScroll = () => {
     window.scrollTo(0, 0)
   }
+
+  $: console.log($page.path)
 </script>
 
 <svelte:window bind:scrollY bind:innerWidth />
@@ -91,9 +95,9 @@
                 class="filter-button"
                 on:click|preventDefault={() => {
                   filteredPoems = filterPoems(poems, title)
-                  $session = title
+                  $selectedCategory = title
                 }}
-                style={title == $session
+                style={title == $selectedCategory
                   ? 'background: var(--garden-700); color: var(--garden-50); border-color: var(--garden-700);'
                   : ''}
               >
@@ -104,9 +108,9 @@
               class="filter-button"
               on:click|preventDefault={() => {
                 filteredPoems = poems
-                $session = undefined
+                $selectedCategory = undefined
               }}
-              style={!$session
+              style={!$selectedCategory
                 ? 'background: var(--garden-700); color: var(--garden-50); border-color: var(--garden-700);'
                 : ''}>All</button
             >
@@ -122,13 +126,13 @@
                       aria-current={isDisplayed(
                         $page.path,
                         slug,
-                        $featuredPoem
-                      ) && 'location'}
+                        $displayedPoem
+                      )
+                        ? 'location'
+                        : 'false'}
                       sveltekit:noscroll
                       rel="prefetch"
-                      href={$page.path === `/poems`
-                        ? `/poems/${slug.current}`
-                        : `${slug.current}`}
+                      href={`/poems/${slug.current}`}
                     >
                       {name}
                     </a>
