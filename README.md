@@ -1,13 +1,13 @@
+![Logo](https://cdn.sanity.io/images/k7wdeuj3/production/acf9cdf9e1893f55220d05b0e4dd7345ace219dd-1920x2560.jpg?rect=318,369,1602,1571)
+
 # Karla Kratz Poetry
 
-_Simple blog starter with [11ty](https://11ty.io)._
+A poetry website for the journalist and author Karla Kratz. 
 
-Deployed from [sanity.io/create](https://www.sanity.io/create/?template=sanity-io%2Fsanity-template-gatsby-blog).
+## What we have
 
-## What you have
-
-- A simple static site generator with [Eleventy](https://11ty.io)
 - Structured content using [Sanity.io](https://www.sanity.io)
+- A snappy front-end framework [SvelteKit](https://kit.svelte.dev/)
 - Global deployment on [Netlify](https://netlify.com)
 
 ## Quick start
@@ -18,6 +18,10 @@ Deployed from [sanity.io/create](https://www.sanity.io/create/?template=sanity-i
    - Your studio should be running on [http://localhost:3333](http://localhost:3333)
    - Your frontend should be running on [http://localhost:8080](http://localhost:8080)
 4. `npm run build` to build to production locally
+
+## Contributing
+
+Make a pull request.
 
 ## Deploy changes
 
