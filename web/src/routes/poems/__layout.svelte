@@ -238,10 +238,27 @@
 
   .scroll-gradient:first-of-type {
     top: 0;
+    transform: rotate(180deg);
   }
 
   .scroll-gradient:last-of-type {
     bottom: 0;
+  }
+
+  .scroll-gradient {
+    position: absolute;
+    width: 100%;
+    height: 6rem;
+    pointer-events: none;
+    background: var(--garden-50);
+    background: linear-gradient(180deg, rgba(231, 249, 237, 0) 0%, rgba(231, 249, 237, 0) 35%, rgba(231, 249, 237, 1) 100%);
+  }
+
+  @media (prefers-color-scheme: dark) {
+    .scroll-gradient {
+      background: var(--garden-950);      
+      background: linear-gradient(180deg, rgba(24, 38, 39, 0) 0%, rgba(24, 38, 39, 0) 35%, #182627 100%);
+    }
   }
 
   @media screen and (min-width: 900px) {
@@ -281,13 +298,6 @@
     .poem-scroll-inner {
       overflow: scroll;
       height: 100%;
-    }
-
-    .scroll-gradient {
-      position: absolute;
-      width: 100%;
-      height: 10px;
-      background: red;
     }
   }
 </style>
