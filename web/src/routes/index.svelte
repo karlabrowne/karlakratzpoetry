@@ -21,14 +21,14 @@
   import { urlFor } from '../components/SanityClient'
   import type { Image, Block } from '@sanity/types'
   import { goto } from '$app/navigation'
-  import { session, page } from '$app/stores'
+  import {  page } from '$app/stores'
   import { fade } from 'svelte/transition'
   import blocksToHtml from '@sanity/block-content-to-html'
   import SvelteSeo from 'svelte-seo'
+  import { selectedCategory } from './poems/_store'
 
-  const updateSession = async (c) => {
-    $session = c
-    console.log($session)
+  const selectCategory = async (c) => {
+    $selectedCategory = c
     goto('/poems')
   }
 
@@ -102,7 +102,7 @@
           <button
             role="link"
             class="filter-button"
-            on:click|preventDefault={() => updateSession(title)}
+            on:click|preventDefault={() => selectCategory(title)}
           >
             {title}
           </button>
