@@ -3,22 +3,35 @@ import { client } from '../../components/SanityClient'
 
 export const get: RequestHandler = async () => {
   try {
+    const poemFields = `
+      _id,
+      slug,
+      name,
+      poemImage,
+      content,
+      backgroundTitle,
+      background
+    `
     const query = /* groq */ `
-      *[_type == 'poem' && featured]{
-        _id,
-        slug,
-        name,
-        poemImage,
-        content,
-        backgroundTitle,
-        background
-      }`
-    const featuredPoemArr = await client.fetch(query)
-    const featuredPoem =
-      featuredPoemArr[Math.floor(Math.random() * featuredPoemArr.length)]
-    if (featuredPoem) {
+      {
+        "categories": *[_type == "category"] {
+          title,
+          "featured": *[
+            _type == "poem" 
+            && !(_id in path("drafts.**")) 
+            && references(^._id)
+          ] | order(
+            coalesce(featured, false) desc,
+            name asc
+          )[0] { ${poemFields} }
+        },
+        "featured": *[_type == 'poem' && featured]{ ${poemFields} }
+      }
+    `
+    const poems = await client.fetch(query)
+    if (poems) {
       return {
-        body: featuredPoem,
+        body: poems,
       }
     } else {
       return {
