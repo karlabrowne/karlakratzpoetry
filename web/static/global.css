@@ -196,6 +196,27 @@ code {
 	border-radius: 2px;
 }
 
+body::-webkit-scrollbar,
+.poem-scroll-inner::-webkit-scrollbar {
+	width: .4em;
+  }
+   
+body::-webkit-scrollbar-track,
+.poem-scroll-inner::-webkit-scrollbar-track {
+	/* box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3); */
+	display: none;
+}
+   
+body::-webkit-scrollbar-thumb,
+.poem-scroll-inner::-webkit-scrollbar-thumb {
+  background-color: rgba(34, 86, 62, 0.2);
+  border-radius: 8px;
+}
+
+.poem-scroll-inner::-webkit-scrollbar-corner {
+  display: none;
+}
+
 @media screen and (min-width: 768px){
     .wrapper {
       grid-template-columns: 1fr 2fr;
@@ -215,5 +236,10 @@ code {
 
 	img:hover {
 		opacity: 1;
+	}
+	
+	body::-webkit-scrollbar-thumb,
+	.poem-scroll-inner::-webkit-scrollbar-thumb {
+		background-color: rgba(50, 150, 89, 0.2);
 	}
 }

@@ -47,6 +47,10 @@
 
   const NAV_OFFSET = `8rem`
 
+  let poemScrollY = 0
+  let poemScrollMax = 0
+  $: console.log(poemScrollY, poemScrollMax)
+
   let scrollY = 0
   let lastScrollY: number
 
@@ -74,7 +78,11 @@
     window.scrollTo(0, 0)
   }
 
-  $: console.log($page.path)
+  const handleScroll = (e) => {
+    const target = e.target as HTMLDivElement
+    poemScrollY = target.scrollTop
+    poemScrollMax = target.scrollHeight - target.clientHeight
+  }
 </script>
 
 <svelte:window bind:scrollY bind:innerWidth />
@@ -87,59 +95,70 @@
   <div class="side-bar">
     {#key 'hey'}
       {#if showSideBar}
-        <div transition:fly|local={{ y: -20 }}>
-          <h2>Poems by category</h2>
-          <div class="filter-cont">
-            {#each categoriesArr as { title }}
+        <div class="side-bar-cont" transition:fly|local={{ y: -20 }}>
+          <div>
+            <h2>Poems by category</h2>
+            <div class="filter-cont">
+              {#each categoriesArr as { title }}
+                <button
+                  class="filter-button"
+                  on:click|preventDefault={() => {
+                    filteredPoems = filterPoems(poems, title)
+                    $selectedCategory = title
+                  }}
+                  style={title == $selectedCategory
+                    ? 'background: var(--garden-700); color: var(--garden-50); border-color: var(--garden-700);'
+                    : ''}
+                >
+                  {title}
+                </button>
+              {/each}
               <button
                 class="filter-button"
                 on:click|preventDefault={() => {
-                  filteredPoems = filterPoems(poems, title)
-                  $selectedCategory = title
+                  filteredPoems = poems
+                  $selectedCategory = undefined
                 }}
-                style={title == $selectedCategory
+                style={!$selectedCategory
                   ? 'background: var(--garden-700); color: var(--garden-50); border-color: var(--garden-700);'
-                  : ''}
+                  : ''}>All</button
               >
-                {title}
-              </button>
-            {/each}
-            <button
-              class="filter-button"
-              on:click|preventDefault={() => {
-                filteredPoems = poems
-                $selectedCategory = undefined
-              }}
-              style={!$selectedCategory
-                ? 'background: var(--garden-700); color: var(--garden-50); border-color: var(--garden-700);'
-                : ''}>All</button
-            >
+            </div>
           </div>
           {#if poems}
-            <ul>
-              {#each filteredPoems as { name, slug }}
-                {#if slug}
-                  <li>
-                    <a
-                      on:click={manualResetScroll}
-                      class="item-poem"
-                      aria-current={isDisplayed(
-                        $page.path,
-                        slug,
-                        $displayedPoem
-                      )
-                        ? 'location'
-                        : 'false'}
-                      sveltekit:noscroll
-                      rel="prefetch"
-                      href={`/poems/${slug.current}`}
-                    >
-                      {name}
-                    </a>
-                  </li>
-                {/if}
-              {/each}
-            </ul>
+            <div class="poem-scroll-container">
+              <div class="poem-scroll-inner" on:scroll={handleScroll}>
+                <div class:hidden={poemScrollY === 0} class="scroll-gradient" />
+                <div
+                  class:hidden={poemScrollY === poemScrollMax}
+                  class="scroll-gradient"
+                />
+                <ul>
+                  {#each filteredPoems as { name, slug }}
+                    {#if slug}
+                      <li>
+                        <a
+                          on:click={manualResetScroll}
+                          class="item-poem"
+                          aria-current={isDisplayed(
+                            $page.path,
+                            slug,
+                            $displayedPoem
+                          )
+                            ? 'location'
+                            : 'false'}
+                          sveltekit:noscroll
+                          rel="prefetch"
+                          href={`/poems/${slug.current}`}
+                        >
+                          {name}
+                        </a>
+                      </li>
+                    {/if}
+                  {/each}
+                </ul>
+              </div>
+            </div>
           {/if}
         </div>
       {/if}
@@ -193,6 +212,12 @@
     line-height: 2;
   }
 
+  .side-bar-cont {
+    display: flex;
+    flex-flow: column;
+    height: 100%;
+  }
+
   ul {
     margin: 0;
     line-height: 1.13;
@@ -207,6 +232,45 @@
 
   .item-poem[aria-current='location'] {
     text-decoration: none;
+  }
+
+  .scroll-gradient:global(.hidden) {
+    opacity: 0;
+  }
+
+  .scroll-gradient:first-of-type {
+    top: 0;
+    transform: rotate(180deg);
+  }
+
+  .scroll-gradient:last-of-type {
+    bottom: 0;
+  }
+
+  .scroll-gradient {
+    position: absolute;
+    width: 100%;
+    height: 6rem;
+    pointer-events: none;
+    background: var(--garden-50);
+    background: linear-gradient(
+      180deg,
+      rgba(231, 249, 237, 0) 0%,
+      rgba(231, 249, 237, 0) 35%,
+      rgba(231, 249, 237, 1) 100%
+    );
+  }
+
+  @media (prefers-color-scheme: dark) {
+    .scroll-gradient {
+      background: var(--garden-950);
+      background: linear-gradient(
+        180deg,
+        rgba(24, 38, 39, 0) 0%,
+        rgba(24, 38, 39, 0) 35%,
+        #182627 100%
+      );
+    }
   }
 
   @media screen and (min-width: 900px) {
@@ -229,12 +293,23 @@
       position: sticky;
       top: 0;
       height: calc(100vh - var(--nav-offset, 8rem));
-      overflow-y: scroll;
+      overflow: hidden;
     }
 
     .poem-container {
       grid-row-start: 1;
       grid-column-start: 2;
+    }
+
+    .poem-scroll-container {
+      position: relative;
+      flex: 1;
+      min-height: 0;
+    }
+
+    .poem-scroll-inner {
+      overflow: scroll;
+      height: 100%;
     }
   }
 </style>
