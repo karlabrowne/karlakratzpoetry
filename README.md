@@ -4,6 +4,8 @@
 
 A poetry website for the journalist and author Karla Kratz. 
 
+[![Netlify Status](https://api.netlify.com/api/v1/badges/790e4523-9d05-4b67-9ca6-deb24949cc7d/deploy-status)](https://app.netlify.com/sites/karlakratz/deploys)
+
 ## What we have
 
 - Structured content using [Sanity.io](https://www.sanity.io)
