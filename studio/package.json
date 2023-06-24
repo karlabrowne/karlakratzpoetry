@@ -1,47 +1,39 @@
 {
+  "name": "kkpoetry",
   "private": true,
-  "name": "sanity-eleventy-blog-studio",
-  "version": "1.0.2",
+  "version": "1.0.0",
   "main": "package.json",
-  "author": "Sanity <hello@sanity.io>",
+  "license": "UNLICENSED",
   "scripts": {
-    "dev": "sanity start",
-    "format": "prettier-eslint --write \"**/*.js\" \"!node_modules/**\"",
+    "dev": "sanity dev",
+    "start": "sanity start",
     "build": "sanity build",
-    "graphql-deploy": "sanity graphql deploy --playground",
-    "lint": "eslint .",
-    "test": "sanity check"
+    "deploy": "sanity deploy",
+    "deploy-graphql": "sanity graphql deploy"
   },
+  "keywords": [
+    "sanity"
+  ],
   "dependencies": {
-    "@sanity/base": "^2.23.1",
-    "@sanity/cli": "^2.23.1",
-    "@sanity/components": "^2.14.0",
-    "@sanity/core": "^2.23.1",
-    "@sanity/dashboard": "^2.23.1",
-    "@sanity/default-layout": "^2.23.1",
-    "@sanity/default-login": "^2.23.1",
-    "@sanity/desk-tool": "^2.23.1",
-    "@sanity/vision": "^2.23.1",
-    "date-fns": "^1.30.1",
-    "prop-types": "^15.7.2",
-    "react": "^16.14.0",
-    "react-dom": "^16.14.0",
-    "react-icons": "^3.10.0",
-    "sanity-plugin-dashboard-widget-document-list": "^0.0.8",
-    "sanity-plugin-dashboard-widget-netlify": "^1.0.1",
-    "sanity-plugin-media": "^1.1.2",
-    "styled-components": "^5.2.1"
+    "@sanity/vision": "^3.12.2",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "react-is": "^18.2.0",
+    "sanity": "^3.12.2",
+    "styled-components": "^5.3.9"
   },
   "devDependencies": {
-    "babel-eslint": "^10.1.0",
-    "eslint": "^5.16.0",
-    "eslint-config-standard": "^12.0.0",
-    "eslint-config-standard-react": "^7.0.2",
-    "eslint-plugin-import": "^2.22.1",
-    "eslint-plugin-node": "^9.2.0",
-    "eslint-plugin-promise": "^4.1.1",
-    "eslint-plugin-react": "^7.22.0",
-    "eslint-plugin-standard": "^4.1.0",
-    "prettier-eslint-cli": "^4.7.1"
+    "@sanity/eslint-config-studio": "^2.0.1",
+    "@types/react": "^18.0.25",
+    "@types/styled-components": "^5.1.26",
+    "eslint": "^8.6.0",
+    "prettier": "^2.8.8",
+    "typescript": "^4.9.5"
+  },
+  "prettier": {
+    "semi": false,
+    "printWidth": 100,
+    "bracketSpacing": false,
+    "singleQuote": true
   }
 }
