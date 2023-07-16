@@ -1,24 +1,24 @@
-import { FiFeather } from 'react-icons/fi'
+// import { FiFeather } from 'react-icons/fi'
 
 export default {
   name: 'poemReference',
   type: 'object',
   title: 'Poem',
-  icon: FiFeather,
+  //   icon: FiFeather,
   fields: [
     {
       name: 'poem',
       type: 'reference',
       to: [
         {
-          type: 'poem'
-        }
-      ]
-    }
+          type: 'poem',
+        },
+      ],
+    },
   ],
   preview: {
     select: {
-      title: 'poem.name'
-    }
-  }
-} 
+      title: 'poem.name',
+    },
+  },
+}
