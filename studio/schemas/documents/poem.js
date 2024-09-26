@@ -20,7 +20,13 @@ export default {
       description: 'Some frontends will require a slug to be set to be able to show the person',
       options: {
         source: 'name',
-        maxLength: 600
+        maxLength: 600,
+        slugify: (input) =>
+          input
+            .toLowerCase()
+            .replace(/\s+/g, "-")
+            .replace(/[&\/\\#,+()$~%.'":*?<>{}]/g, ""),
+        validation: (Rule) => Rule.required(),
       }
     },
     {
