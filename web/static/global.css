@@ -256,14 +256,6 @@ body::-webkit-scrollbar-thumb,
 		color: var(--garden-50);
 		font-weight: 480;
 	}
-
-	img {
-		opacity: .8;
-	}
-
-	img:hover {
-		opacity: 1;
-	}
 	
 	body::-webkit-scrollbar-thumb,
 	.poem-scroll-inner::-webkit-scrollbar-thumb {

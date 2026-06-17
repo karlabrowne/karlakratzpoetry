@@ -7,8 +7,24 @@
   let { title = '' } = data
 
   let sidebar_show = false
+  let menuToggle: HTMLLabelElement
+
   $: opened = sidebar_show
+
+  const closeMenu = () => {
+    sidebar_show = false
+    menuToggle?.focus()
+  }
+
+  const handleKeydown = (event: KeyboardEvent) => {
+    if (event.key === 'Escape' && sidebar_show) {
+      event.preventDefault()
+      closeMenu()
+    }
+  }
 </script>
+
+<svelte:window on:keydown={handleKeydown} />
 
 <svelte:head>
   <title>{title}</title>
@@ -23,12 +39,14 @@
   </div>
 
   <label
+    bind:this={menuToggle}
     for="check"
     id="menu-toggle"
     class:opened
     aria-label="Main menu"
     aria-expanded={sidebar_show}
     aria-controls="mobile-nav"
+    tabindex="-1"
   >
     <input type="checkbox" id="check" bind:checked={sidebar_show} />
     <span />
