@@ -8,7 +8,6 @@
 
   let sidebar_show = false
   $: opened = sidebar_show
-  $: isHome = segment === ''
 </script>
 
 <svelte:head>
@@ -19,13 +18,7 @@
   <a class="skip-link" href="#main">Skip to main content</a>
   <div class="logo-wrap">
     {#if title}
-      {#if isHome}
-        <h1 class="logo" transition:optionalFade>
-          <a href="/">{title}</a>
-        </h1>
-      {:else}
-        <a class="logo" href="/" transition:optionalFade>{title}</a>
-      {/if}
+      <a class="logo" href="/" transition:optionalFade>{title}</a>
     {/if}
   </div>
 
@@ -173,30 +166,16 @@
     margin: 0;
   }
 
-  .logo,
-  .logo a {
-    padding: 0;
-    margin: 0;
-    color: inherit;
-    text-decoration: none;
-  }
-
-  .logo a {
-    display: inline;
-  }
-
-  h1.logo {
-    font-size: inherit;
-    font-weight: inherit;
-    line-height: inherit;
-  }
-
   nav {
     font-weight: 300;
     padding: 0;
   }
 
   .logo {
+    padding: 0;
+    margin: 0;
+    color: inherit;
+    text-decoration: none;
     font-size: 20px;
     font-size: clamp(1.6rem, -0.875rem + 8.333vw, 2.2rem);
   }

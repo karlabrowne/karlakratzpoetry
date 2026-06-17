@@ -79,7 +79,7 @@
   </div>
   <div>
     {#if heroTitle}
-      <h2 transition:optionalFade>{heroTitle}</h2>
+      <h1 transition:optionalFade>{heroTitle}</h1>
     {/if}
 
     {#if heroDescription}
@@ -131,7 +131,7 @@
     margin: 0.5rem auto 1.8rem;
   }
 
-  h2 {
+  h1 {
     margin-top: 0.8rem;
     text-align: left;
     font-style: italic;
