@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { fade } from 'svelte/transition'
+  import { optionalFade } from './motion'
   import SideBar from './SideBar.svelte'
   export let segment: string
 
@@ -8,6 +8,7 @@
 
   let sidebar_show = false
   $: opened = sidebar_show
+  $: isHome = segment === ''
 </script>
 
 <svelte:head>
@@ -15,12 +16,16 @@
 </svelte:head>
 
 <header>
-  <a class="skip-link" href="#main">skip to main content</a>
-  <div>
+  <a class="skip-link" href="#main">Skip to main content</a>
+  <div class="logo-wrap">
     {#if title}
-      <div class="logo" transition:fade>{title}</div>
-    {:else}
-      <div />
+      {#if isHome}
+        <h1 class="logo" transition:optionalFade>
+          <a href="/">{title}</a>
+        </h1>
+      {:else}
+        <a class="logo" href="/" transition:optionalFade>{title}</a>
+      {/if}
     {/if}
   </div>
 
@@ -28,8 +33,9 @@
     for="check"
     id="menu-toggle"
     class:opened
-    aria-label="Main Menu"
+    aria-label="Main menu"
     aria-expanded={sidebar_show}
+    aria-controls="mobile-nav"
   >
     <input type="checkbox" id="check" bind:checked={sidebar_show} />
     <span />
@@ -40,7 +46,7 @@
   <SideBar {segment} bind:show={sidebar_show} />
 
   <!-- Desktop Nav -->
-  <nav id="desktop-nav">
+  <nav id="desktop-nav" aria-label="Main navigation">
     <ul>
       <li>
         <a
@@ -139,7 +145,7 @@
 
   header {
     display: flex;
-    align-items: flex-end;
+    align-items: center;
     justify-content: space-between;
     /* max-width: 80vw; */
     margin: 3rem 1rem;
@@ -159,13 +165,38 @@
     transition: top 0.1s linear;
   }
 
+  a.skip-link:focus {
+    top: 0;
+  }
+
+  .logo-wrap {
+    margin: 0;
+  }
+
+  .logo,
+  .logo a {
+    padding: 0;
+    margin: 0;
+    color: inherit;
+    text-decoration: none;
+  }
+
+  .logo a {
+    display: inline;
+  }
+
+  h1.logo {
+    font-size: inherit;
+    font-weight: inherit;
+    line-height: inherit;
+  }
+
   nav {
     font-weight: 300;
     padding: 0;
   }
 
   .logo {
-    margin: 0 auto;
     font-size: 20px;
     font-size: clamp(1.6rem, -0.875rem + 8.333vw, 2.2rem);
   }
@@ -189,12 +220,14 @@
     display: block;
   }
 
-  a {
+  #desktop-nav a {
     position: relative;
-    display: inline-block;
+    display: block;
+    text-decoration: none;
+    padding: 0.4em 0.5em;
   }
 
-  a::after {
+  #desktop-nav a::after {
     position: absolute;
     content: '';
     width: calc(100% - 1em);
@@ -204,20 +237,14 @@
     bottom: -1px;
   }
 
-  [aria-current] {
+  #desktop-nav [aria-current] {
     position: relative;
     display: inline-block;
   }
 
-  [aria-current]::after {
+  #desktop-nav [aria-current]::after {
     background-color: gray;
     background-color: var(--garden-600);
-  }
-
-  a {
-    text-decoration: none;
-    padding: 0.4em 0.5em;
-    display: block;
   }
 
   @media screen and (min-width: 650px) {

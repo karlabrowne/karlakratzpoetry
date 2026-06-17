@@ -18,9 +18,10 @@
 </script>
 
 <script lang="ts">
-  import { afterUpdate } from 'svelte'
-  import { fly } from 'svelte/transition'
+  import { afterUpdate, onMount } from 'svelte'
+  import { browser } from '$app/env'
   import { page } from '$app/stores'
+  import { optionalFly } from '../../components/motion'
   import { filterPoems } from '../../components/utils'
   import { displayedPoem, selectedCategory } from './_store'
 
@@ -45,11 +46,18 @@
     ? filterPoems(poems, $selectedCategory)
     : poems
 
+  onMount(() => {
+    if (!browser || $page.path !== '/poems') return
+    const category = new URLSearchParams(window.location.search).get('category')
+    if (category) {
+      $selectedCategory = category
+    }
+  })
+
   const NAV_OFFSET = `8rem`
 
   let poemScrollY = 0
   let poemScrollMax = 0
-  $: console.log(poemScrollY, poemScrollMax)
 
   let scrollY = 0
   let lastScrollY: number
@@ -83,6 +91,10 @@
     poemScrollY = target.scrollTop
     poemScrollMax = target.scrollHeight - target.clientHeight
   }
+
+  const setCategory = (title: string | undefined) => {
+    $selectedCategory = title
+  }
 </script>
 
 <svelte:window bind:scrollY bind:innerWidth />
@@ -95,17 +107,20 @@
   <div class="side-bar">
     {#key 'hey'}
       {#if showSideBar}
-        <div class="side-bar-cont" transition:fly|local={{ y: -20 }}>
+        <div class="side-bar-cont" transition:optionalFly|local={{ y: -20 }}>
           <div>
-            <h2>Poems by category</h2>
-            <div class="filter-cont">
+            <h2 id="poem-categories-heading">Poems by category</h2>
+            <div
+              class="filter-cont"
+              role="group"
+              aria-labelledby="poem-categories-heading"
+            >
               {#each categoriesArr as { title }}
                 <button
+                  type="button"
                   class="filter-button"
-                  on:click|preventDefault={() => {
-                    filteredPoems = filterPoems(poems, title)
-                    $selectedCategory = title
-                  }}
+                  aria-pressed={title === $selectedCategory}
+                  on:click|preventDefault={() => setCategory(title)}
                   style={title == $selectedCategory
                     ? 'background: var(--garden-700); color: var(--garden-50); border-color: var(--garden-700);'
                     : ''}
@@ -114,11 +129,10 @@
                 </button>
               {/each}
               <button
+                type="button"
                 class="filter-button"
-                on:click|preventDefault={() => {
-                  filteredPoems = poems
-                  $selectedCategory = undefined
-                }}
+                aria-pressed={!$selectedCategory}
+                on:click|preventDefault={() => setCategory(undefined)}
                 style={!$selectedCategory
                   ? 'background: var(--garden-700); color: var(--garden-50); border-color: var(--garden-700);'
                   : ''}>All</button
@@ -126,7 +140,7 @@
             </div>
           </div>
           {#if poems}
-            <div class="poem-scroll-container">
+            <nav class="poem-scroll-container" aria-label="Poem list">
               <div class="poem-scroll-inner" on:scroll={handleScroll}>
                 <div class:hidden={poemScrollY === 0} class="scroll-gradient" />
                 <div
@@ -145,8 +159,8 @@
                             slug,
                             $displayedPoem
                           )
-                            ? 'location'
-                            : 'false'}
+                            ? 'page'
+                            : undefined}
                           sveltekit:noscroll
                           rel="prefetch"
                           href={`/poems/${slug.current}`}
@@ -158,7 +172,7 @@
                   {/each}
                 </ul>
               </div>
-            </div>
+            </nav>
           {/if}
         </div>
       {/if}
@@ -230,8 +244,9 @@
     margin-bottom: 1.4rem;
   }
 
-  .item-poem[aria-current='location'] {
+  .item-poem[aria-current='page'] {
     text-decoration: none;
+    font-weight: 600;
   }
 
   .scroll-gradient:global(.hidden) {

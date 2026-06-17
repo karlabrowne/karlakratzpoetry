@@ -33,7 +33,7 @@
 </script>
 
 <Nav data={global} {segment} />
-<main>
+<main id="main" tabindex="-1">
   <slot />
 </main>
 <Footer data={global} />

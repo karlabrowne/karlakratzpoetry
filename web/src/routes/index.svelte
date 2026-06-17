@@ -20,17 +20,11 @@
 <script lang="ts">
   import { urlFor } from '../components/SanityClient'
   import type { Image, Block } from '@sanity/types'
-  import { goto } from '$app/navigation'
-  import {  page } from '$app/stores'
-  import { fade } from 'svelte/transition'
+  import { page } from '$app/stores'
+  import { optionalFade } from '../components/motion'
   import blocksToHtml from '@sanity/block-content-to-html'
   import SvelteSeo from 'svelte-seo'
   import { selectedCategory } from './poems/_store'
-
-  const selectCategory = async (c) => {
-    $selectedCategory = c
-    goto('/poems')
-  }
 
   interface MainImage extends Image {
     alt: string
@@ -71,21 +65,21 @@
   }}
 />
 
-<h1 class="sr-only">Home</h1>
+
 <div class="container">
   <div id="image">
     {#if mainImage}
-      <img alt={mainImage.alt} src={urlFor(mainImage).url()} transition:fade />
+      <img alt={mainImage.alt} src={urlFor(mainImage).url()} transition:optionalFade />
     {:else}
       <div
         style="width: 400px; height: 400px; background-color: var(--gray);"
-        transition:fade
+        transition:optionalFade
       />
     {/if}
   </div>
   <div>
     {#if heroTitle}
-      <h2 transition:fade>{heroTitle}</h2>
+      <h2 transition:optionalFade>{heroTitle}</h2>
     {/if}
 
     {#if heroDescription}
@@ -97,17 +91,21 @@
     <a href="/poems" class="read-redirect"> Read A Poem </a>
 
     {#if cats}
-      <div class="filter-cont">
+      <div class="filter-cont" role="group" aria-label="Poem categories">
         {#each cats as { title }}
-          <button
-            role="link"
+          <a
+            href="/poems?category={encodeURIComponent(title)}"
             class="filter-button"
-            on:click|preventDefault={() => selectCategory(title)}
+            on:click={() => ($selectedCategory = title)}
           >
             {title}
-          </button>
+          </a>
         {/each}
-        <a role="link" href="/poems" class="filter-button">All</a>
+        <a
+          href="/poems"
+          class="filter-button"
+          on:click={() => ($selectedCategory = undefined)}
+        >All</a>
       </div>
     {/if}
   </div>
@@ -183,6 +181,8 @@
     font-family: var(--ui-font);
     font-size: 1rem;
     padding: 0.2em 0.6em;
+    text-decoration: none;
+    display: inline-block;
   }
 
   .filter-button:hover {

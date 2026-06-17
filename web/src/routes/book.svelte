@@ -24,7 +24,7 @@
 <script lang="ts">
   import type { Image, Block } from '@sanity/types'
   import { page } from '$app/stores'
-  import { fade } from 'svelte/transition'
+  import { optionalFade } from '../components/motion'
   import blocksToHtml from '@sanity/block-content-to-html'
   import SvelteSeo from 'svelte-seo'
   import { urlFor } from '../components/SanityClient'
@@ -67,17 +67,17 @@
 <div class="wrapper">
   <div id="image">
     {#if mainImage}
-      <img alt={mainImage.alt} src={urlFor(mainImage).url()} transition:fade />
+      <img alt={mainImage.alt} src={urlFor(mainImage).url()} transition:optionalFade />
     {:else}
       <div
         style="width: 275px; height: 450px; background-color: var(--gray);"
-        transition:fade
+        transition:optionalFade
       />
     {/if}
   </div>
   <article id="text">
     {#if heading}
-      <h1 transition:fade>{heading}</h1>
+      <h1 transition:optionalFade>{heading}</h1>
     {/if}
 
     {#if synopsis}

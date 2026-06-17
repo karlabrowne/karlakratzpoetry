@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { fade } from 'svelte/transition'
+  import { optionalFade } from './motion'
 
   export let data = { title: '', email: '' }
   let { title, email } = data
@@ -7,10 +7,10 @@
 
 <footer>
   {#if email}
-    <a href="mailto:{email}" transition:fade>{email}</a>
+    <a href="mailto:{email}" transition:optionalFade>{email}</a>
   {/if}
   {#if title}
-    <p transition:fade>Copyright {new Date().getFullYear()} by {title}</p>
+    <p transition:optionalFade>Copyright {new Date().getFullYear()} by {title}</p>
   {/if}
 </footer>
 

@@ -22,7 +22,7 @@
 </script>
 
 <script lang="ts">
-  import { fade } from 'svelte/transition'
+  import { optionalFade } from '../components/motion'
   import blocksToHtml from '@sanity/block-content-to-html'
   import type { Image, Block } from '@sanity/types'
   import { page } from '$app/stores'
@@ -76,35 +76,35 @@
   }}
 />
 
-<h1 class="sr-only">About</h1>
+<h1>About</h1>
 
 <div class="wrapper">
   <div id="image">
     {#if mainImage}
-      <img alt={mainImage.alt} src={urlFor(mainImage).url()} transition:fade />
+      <img alt={mainImage.alt} src={urlFor(mainImage).url()} transition:optionalFade />
     {:else}
       <div
         style="width: 400px; height: 400px; background-color: var(--gray);"
-        transition:fade
+        transition:optionalFade
       />
     {/if}
   </div>
   <section>
     <article>
-      <h2>Artist Statement</h2>
+      <h2>{artistStatementTitle || 'Artist Statement'}</h2>
       {#if artistStatement}
         {@html blocksToHtml({ blocks: artistStatement })}
       {/if}
     </article>
     <article>
-      <h2>Bio</h2>
+      <h2>{bioTitle || 'Bio'}</h2>
       {#if bio}
         {@html blocksToHtml({ blocks: bio })}
       {/if}
     </article>
     <article>
-      <h2>Gratitude</h2>
-      {#if bio}
+      <h2>{gratitudeTitle || 'Gratitude'}</h2>
+      {#if gratitude}
         {@html blocksToHtml({ blocks: gratitude })}
       {/if}
     </article>
