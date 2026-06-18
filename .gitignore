@@ -10,4 +10,5 @@
 web/.svelte-kit/dev/generated/manifest.js
 web/.svelte-kit/dev/generated/root.svelte
 web/slug-list.json
+web/static/search-index.json
 .svelte-kit

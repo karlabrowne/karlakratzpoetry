@@ -23,14 +23,13 @@
   import type { Image, Block } from '@sanity/types'
   import { page } from '$app/stores'
   import { browser } from '$app/env'
-  import { fade } from 'svelte/transition'
+  import { optionalFade } from '../../components/motion'
   import { Moon } from 'svelte-loading-spinners'
   import blocksToHtml from '@sanity/block-content-to-html'
   import SvelteSeo from 'svelte-seo'
   import { urlFor } from '../../components/SanityClient'
   import FadeImage from '../../components/Image.svelte'
   import { selectedCategory, displayedPoem } from './_store'
-  import Slug from './[slug].svelte'
 
   type Slug = {
     _type: string
@@ -101,7 +100,7 @@
         ],
       }}
     />
-    <h1 class="poem-title" transition:fade>{name}</h1>
+    <h1 class="poem-title" transition:optionalFade>{name}</h1>
     <div id="image">
       {#if poemImage}
         <div id="image" class="image-container">
@@ -132,11 +131,20 @@
       {/if}
     </div>
   {:else}
-    <Moon size="60" color="#329659" unit="px" duration="1s" />
+    <div class="loading" role="status" aria-live="polite">
+      <Moon size="60" color="#329659" unit="px" duration="1s" />
+      <span class="sr-only">Loading poem</span>
+    </div>
   {/if}
 </div>
 
 <style>
+  .loading {
+    display: flex;
+    justify-content: center;
+    padding: 2rem 0;
+  }
+
   .image-container {
     position: relative;
     width: 200px;
@@ -152,13 +160,6 @@
   }
 
   #content {
-    display: none;
     max-width: 48ch;
-  }
-
-  @media screen and (min-width: 650px) {
-    #content {
-      display: block;
-    }
   }
 </style>

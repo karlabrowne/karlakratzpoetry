@@ -23,6 +23,8 @@
   import { page, session } from '$app/stores'
   import Nav from '../components/Nav.svelte'
   import Footer from '../components/Footer.svelte'
+  import SearchPalette from '../components/SearchPalette.svelte'
+  import { searchOpen } from '../components/searchStore'
   import { onMount } from 'svelte'
   onMount(() => ($session = undefined))
   import '../../static/global.css'
@@ -30,10 +32,22 @@
   $: segment = $page.path.split('/')[1]
 
   export let global = {} as { title: string; email: string }
+
+  const handleSearchShortcut = (event: KeyboardEvent) => {
+    if (!(event.metaKey || event.ctrlKey) || event.key.toLowerCase() !== 'k') {
+      return
+    }
+
+    event.preventDefault()
+    searchOpen.update((open) => !open)
+  }
 </script>
 
+<svelte:window on:keydown={handleSearchShortcut} />
+
 <Nav data={global} {segment} />
-<main>
+<SearchPalette />
+<main id="main" tabindex="-1">
   <slot />
 </main>
 <Footer data={global} />

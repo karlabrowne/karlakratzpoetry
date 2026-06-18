@@ -1,12 +1,16 @@
 <script>
-  import { fly } from 'svelte/transition'
+  import { optionalFly } from './motion'
 
   export let show = false
   export let segment
 </script>
 
 {#if show}
-  <nav transition:fly={{ x: 550, opacity: 1 }}>
+  <nav
+    id="mobile-nav"
+    aria-label="Main navigation"
+    transition:optionalFly={{ x: 550, opacity: 1 }}
+  >
     <ul>
       <li>
         <a

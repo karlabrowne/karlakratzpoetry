@@ -18,10 +18,13 @@
 </script>
 
 <script lang="ts">
-  import { afterUpdate } from 'svelte'
-  import { fly } from 'svelte/transition'
+  import { onMount } from 'svelte'
+  import { browser } from '$app/env'
   import { page } from '$app/stores'
-  import { filterPoems } from '../../components/utils'
+  import { optionalFly } from '../../components/motion'
+  import ChevronIcon from '../../components/icons/ChevronIcon.svelte'
+  import { getPoemNavOpen, setPoemNavOpen } from '../../components/poemNavPreference'
+  import { filterPoems, sortCategoryFilters } from '../../components/utils'
   import { displayedPoem, selectedCategory } from './_store'
 
   type Slug = {
@@ -29,8 +32,16 @@
     current: string
   }
 
-  const isDisplayed = (path: string, slug: Slug, displayedPoem: string) => {
-    return path === `/poems/${slug.current}` || slug.current === displayedPoem
+  const isCurrentPoem = (
+    path: string,
+    slug: Slug,
+    activeSlug: string | undefined
+  ) => {
+    const slugCurrent = slug.current
+    if (path.startsWith('/poems/')) {
+      return path === `/poems/${slugCurrent}`
+    }
+    return slugCurrent === activeSlug
   }
 
   export let poems: {
@@ -45,35 +56,33 @@
     ? filterPoems(poems, $selectedCategory)
     : poems
 
+  $: categoryFilters = sortCategoryFilters(categoriesArr)
+
   const NAV_OFFSET = `8rem`
 
   let poemScrollY = 0
   let poemScrollMax = 0
-  $: console.log(poemScrollY, poemScrollMax)
-
-  let scrollY = 0
-  let lastScrollY: number
-
-  let innerWidth = 500
   let showSideBar = true
-  $: {
-    // if scrollY === lastScrollY, change nothing
-    showSideBar =
-      scrollY === lastScrollY
-        ? showSideBar
-        : scrollY < 350 || scrollY < lastScrollY
 
-    // if mobile view, always display side bar
-    showSideBar = innerWidth >= 650 ? showSideBar : true
-  }
+  onMount(() => {
+    if (browser && $page.path === '/poems') {
+      const category = new URLSearchParams(window.location.search).get('category')
+      if (category) {
+        $selectedCategory = category
+      }
+    }
 
-  // store previous scrollY value
-  afterUpdate(() => {
-    lastScrollY = scrollY
+    const stored = getPoemNavOpen()
+    if (stored !== null) {
+      showSideBar = stored
+    }
   })
 
-  // TODO: fix a weird issue where SvelteKit
-  // does not automatically scroll up on a link click
+  const toggleSideBar = () => {
+    showSideBar = !showSideBar
+    setPoemNavOpen(showSideBar)
+  }
+
   const manualResetScroll = () => {
     window.scrollTo(0, 0)
   }
@@ -83,9 +92,11 @@
     poemScrollY = target.scrollTop
     poemScrollMax = target.scrollHeight - target.clientHeight
   }
-</script>
 
-<svelte:window bind:scrollY bind:innerWidth />
+  const setCategory = (title: string | undefined) => {
+    $selectedCategory = title
+  }
+</script>
 
 <div class="page-wrapper" style="--nav-offset={NAV_OFFSET}">
   <div class="poem-container">
@@ -93,76 +104,90 @@
   </div>
 
   <div class="side-bar">
-    {#key 'hey'}
-      {#if showSideBar}
-        <div class="side-bar-cont" transition:fly|local={{ y: -20 }}>
-          <div>
-            <h2>Poems by category</h2>
-            <div class="filter-cont">
-              {#each categoriesArr as { title }}
-                <button
-                  class="filter-button"
-                  on:click|preventDefault={() => {
-                    filteredPoems = filterPoems(poems, title)
-                    $selectedCategory = title
-                  }}
-                  style={title == $selectedCategory
-                    ? 'background: var(--garden-700); color: var(--garden-50); border-color: var(--garden-700);'
-                    : ''}
-                >
-                  {title}
-                </button>
-              {/each}
+    <button
+      type="button"
+      class="nav-toggle"
+      aria-expanded={showSideBar}
+      aria-controls="poem-sidebar-panel"
+      on:click={toggleSideBar}
+    >
+      <span>{showSideBar ? 'Hide poems' : 'Show poems'}</span>
+      <ChevronIcon expanded={showSideBar} />
+    </button>
+
+    {#if showSideBar}
+      <div
+        id="poem-sidebar-panel"
+        class="side-bar-cont"
+        transition:optionalFly|local={{ y: -12 }}
+      >
+        <div>
+          <h2 id="poem-categories-heading">Poems by category</h2>
+          <div
+            class="filter-cont"
+            role="group"
+            aria-labelledby="poem-categories-heading"
+          >
+            {#each categoryFilters as { title }}
               <button
+                type="button"
                 class="filter-button"
-                on:click|preventDefault={() => {
-                  filteredPoems = poems
-                  $selectedCategory = undefined
-                }}
-                style={!$selectedCategory
+                aria-pressed={title === $selectedCategory}
+                on:click|preventDefault={() => setCategory(title)}
+                style={title == $selectedCategory
                   ? 'background: var(--garden-700); color: var(--garden-50); border-color: var(--garden-700);'
-                  : ''}>All</button
+                  : ''}
               >
-            </div>
+                {title}
+              </button>
+            {/each}
+            <button
+              type="button"
+              class="filter-button"
+              aria-pressed={!$selectedCategory}
+              on:click|preventDefault={() => setCategory(undefined)}
+              style={!$selectedCategory
+                ? 'background: var(--garden-700); color: var(--garden-50); border-color: var(--garden-700);'
+                : ''}>All</button
+            >
           </div>
-          {#if poems}
-            <div class="poem-scroll-container">
-              <div class="poem-scroll-inner" on:scroll={handleScroll}>
-                <div class:hidden={poemScrollY === 0} class="scroll-gradient" />
-                <div
-                  class:hidden={poemScrollY === poemScrollMax}
-                  class="scroll-gradient"
-                />
-                <ul>
-                  {#each filteredPoems as { name, slug }}
-                    {#if slug}
-                      <li>
+        </div>
+        {#if poems}
+          <nav class="poem-scroll-container" aria-label="Poem list">
+            <div class="poem-scroll-inner" on:scroll={handleScroll}>
+              <div class:hidden={poemScrollY === 0} class="scroll-gradient" />
+              <div
+                class:hidden={poemScrollY === poemScrollMax}
+                class="scroll-gradient"
+              />
+              <ul>
+                {#each filteredPoems as { name, slug }}
+                  {#if slug}
+                    <li>
+                      {#if isCurrentPoem($page.path, slug, $displayedPoem)}
+                        <span class="item-poem item-poem--current" aria-current="page">
+                          {name}
+                        </span>
+                      {:else}
                         <a
                           on:click={manualResetScroll}
                           class="item-poem"
-                          aria-current={isDisplayed(
-                            $page.path,
-                            slug,
-                            $displayedPoem
-                          )
-                            ? 'location'
-                            : 'false'}
                           sveltekit:noscroll
                           rel="prefetch"
                           href={`/poems/${slug.current}`}
                         >
                           {name}
                         </a>
-                      </li>
-                    {/if}
-                  {/each}
-                </ul>
-              </div>
+                      {/if}
+                    </li>
+                  {/if}
+                {/each}
+              </ul>
             </div>
-          {/if}
-        </div>
-      {/if}
-    {/key}
+          </nav>
+        {/if}
+      </div>
+    {/if}
   </div>
 </div>
 
@@ -173,12 +198,33 @@
     grid-column-gap: 1em;
   }
 
+  .nav-toggle {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    margin-bottom: 0.75rem;
+    padding: 0.35em 0.65em;
+    border: 2px solid var(--garden-600);
+    border-radius: 15px;
+    background: transparent;
+    color: var(--garden-600);
+    font-family: var(--ui-font);
+    font-size: 0.95rem;
+    font-weight: 400;
+    cursor: pointer;
+  }
+
+  .nav-toggle:hover {
+    background: var(--garden-700);
+    color: var(--garden-50);
+    border-color: var(--garden-700);
+  }
+
   .filter-cont {
     display: flex;
     flex-wrap: wrap;
     margin-bottom: 1rem;
     font-family: var(--ui-font);
-    /* font-family: "Roboto Condensed", monospace; */
     font-weight: 400;
   }
 
@@ -190,7 +236,6 @@
     margin: 0 0.2rem 0.4rem 0;
     font-size: 1rem;
     font-family: var(--ui-font);
-    /* font-family: "Roboto Condensed", monospace; */
     font-weight: 400;
     padding: 0.2em 0.6em;
   }
@@ -204,7 +249,6 @@
 
   .side-bar h2 {
     font-family: var(--ui-font);
-    /* font-family: "Roboto Condensed", monospace, sans-serif; */
     color: var(--garden-600);
     text-transform: uppercase;
     font-weight: 500;
@@ -230,8 +274,17 @@
     margin-bottom: 1.4rem;
   }
 
-  .item-poem[aria-current='location'] {
+  .item-poem {
+    color: inherit;
+    text-decoration: underline;
+    cursor: pointer;
+  }
+
+  .item-poem--current,
+  .item-poem[aria-current='page'] {
     text-decoration: none;
+    font-weight: 600;
+    cursor: default;
   }
 
   .scroll-gradient:global(.hidden) {
@@ -271,6 +324,17 @@
         #182627 100%
       );
     }
+
+    .nav-toggle {
+      color: var(--garden-200);
+      border-color: var(--garden-600);
+    }
+
+    .nav-toggle:hover {
+      background: var(--garden-800);
+      color: var(--garden-50);
+      border-color: var(--garden-700);
+    }
   }
 
   @media screen and (min-width: 900px) {
@@ -292,8 +356,10 @@
       grid-column-start: 1;
       position: sticky;
       top: 0;
+      padding-top: 1rem;
       height: calc(100vh - var(--nav-offset, 8rem));
       overflow: hidden;
+      box-sizing: border-box;
     }
 
     .poem-container {

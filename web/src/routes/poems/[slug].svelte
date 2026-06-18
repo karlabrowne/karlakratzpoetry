@@ -25,10 +25,11 @@
   import { page } from '$app/stores'
   import { Moon } from 'svelte-loading-spinners'
   import SvelteSeo from 'svelte-seo'
-  import { fade } from 'svelte/transition'
+  import { optionalFade } from '../../components/motion'
   import blocksToHtml from '@sanity/block-content-to-html'
   import { urlFor } from '../../components/SanityClient'
   import FadeImage from '../../components/Image.svelte'
+  import { displayedPoem } from './_store'
 
   type Slug = {
     _type: string
@@ -60,6 +61,7 @@
     _updatedAt,
   } = poem)
   $: ({ host, path } = $page)
+  $: $displayedPoem = poem?.slug?.current
 
   $: openGraph = {
     title: `Karla Kratz Poetry | ${name}`,
@@ -91,7 +93,7 @@
 <section id="content">
   {#if poem}
     <article>
-      <h1 class="poem-title" transition:fade>{name}</h1>
+      <h1 class="poem-title" transition:optionalFade>{name}</h1>
       {#if poemImage}
         <div id="image" class="image-container">
           {#if poemImage.alt}
@@ -111,8 +113,9 @@
       {/if}
       {@html blocksToHtml({ blocks: content })}
 
-      <div class="end-mark">
+      <div class="end-mark" aria-hidden="true">
         <svg
+          aria-hidden="true"
           width="100%"
           height="100%"
           viewBox="0 0 13 6"
@@ -140,11 +143,20 @@
       {/if}
     </article>
   {:else}
-    <Moon size="60" color="#329659" unit="px" duration="1s" />
+    <div class="loading" role="status" aria-live="polite">
+      <Moon size="60" color="#329659" unit="px" duration="1s" />
+      <span class="sr-only">Loading poem</span>
+    </div>
   {/if}
 </section>
 
 <style>
+  .loading {
+    display: flex;
+    justify-content: center;
+    padding: 2rem 0;
+  }
+
   .image-container {
     position: relative;
     width: 200px;

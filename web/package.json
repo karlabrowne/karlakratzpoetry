@@ -4,9 +4,10 @@
   "type": "module",
   "version": "0.0.1",
   "scripts": {
+    "predev": "node scripts/prebuild.js",
     "dev": "svelte-kit dev",
     "build": "svelte-kit build",
-    "prebuild": "node scripts/getPoemSlugs.js",
+    "prebuild": "node scripts/prebuild.js",
     "export": "svelte-kit build",
     "start": "node build",
     "preview": "svelte-kit preview"
@@ -19,14 +20,14 @@
   },
   "devDependencies": {
     "@sanity/types": "^2.23.1",
-    "@sveltejs/adapter-static": "^1.0.0-next.22",
-    "@sveltejs/kit": "^1.0.0-next.202",
+    "@sveltejs/adapter-static": "1.0.0-next.21",
+    "@sveltejs/kit": "1.0.0-next.196",
     "@tsconfig/svelte": "^3.0.0",
     "supports-color": "^9.2.1",
     "svelte": "^3.44.3",
     "svelte-loading-spinners": "^0.1.7",
     "svelte-preprocess": "^4.10.1",
-    "svelte-seo": "^1.3.1",
+    "svelte-seo": "1.2.0",
     "typescript": "^4.5.4",
     "vite": "^2.7.3"
   }
