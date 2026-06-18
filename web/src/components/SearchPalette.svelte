@@ -60,14 +60,22 @@
     }
   }
 
-  function closePalette() {
+  function closePalette({ returnFocus = true }: { returnFocus?: boolean } = {}) {
     $searchOpen = false
-    get(searchTrigger)?.focus()
+
+    if (returnFocus) {
+      get(searchTrigger)?.focus()
+      return
+    }
+
+    if (browser && document.activeElement instanceof HTMLElement) {
+      document.activeElement.blur()
+    }
   }
 
   async function selectResult(result: SearchResult | undefined) {
     if (!result) return
-    closePalette()
+    closePalette({ returnFocus: false })
     await goto(result.href)
   }
 
