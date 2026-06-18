@@ -32,8 +32,16 @@
     current: string
   }
 
-  const isDisplayed = (path: string, slug: Slug, displayedPoem: string) => {
-    return path === `/poems/${slug.current}` || slug.current === displayedPoem
+  const isCurrentPoem = (
+    path: string,
+    slug: Slug,
+    activeSlug: string | undefined
+  ) => {
+    const slugCurrent = slug.current
+    if (path.startsWith('/poems/')) {
+      return path === `/poems/${slugCurrent}`
+    }
+    return slugCurrent === activeSlug
   }
 
   export let poems: {
@@ -156,22 +164,21 @@
                 {#each filteredPoems as { name, slug }}
                   {#if slug}
                     <li>
-                      <a
-                        on:click={manualResetScroll}
-                        class="item-poem"
-                        aria-current={isDisplayed(
-                          $page.path,
-                          slug,
-                          $displayedPoem
-                        )
-                          ? 'page'
-                          : undefined}
-                        sveltekit:noscroll
-                        rel="prefetch"
-                        href={`/poems/${slug.current}`}
-                      >
-                        {name}
-                      </a>
+                      {#if isCurrentPoem($page.path, slug, $displayedPoem)}
+                        <span class="item-poem item-poem--current" aria-current="page">
+                          {name}
+                        </span>
+                      {:else}
+                        <a
+                          on:click={manualResetScroll}
+                          class="item-poem"
+                          sveltekit:noscroll
+                          rel="prefetch"
+                          href={`/poems/${slug.current}`}
+                        >
+                          {name}
+                        </a>
+                      {/if}
                     </li>
                   {/if}
                 {/each}
@@ -267,9 +274,17 @@
     margin-bottom: 1.4rem;
   }
 
+  .item-poem {
+    color: inherit;
+    text-decoration: underline;
+    cursor: pointer;
+  }
+
+  .item-poem--current,
   .item-poem[aria-current='page'] {
     text-decoration: none;
     font-weight: 600;
+    cursor: default;
   }
 
   .scroll-gradient:global(.hidden) {

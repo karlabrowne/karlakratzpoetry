@@ -29,6 +29,7 @@
   import blocksToHtml from '@sanity/block-content-to-html'
   import { urlFor } from '../../components/SanityClient'
   import FadeImage from '../../components/Image.svelte'
+  import { displayedPoem } from './_store'
 
   type Slug = {
     _type: string
@@ -60,6 +61,7 @@
     _updatedAt,
   } = poem)
   $: ({ host, path } = $page)
+  $: $displayedPoem = poem?.slug?.current
 
   $: openGraph = {
     title: `Karla Kratz Poetry | ${name}`,
