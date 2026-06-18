@@ -24,7 +24,7 @@
   import { optionalFly } from '../../components/motion'
   import ChevronIcon from '../../components/icons/ChevronIcon.svelte'
   import { getPoemNavOpen, setPoemNavOpen } from '../../components/poemNavPreference'
-  import { filterPoems } from '../../components/utils'
+  import { filterPoems, sortCategoryFilters } from '../../components/utils'
   import { displayedPoem, selectedCategory } from './_store'
 
   type Slug = {
@@ -47,6 +47,8 @@
   $: filteredPoems = $selectedCategory
     ? filterPoems(poems, $selectedCategory)
     : poems
+
+  $: categoryFilters = sortCategoryFilters(categoriesArr)
 
   const NAV_OFFSET = `8rem`
 
@@ -118,7 +120,7 @@
             role="group"
             aria-labelledby="poem-categories-heading"
           >
-            {#each categoriesArr as { title }}
+            {#each categoryFilters as { title }}
               <button
                 type="button"
                 class="filter-button"

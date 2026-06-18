@@ -24,6 +24,7 @@
   import { optionalFade } from '../components/motion'
   import blocksToHtml from '@sanity/block-content-to-html'
   import SvelteSeo from 'svelte-seo'
+  import { sortCategoryFilters } from '../components/utils'
   import { selectedCategory } from './poems/_store'
 
   interface MainImage extends Image {
@@ -44,6 +45,7 @@
 
   $: ({ mainImage, heroTitle, heroDescription } = homepage)
   $: ({ host, path } = $page)
+  $: categoryFilters = sortCategoryFilters(cats ?? [])
 </script>
 
 <SvelteSeo
@@ -92,7 +94,7 @@
 
     {#if cats}
       <div class="filter-cont" role="group" aria-label="Poem categories">
-        {#each cats as { title }}
+        {#each categoryFilters as { title }}
           <a
             href="/poems?category={encodeURIComponent(title)}"
             class="filter-button"
