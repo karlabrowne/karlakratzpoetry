@@ -4,9 +4,10 @@
   "type": "module",
   "version": "0.0.1",
   "scripts": {
+    "predev": "node scripts/prebuild.js",
     "dev": "svelte-kit dev",
     "build": "svelte-kit build",
-    "prebuild": "node scripts/getPoemSlugs.js",
+    "prebuild": "node scripts/prebuild.js",
     "export": "svelte-kit build",
     "start": "node build",
     "preview": "svelte-kit preview"

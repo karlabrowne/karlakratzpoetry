@@ -1,6 +1,9 @@
 <script lang="ts">
+  import { onMount } from 'svelte'
   import { optionalFade } from './motion'
   import SideBar from './SideBar.svelte'
+  import SearchIcon from './icons/SearchIcon.svelte'
+  import { searchOpen, searchTrigger } from './searchStore'
   export let segment: string
 
   export let data
@@ -8,8 +11,33 @@
 
   let sidebar_show = false
   let menuToggle: HTMLLabelElement
+  let searchButton: HTMLButtonElement
 
-  $: opened = sidebar_show
+  onMount(() => {
+    searchTrigger.set(searchButton)
+
+    const unsubscribe = searchOpen.subscribe((open) => {
+      if (open) sidebar_show = false
+    })
+
+    return () => {
+      unsubscribe()
+      searchTrigger.set(null)
+    }
+  })
+
+  const openSearch = () => {
+    sidebar_show = false
+    $searchOpen = true
+  }
+
+  const handleMenuChange = (event: Event) => {
+    const target = event.currentTarget as HTMLInputElement
+    sidebar_show = target.checked
+    if (sidebar_show) {
+      $searchOpen = false
+    }
+  }
 
   const closeMenu = () => {
     sidebar_show = false
@@ -17,7 +45,7 @@
   }
 
   const handleKeydown = (event: KeyboardEvent) => {
-    if (event.key === 'Escape' && sidebar_show) {
+    if (event.key === 'Escape' && sidebar_show && !$searchOpen) {
       event.preventDefault()
       closeMenu()
     }
@@ -38,58 +66,76 @@
     {/if}
   </div>
 
-  <label
-    bind:this={menuToggle}
-    for="check"
-    id="menu-toggle"
-    class:opened
-    aria-label="Main menu"
-    aria-expanded={sidebar_show}
-    aria-controls="mobile-nav"
-    tabindex="-1"
-  >
-    <input type="checkbox" id="check" bind:checked={sidebar_show} />
-    <span />
-    <span />
-    <span />
-  </label>
+  <div class="nav-actions">
+    <button
+      bind:this={searchButton}
+      id="search-toggle"
+      type="button"
+      class="search-toggle"
+      aria-label="Search"
+      aria-keyshortcuts="Meta+K Control+K"
+      title="Search (⌘K)"
+      on:click={openSearch}
+    >
+      <SearchIcon />
+    </button>
+
+    <nav id="desktop-nav" aria-label="Main navigation">
+      <ul>
+        <li>
+          <a
+            sveltekit:prefetch
+            aria-current={segment === '' ? 'page' : undefined}
+            href="/">home</a
+          >
+        </li>
+        <li>
+          <a
+            sveltekit:prefetch
+            aria-current={segment === 'poems' ? 'page' : undefined}
+            href="/poems">poems</a
+          >
+        </li>
+        <li>
+          <a
+            sveltekit:prefetch
+            aria-current={segment === 'book' ? 'page' : undefined}
+            href="/book">book</a
+          >
+        </li>
+        <li>
+          <a
+            sveltekit:prefetch
+            aria-current={segment === 'about' ? 'page' : undefined}
+            href="/about">about</a
+          >
+        </li>
+      </ul>
+    </nav>
+
+    <label
+      bind:this={menuToggle}
+      for="check"
+      id="menu-toggle"
+      class:opened={sidebar_show}
+      aria-label="Main menu"
+      aria-expanded={sidebar_show}
+      aria-controls="mobile-nav"
+      tabindex="-1"
+    >
+      <input
+        type="checkbox"
+        id="check"
+        checked={sidebar_show}
+        on:change={handleMenuChange}
+      />
+      <span />
+      <span />
+      <span />
+    </label>
+  </div>
 
   <SideBar {segment} bind:show={sidebar_show} />
-
-  <!-- Desktop Nav -->
-  <nav id="desktop-nav" aria-label="Main navigation">
-    <ul>
-      <li>
-        <a
-          sveltekit:prefetch
-          aria-current={segment === '' ? 'page' : undefined}
-          href="/">home</a
-        >
-      </li>
-      <li>
-        <a
-          sveltekit:prefetch
-          aria-current={segment === 'poems' ? 'page' : undefined}
-          href="/poems">poems</a
-        >
-      </li>
-      <li>
-        <a
-          sveltekit:prefetch
-          aria-current={segment === 'book' ? 'page' : undefined}
-          href="/book">book</a
-        >
-      </li>
-      <li>
-        <a
-          sveltekit:prefetch
-          aria-current={segment === 'about' ? 'page' : undefined}
-          href="/about">about</a
-        >
-      </li>
-    </ul>
-  </nav>
-  <!-- Desktop Nav End -->
 </header>
 
 <style>
@@ -182,6 +228,33 @@
 
   .logo-wrap {
     margin: 0;
+    flex: 1;
+    min-width: 0;
+  }
+
+  .nav-actions {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    flex-shrink: 0;
+  }
+
+  .search-toggle {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 2.25rem;
+    height: 2.25rem;
+    padding: 0;
+    border: none;
+    border-radius: 8px;
+    background: transparent;
+    color: var(--garden-800);
+    cursor: pointer;
+  }
+
+  .search-toggle:hover {
+    background: var(--garden-100);
   }
 
   nav {
@@ -263,6 +336,14 @@
   @media (prefers-color-scheme: dark) {
     label span {
       background: var(--garden-50);
+    }
+
+    .search-toggle {
+      color: var(--garden-100);
+    }
+
+    .search-toggle:hover {
+      background: var(--garden-800);
     }
   }
 </style>
